@@ -11,13 +11,15 @@ It can be used with or without databases or server language, the only required p
 
 Obvious install with bower :
 
-> bower install completer --save
+> $ bower install completer --save
 
-## Usage
+## How to use ?
 
 In your HTML page, between <head> tags, retrieve Completer styles:
 
-> <link href="path_to_completer_css" rel="stylesheet" type="text/css" />
+''''html
+  <link href="path_to_completer_css" rel="stylesheet" type="text/css" />
+''''
 
 In your HTML page, between <head> tags, retrieve jQuery and Completer :
 
