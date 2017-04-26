@@ -428,11 +428,13 @@
             /**
              *  Keyboard navigation
              */
-            _$input.on('keyup', function(e) {
+            $body.on('keyup', '.item--search', function(e) {
 
                 e = e || window.event;
 
                 var keyCode = e.keyCode;
+
+                window.console.log('keyCode ' + keyCode);
 
                 // Up/Down into Results
                 if(keyCode === 38 || keyCode === 40)
@@ -447,8 +449,10 @@
                 // Do request to retrieve data according to currents chars
                 else
                 {
+                    console.log(_$input);
+                    console.log('In method value : ' + _$input.val());
                     if(_options.onChar <= _$input.val().length && _$input.val() !== _previous_value) {
-                         $(document).trigger('c.request');
+                        $(document).trigger('c.request');
                     }
                 }
             });
@@ -538,6 +542,14 @@
             // Apply any options to the settings, override the defaults
             _options = $.fn.completer.defaults = $.extend({ }, $.fn.completer.defaults, options);
 
+            if(_options.url === null) {
+                throw new Error('URL option is mandatory');
+            }
+
+            if(_options.field === null) {
+                throw new Error('Field option is mandatory');
+            }
+
             // Set main container
             _$container = $(this);
 
@@ -563,7 +575,7 @@
         begin: true,                                        // Check by string begin if true, in all world if false
         onChar: 2,                                          // Launch request after n chars
         maxResults: 10,                                     // Number of max results to display
-        field: '',                                          // Field on to apply filter REQUIRED
+        field: null,                                        // Field on to apply filter REQUIRED
         fieldsToDisplay: [ 1, 2, 3 ],
         beforeDisplay: function(e, dataset){},              // Callback fired before display of result set
         afterDisplay: function(e, dataset){},               // Callback fired after display of result set

@@ -13,14 +13,13 @@
  *
  **/
 
-'use strict';
-
-// @todo gestion des erreurs
-// @todo gestion des tests
+// @todo errors management
 // @todo use event and|or deferred to set pointer after firing of events
 // @todo manage multiple instances on same page
+
 (function(window, document, $) {
 
+    "use strict";
 
     var _app = {};
 
@@ -158,7 +157,7 @@
             return $.grep(data, function(element) {
 
                 if(isNaN(_$input.val())) {
-                    return _options.begin === true ? element[_options.field].toLowerCase().lastIndexOf(_$input.val().toLowerCase(), 0) === 0 : element[_options.field].toLowerCase().lastIndexOf(_$input.val().toLowerCase()) !== -1
+                    return _options.begin === true ? element[_options.field].toLowerCase().lastIndexOf(_$input.val().toLowerCase(), 0) === 0 : element[_options.field].toLowerCase().lastIndexOf(_$input.val().toLowerCase()) !== -1;
                 }
                 else {
                     return parseInt(_$input.val()) === parseInt(element[_options.field]);
@@ -192,24 +191,25 @@
 
                 var success = function(data) {
 
-                    if(typeof data === 'undefined' || data === null)
-                        console.log('Error'); // @todo manage error
+                    if(typeof data === 'undefined' || data === null) {
+                        window.console.log('Error'); // @todo manage error
+                    }
 
                     $(document).trigger('c.display', [ data ]);
                 };
 
                 var error = function(data, status, error) {
-                    console.log('Error in request : ' + error);
+                    window.console.log('Error in request : ' + error);
                 };
 
                 var $ajax = request().done(success).fail(error);
 
                 $.when($ajax).done(function() {
-                    console.log('all done');
+                    window.console.log('all done'); // todo manage callback
                 });
             }
-            catch(e) {
-                alert('Request cannot be done');
+            catch(err) {
+                window.alert('Request cannot be done');
             }
         };
 
@@ -244,8 +244,9 @@
 
             $(document).trigger('c.display.before');
 
-            if(params === null)
+            if(params === null) {
                 throw new Error('Variable params cannot be null');
+            }
 
             _response = _app.filtering.filter(params);
 
@@ -267,8 +268,9 @@
 
                 var i = 0, l = data.length, $item, $span;
 
-                if(l === 0)
+                if(l === 0) {
                     $item =  $('<div>', { 'class' : 'item--result', 'html' : 'No result'});
+                }
 
                 _suggestions = [];
 
@@ -295,7 +297,7 @@
                 }
             }
             catch(e) {
-                console.log(e);
+                window.console.log(e);
             }
 
         };
@@ -359,15 +361,15 @@
 
                 case 'fade':
                     _$result.fadeIn(_options.animationSpeed);
-                break;
+                    break;
 
                 case 'slide':
                     _$result.slideDown(_options.animationSpeed);
-                break;
+                    break;
 
                 default:
                     _$result.fadeIn(_options.animationSpeed);
-                break;
+                    break;
             }
 
             _pointer = -1;
@@ -426,11 +428,13 @@
             /**
              *  Keyboard navigation
              */
-            _$input.on('keyup', function(e) {
+            $body.on('keyup', '.item--search', function(e) {
 
                 e = e || window.event;
 
                 var keyCode = e.keyCode;
+
+                window.console.log('keyCode ' + keyCode);
 
                 // Up/Down into Results
                 if(keyCode === 38 || keyCode === 40)
@@ -445,8 +449,11 @@
                 // Do request to retrieve data according to currents chars
                 else
                 {
-                    if(_options.onChar <= _$input.val().length)
-                        _$input.val() !== _previous_value && $(document).trigger('c.request');
+                    console.log(_$input);
+                    console.log('In method value : ' + _$input.val());
+                    if(_options.onChar <= _$input.val().length && _$input.val() !== _previous_value) {
+                        $(document).trigger('c.request');
+                    }
                 }
             });
 
@@ -535,6 +542,14 @@
             // Apply any options to the settings, override the defaults
             _options = $.fn.completer.defaults = $.extend({ }, $.fn.completer.defaults, options);
 
+            if(_options.url === null) {
+                throw new Error('URL option is mandatory');
+            }
+
+            if(_options.field === null) {
+                throw new Error('Field option is mandatory');
+            }
+
             // Set main container
             _$container = $(this);
 
@@ -560,7 +575,7 @@
         begin: true,                                        // Check by string begin if true, in all world if false
         onChar: 2,                                          // Launch request after n chars
         maxResults: 10,                                     // Number of max results to display
-        field: '',                                          // Field on to apply filter REQUIRED
+        field: null,                                        // Field on to apply filter REQUIRED
         fieldsToDisplay: [ 1, 2, 3 ],
         beforeDisplay: function(e, dataset){},              // Callback fired before display of result set
         afterDisplay: function(e, dataset){},               // Callback fired after display of result set
