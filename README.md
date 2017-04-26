@@ -62,8 +62,8 @@ Following options are available :
 * **maxResults**: int, number of max results to display
 * **beforeDisplay**: function(e, dataset), function, callback fired before display of result set
 * **afterDisplay**: function(e, dataset), function, callback fired after display of result set
-* **beforeSelect**: function(e, element), function, callback fired before selection of result
-* **afterSelect**: function(e, element), callback fired after selection of result
+* **beforeFocus**: function(e, element), function, callback fired before focus on result item
+* **afterFocus**: function(e, element), callback fired after focus on result item
 * **beforeComplete**: function(e, dataset, element), callback fired before insertion of result
 * **afterComplete**: function(e, dataset, element), callback fired after insertion of result
                 
