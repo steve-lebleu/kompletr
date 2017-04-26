@@ -5,15 +5,22 @@
   "main": "Gruntfile.js",
   "dependencies": {
     "grunt": "~1.0.1",
+    "karma": "^1.6.0",
     "plato": "^1.7.0"
   },
   "devDependencies": {
     "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-cssmin": "~1.0.2",
+    "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-less": "~1.4.0",
     "grunt-contrib-uglify": "~2.0.0",
     "grunt-contrib-watch": "~1.0.0",
-    "grunt-contrib-cssmin": "~1.0.2",
-    "grunt-contrib-jshint": "^1.1.0"
+    "jasmine-core": "^2.6.1",
+    "jasmine-jquery": "^2.1.1",
+    "karma": "^1.6.0",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "require.js": "^1.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
