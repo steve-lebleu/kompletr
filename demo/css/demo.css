@@ -1,114 +1,140 @@
-/* Demo code */          
+/* Demo code */
 body {
-    background: #435A6B;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    font-family: Tahoma, sans-serif;
-    font-size: 80%;
+  background: #2b2b2b;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  font-family: 'Open Sans', Helvetica, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
 }
 nav {
-    height: 30px;   
-    background: #fff;
-    padding: 0 5px;
+  height: 30px;
+  background: #fff;
+  padding: 0 5px;
 }
 nav a,
 footer a {
-    color: #89867E;
-    line-height: 30px;
-    opacity: 1;
-    text-decoration: none;
+  color: #89867E;
+  line-height: 30px;
+  opacity: 1;
+  text-decoration: none;
 }
 nav a:hover,
 footer a:hover {
-    -moz-transition: all 0.3s ease-in-out;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    opacity: 0.7;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  opacity: 0.7;
 }
-header, footer {
-    color: #89867E;
-    text-align: center;
-    background: #F2F2F2;
-    font-family: 'Lato', sans-serif;
+header,
+footer {
+  color: #89867E;
+  text-align: center;
+  background: #f2f2f2;
+  font-family: 'Lato', Helvetica, Geneva, Tahoma, sans-serif;
 }
 header {
-    padding: 50px 0;
+  padding: 50px 0;
 }
 footer {
-    padding: 30px 0;
+  padding: 30px 0;
+  margin: 60px auto 0 auto;
 }
 h1 {
-    font-size: 2.5em;
-    font-weight: normal;
-    margin-top: 0;
-    margin-bottom: 5px;         
-    color: #89867E;
+  font-size: 5em;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #89867E;
+  text-transform: uppercase;
 }
 h2 {
-    font-family: 'Lato', sans-serif;
-    color: #fff;
-    font-size: 1.8em;
-    font-weight: 200;
-    text-align: center;
-    margin: 30px 0 40px 0;
+  color: #f2f2f2;
+  font-size: 2.75em;
+  text-transform: uppercase;
+  font-weight: 200;
+  text-align: center;
+  margin: 50px 0 80px 0;
 }
 pre {
-    font-size: 120%;
+  font-size: 100%;
 }
 em {
-    background: #e7e7e7;
-    background: #637c8e;
-    border-radius: 3px;
-    font-style: normal;
-    padding: 1px 2px;
+  background: #637c8e;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  font-style: normal;
+  padding: 1px 3px;
 }
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
-
+table {
+  font-size: 0.9em;
+  width: 100%;
+  margin: 0 auto 20px auto;
+}
+table thead th {
+  font-size: 1.1em;
+  text-transform: uppercase;
+  color: #f2f2f2;
+}
+table tbody tr:nth-child(even) {
+  background: #333333;
+}
+table tbody tr:nth-child(odd) {
+  background: #232323;
+}
+table tbody tr td {
+  padding: 15px 5px;
+}
+table tbody tr td:first-child {
+  font-style: italic;
+}
+sup {
+  color: #637c8e;
+}
 .text--slogan {
-    font-size: 1.5em;
-    margin-bottom: 25px;
-    color: #ceccc6;
-    display: block;
+  font-size: 2em;
+  margin-bottom: 25px;
+  color: #c0c0c0;
+  display: block;
 }
-.text--big {
-    font-size: 1.3em;
+.text--center {
+  text-align: center;
 }
 #wrapper {
-    width: 250px;
-    margin: 3% auto 3% auto;
+  width: 100%;
+  margin: 0 auto;
+  padding: 7.5% 0;
+  background: #435A6B;
 }
 .wrapper {
-    width: 65%;
-    margin: 0 auto;
-    color: #fff;
-}
-.wrapper:after {
-    content: '';
-    height: 0;
-    width: 0;
-    display: block;
-    clear: both;
+  width: 75%;
+  margin: 0 auto;
+  color: #fff;
 }
 .button--download {
-    float: right;
-    display: block;
-    font-size: 2em;
-    text-align: center;
-    margin: 0 0 0 10px;
-    width: 200px;
-    background: #637c8e;
-    color: #fff;
-    padding: 20px 0;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-    border-radius: 5px;
+  display: block;
+  font-size: 2em;
+  text-align: center;
+  margin: 40px auto 0 auto;
+  width: 200px;
+  background: #637c8e;
+  color: #fff;
+  padding: 20px 0;
 }
 .button--download:hover {
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    background: #fff;
-    color: #637c8e;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  background: #fff;
+  color: #637c8e;
 }

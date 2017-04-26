@@ -33,8 +33,9 @@ module.exports = function(grunt) {
 					paths: ["src/less/"]
 				},
 				files: {
-					"src/dist/css/completer.css": "src/less/main.less",
-					"src/demo/css/completer.css": "src/less/main.less"
+					"dist/css/completer.css": "src/less/main.less",
+					"demo/css/completer.css": "src/less/main.less",
+					"demo/css/demo.css": "src/less/demo.less"
 				}
 			}
 		},

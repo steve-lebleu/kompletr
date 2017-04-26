@@ -1,0 +1,150 @@
+/* Demo code */
+body {
+  background: @color_6;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  font-family: @font-base;
+  font-size: 14px;
+}
+
+nav {
+  height: 30px;
+  background: @color_2;
+  padding: 0 5px;
+}
+
+nav a,
+footer a {
+  color: @color_7;
+  line-height: 30px;
+  opacity: 1;
+  text-decoration: none;
+  &:hover {
+    .transition(all 0.3s ease-in-out);
+    opacity: 0.7;
+  }
+}
+
+header, footer {
+  color: @color_7;
+  text-align: center;
+  background: @color_3;
+  font-family: @font-alt;
+}
+
+header {
+  padding: 50px 0;
+}
+
+footer {
+  padding: 30px 0;
+  margin: 60px auto 0 auto;
+}
+
+h1 {
+  font-size: 5em;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: @color_7;
+  text-transform: uppercase
+}
+
+h2 {
+  color: @color_3;
+  font-size: 2.75em;
+  text-transform: uppercase;
+  font-weight: 200;
+  text-align: center;
+  margin: 50px 0 80px 0;
+}
+
+pre {
+  font-size: 100%;
+}
+
+em {
+  background: @color_4;
+  .border-radius(3px);
+  font-style: normal;
+  padding: 1px 3px;
+}
+
+a {
+  text-decoration: none;
+}
+
+table {
+  font-size: 0.9em;
+  width: 100%;
+  margin: 0 auto 20px auto;
+  & thead {
+    & th {
+      font-size: 1.1em;
+      text-transform: uppercase;
+      color: @color_3;
+    }
+  }
+  & tbody {
+    & tr {
+      &:nth-child(even) {
+        background: #333333;
+      }
+      &:nth-child(odd) {
+        background: #232323;
+      }
+      & td {
+        padding: 15px 5px;
+        &:first-child {
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+sup {
+  color: @color_4;
+}
+
+.text--slogan {
+  font-size: 2em;
+  margin-bottom: 25px;
+  color: @color_5;
+  display: block;
+}
+
+.text--center {
+  text-align: center;
+}
+
+#wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding: 7.5% 0;
+  background: #435A6B;
+}
+
+.wrapper {
+  width: 75%;
+  margin: 0 auto;
+  color: @color_2;
+}
+
+.button--download {
+  display: block;
+  font-size: 2em;
+  text-align: center;
+  margin: 40px auto 0 auto;
+  width: 200px;
+  background: @color_4;
+  color: @color_2;
+  padding: 20px 0;
+  &:hover {
+    .transition(all 0.3s ease-in-out);
+    cursor: pointer;
+    background: @color_2;
+    color: @color_4;
+  }
+}
