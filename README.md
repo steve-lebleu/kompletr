@@ -49,7 +49,7 @@ $('#searcher').completer({
 
 ## Options
 
-Following options are availables :
+Following options are available :
 
 * **url**: string, path of the server script which return JSON data
 * **field**: string, name of the field to use for sort data on client side
