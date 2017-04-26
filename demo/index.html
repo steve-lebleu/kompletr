@@ -12,71 +12,229 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <![endif]-->
 
-    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Lato|Open+Sans' rel='stylesheet' type='text/css' />
     <link href="css/demo.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="css/completer.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <link class="codestyle" rel="stylesheet" href="css/highlight/railscasts.css" />
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
+
+    <script type="text/javascript">
+        hljs.configure({
+            tabReplace: '    '
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/jquery.completer.js"></script>
 
 </head>
 
 <body>
 
+<a href="https://github.com/e-lLess/completer">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
 <nav>
-    <a href="http://blog.e-lless.be/developpement/tutoriel-systeme-d-auto-completion-en-ajax.html">Back to the article</a>
+    <a href="#">Back to the article</a>
 </nav>
 
 <header>
-    <h1>Auto-completion system with AJAX</h1>
-    <span class="text--slogan">Upgrade the user experience of your visitors</span>
-    <p>Please note that script is supported by all recents browsers & Internet Explorer >= 6</p>
+    <h1>completer.js</h1>
+    <span class="text--slogan">jQuery self-completion system</span>
+    <a class="button--download" href="https://github.com/e-lLess/completer/archive/master.zip" target="_blank">Download</a>
 </header>
 
 <div id="wrapper">
 
     <div id="searcher" class="form--light-search">
-        <input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" />
-        <button type="button" name="search" id="search" class="button--search"></button>
+        <input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." />
     </div>
 
 </div>
 
 <section class="wrapper">
 
-    <a class="button--download" href="http://downloads.e-lless.be/completer.rar">Download</a>
+    <h2>Installation</h2>
 
-    <p class="text--big">Completer.js is a self-completion system developed with HTML (5), CSS 3, JavaScript and PHP. It can be used with or without databases, indifferently systems
-        (MySQL, MariaDB, Oracle, ODBC, ...) Naturally, the script needs a page server to be functional.</p>
+    <p>Obvious install with bower</p>
 
-</section>
-
-<section class="wrapper">
+<pre>
+    <code class="console">
+$ bower install completer --save
+    </code>
+</pre>
 
     <h2>How to use ?</h2>
 
-    <p>Copy/Paste the <em>completer</em> directory on the root of your site. Please note that if you split the files of this directory, your must change configuration datas in <em>php/completer.php</em> and <em>js.completer.js</em>.</p>
+    <p>In your HTML page, between &lt;head&gt; tags, import CSS code from <em>css/completer.css</em></p>
 
-    <p>First, puts this HTML code in <em>your-file.html</em>.</p>
+<pre>
+    <code class="html">
+&lt;link href="css/completer.css" rel="stylesheet" type="text/css" media="screen" /&gt;
+    </code>
+</pre>
 
-<pre><code class="html">&lt;div id="searcher" class="form--light-search"&gt;
+    <p>Next, import JavaScript files <em>js/jquery.min.js</em> and <em>js/jquery.completer.min.js</em> just before the <em>&lt;/body&gt;</em> tag :</p>
+
+<pre>
+    <code class="html">
+&lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="js/jquery.completer.min.js"&gt;&lt;/script&gt;
+    </code>
+</pre>
+
+    <p>Puts the following HTML code in your page, where you will place your input :</p>
+
+<pre>
+    <code class="html">
+&lt;div id="searcher" class="form--light-search"&gt;
     &lt;input type="text" name="autocomplete" id="autocomplete" class="input--search" autocomplete="off" /&gt;
-    &lt;button type="button" name="search" id="search" class="button--search"&gt;&lt;/button&gt;
-    &lt;/div&gt;</code></pre>
+&lt;/div&gt;
+    </code>
+</pre>
 
-    <p>Next, import CSS code from <em>css/completer.css</em>, by a balise link or copy/paste into your own CSS file.</p>
+<p>Finally, initialize the plugin at DOM ready :</p>
 
-    <pre><code class="html">&lt;link href="css/completer.css" rel="stylesheet" type="text/css" media="screen" /&gt;</code></pre>
+<pre>
+    <code class="javascript">
+$(document).ready(function() {
+    $('#searcher').completer({
+        url: 'files/completer.json',
+        field: 'Name'
+    });
+});
+    </code>
+</pre>
 
-    <p>Configure the <em>files/configuration.ini</em> with your login information, the name of the table on which you will perform the query and the columns whose contents will be displayed suggestion. The first column should definitely be the one on which the comparison will be made. A maximum of four columns seems to be reasonable, beyond the display may be unsightly.</p>
-    <p>If you are not using a database and then query directly a JSON file, only the "enum" is mandatory. It will then necessarily contain the properties of each JSON object you want to display, the first property in the property being informed matcher with expression input by the user.</p>
-    <p>If you want to change the CSS style of the items displayed, refer to the sheet completer.css style, especially the selectors <em>data-n</em> where n is the order of appearance of the item in the item suggested.</p>
+    <h2>Options</h2>
 
-    <p>Finaly, import the JavaScript file <em>js/completer.min.js</em> into <em>your-file.html</em>, just before the balise <em>&lt;/body&gt;</em> :</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Definition</th>
+                <th>Values</th>
+                <th>Default</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>url <sup>*</sup></td>
+                <td>string</td>
+                <td>Path to the script to contact for JSON data retrieving</td>
+                <td>*</td>
+                <td>null</td>
+            </tr>
+            <tr>
+                <td>field <sup>*</sup></td>
+                <td>string</td>
+                <td>Attribute name on each result object which be used to filter data</td>
+                <td>*</td>
+                <td>null</td>
+            </tr>
+            <tr>
+                <td>fieldsToDisplay</td>
+                <td>array</td>
+                <td>Attributes names to display on result set</td>
+                <td>*</td>
+                <td>field option value</td>
+            </tr>
+            <tr>
+                <td>animation</td>
+                <td>string</td>
+                <td>Animation type used to show / hide the result set</td>
+                <td>'fade'|'slide'|'none'</td>
+                <td>'fade'</td>
+            </tr>
+            <tr>
+                <td>animationSpeed</td>
+                <td>int</td>
+                <td>Animation speed to display results</td>
+                <td>*</td>
+                <td>350</td>
+            </tr>
+            <tr>
+                <td>begin</td>
+                <td>boolean</td>
+                <td>Check from the begin of expression if true, on whole word if false</td>
+                <td>true|false</td>
+                <td>true</td>
+            </tr>
+            <tr>
+                <td>onChar</td>
+                <td>int</td>
+                <td>Number of chars to put before request firing</td>
+                <td>*</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>maxResults</td>
+                <td>int</td>
+                <td>Number of max results to display</td>
+                <td>*</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>beforeDisplay</td>
+                <td>function</td>
+                <td>Callback fired before display result</td>
+                <td>function</td>
+                <td>function(e, dataset) { }</td>
+            </tr>
+            <tr>
+                <td>afterDisplay</td>
+                <td>function</td>
+                <td>Callback fired after display result</td>
+                <td>function</td>
+                <td>function(e, dataset) { }</td>
+            </tr>
+            <tr>
+                <td>beforeFocus</td>
+                <td>function</td>
+                <td>Callback fired before focus on one result item</td>
+                <td>function</td>
+                <td>function(e, element) { }</td>
+            </tr>
+            <tr>
+                <td>afterFocus</td>
+                <td>function</td>
+                <td>Callback fired after focus on one result item</td>
+                <td>function</td>
+                <td>function(e, element) { }</td>
+            </tr>
+            <tr>
+                <td>beforeComplete</td>
+                <td>function</td>
+                <td>Callback fired before completion of input</td>
+                <td>function</td>
+                <td>function(e, dataset, element) { }</td>
+            </tr>
+            <tr>
+                <td>afterComplete</td>
+                <td>function</td>
+                <td>Callback fired after completion of input</td>
+                <td>function</td>
+                <td>function(e, dataset, element) { }</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <pre><code class="html">&lt;script type="text/javascript" src="js/completer.min.js"&gt;&lt;/script&gt;</code></pre>
+    <p class="text--center">
+        <small>
+            <sup>*</sup> Required parameter
+        </small>
+    </p>
 
 </section>
-
-<script type="text/javascript" src="../src/vendors/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="js/jquery.completer.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -84,7 +242,8 @@
            url: 'files/completer.json',
            field: 'Name',
            speed: 350,
-           animation: 'slide'
+           animation: 'slide',
+           maxResults: 5
        });
     });
 </script>
