@@ -428,11 +428,13 @@
             /**
              *  Keyboard navigation
              */
-            $body.on('keyup', '.input--search', function(e) {
+            _$input.on('keyup', function(e) {
 
                 e = e || window.event;
 
                 var keyCode = e.keyCode;
+
+                window.console.log('keyCode ' + keyCode);
 
                 // Up/Down into Results
                 if(keyCode === 38 || keyCode === 40)
@@ -447,6 +449,8 @@
                 // Do request to retrieve data according to currents chars
                 else
                 {
+                    window.console.log(_$input);
+                    window.console.log('In method value : ' + _$input.val());
                     if(_options.onChar <= _$input.val().length && _$input.val() !== _previous_value) {
                         $(document).trigger('c.request');
                     }
@@ -465,13 +469,13 @@
              */
             $body.on('click', '.item--result', function(e) {
 
-                _options.beforeSelect(e, $(this));
+                _options.beforeFocus(e, $(this));
 
                 _$focused = $(this);
 
                 $(document).trigger('c.complete');
 
-                _options.afterSelect(e, $(this));
+                _options.afterFocus(e, $(this));
             });
 
             /**
@@ -538,6 +542,7 @@
             // Apply any options to the settings, override the defaults
             _options = $.fn.completer.defaults = $.extend({ }, $.fn.completer.defaults, options);
 
+            window.console.log('in');
             if(_options.url === null) {
                 throw new Error('URL option is mandatory');
             }
@@ -545,7 +550,7 @@
             if(_options.field === null) {
                 throw new Error('Field option is mandatory');
             }
-
+            window.console.log('out');
             // Set main container
             _$container = $(this);
 
@@ -575,8 +580,8 @@
         fieldsToDisplay: [ 1, 2, 3 ],
         beforeDisplay: function(e, dataset){},              // Callback fired before display of result set
         afterDisplay: function(e, dataset){},               // Callback fired after display of result set
-        beforeSelect: function(e, element){},               // Callback fired before selection of result
-        afterSelect: function(e, element){},                // Callback fired after selection of result
+        beforeFocus: function(e, element){},                // Callback fired before focus on result item
+        afterFocus: function(e, element){},                 // Callback fired after focus on result item
         beforeComplete: function(e, dataset, element){},    // Callback fired before insertion of result
         afterComplete: function(e, dataset, element){}      // Callback fired after insertion of result
     };
