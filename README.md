@@ -38,7 +38,7 @@ Into your HTML code, place the following code, with 3 data attributes :
 Invoke the plugin :
 
 ``` javascript
-$('#searcher').completer({});
+$('#auto-complete').completer({});
 ```
 
 ## Options

@@ -102,7 +102,7 @@ $ bower install completer --save
 <pre>
     <code class="javascript">
 $(document).ready(function() {
-    $('#searcher').completer();
+    $('#auto-complete').completer({});
 });
     </code>
 </pre>
@@ -210,9 +210,7 @@ $(document).ready(function() {
 
 <script type="text/javascript">
     $(document).ready(function() {
-       $('#auto-complete').completer({
-           maxResults: 5
-       });
+       $('#auto-complete').completer({});
     });
 </script>
 <footer>
