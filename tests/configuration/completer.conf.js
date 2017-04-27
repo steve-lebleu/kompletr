@@ -15,7 +15,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test-main.js',
-      'tests/runner.test.html'
+      'src/vendors/jquery/dist/jquery.js',
+      'tests/**/*.test.js'
     ],
 
     // list of files to exclude
