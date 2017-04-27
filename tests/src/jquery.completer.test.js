@@ -23,10 +23,11 @@
 					expect($('#searcher')[0]).toBeInDOM();
 				});
 
-				it("required options (url, field) must be filled", function() {
+				it("required options (url, field,, fieldsToDisplay) must be filled", function() {
 					var init = $('#searcher').completer({
 						url: 'files/completer.json',
-						field: 'Name'
+						field: 'Name',
+						fieldsToDisplay:['Name']
 					});
 					expect(init).toBeDefined();
 				});
@@ -91,6 +92,7 @@
 					$('#searcher').completer({
 						url: '../../demo/files/completer.json',
 						field: 'Name',
+						fieldsToDisplay:['Name'],
 						onChar: 3
 					});
 
@@ -113,6 +115,7 @@
 					$('#searcher').completer({
 						url: '../../demo/files/completer.json',
 						field: 'Name',
+						fieldsToDisplay:['Name'],
 						onChar: 3
 					});
 
@@ -143,6 +146,7 @@
 					$('#searcher').completer({
 						url: '../../demo/files/completer.json',
 						field: 'Name',
+						fieldsToDisplay:['Name'],
 						onChar: 3
 					});
 
