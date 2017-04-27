@@ -3,10 +3,7 @@
 	"use strict";
 
 	function setHTMLFixture() {
-		return setFixtures('<div id="searcher" class="form--light-search">'
-		+'  <input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" />'
-		+'  <button type="button" name="search" id="search" class="button--search"></button>'
-		+'</div>');
+		return setFixtures('<input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" data-url="../../demo/files/composer.json" data-filter-on="Name" data-fields="Name,CountryCode,Population" />');
 	}
 
 	describe("Completer", function() {
@@ -14,25 +11,23 @@
 		describe("Initialize", function() {
 
 			beforeEach(function() {
-				var fixture = setHTMLFixture();
+				setHTMLFixture();
 			});
 
 			describe("DOM", function() {
 
-				it("main selector must be in DOM", function() {
-					expect($('#searcher')[0]).toBeInDOM();
-				});
-
-				it("required options (url, field,, fieldsToDisplay) must be filled", function() {
-					var init = $('#searcher').completer({
-						url: 'files/completer.json',
-						field: 'Name',
-						fieldsToDisplay:['Name']
-					});
+				it("required data attributes (url, field, fieldsToDisplay) must be filled", function() {
+					var init = $('#auto-complete').completer({});
 					expect(init).toBeDefined();
 				});
 
+				it("view component must be initialized by #searcher wrapping in DOM", function() {
+					$('#auto-complete').completer({});
+					expect($('#searcher')[0]).toBeInDOM();
+				});
+
 				it("view component must be initialized by #result element appending", function() {
+					$('#auto-complete').completer({});
 					expect($('#result')).toBeDefined();
 				});
 
@@ -89,12 +84,7 @@
 					var spyRequest = spyOn($, "getJSON");
 
 					var fixture = setHTMLFixture();
-					$('#searcher').completer({
-						url: '../../demo/files/completer.json',
-						field: 'Name',
-						fieldsToDisplay:['Name'],
-						onChar: 3
-					});
+					$('#auto-complete').completer({});
 
 					var e = jQuery.Event("keyup");
 					e.keyCode = 65;
@@ -112,12 +102,7 @@
 					var spyRequest = spyOn($, "getJSON");
 
 					var fixture = setHTMLFixture();
-					$('#searcher').completer({
-						url: '../../demo/files/completer.json',
-						field: 'Name',
-						fieldsToDisplay:['Name'],
-						onChar: 3
-					});
+					$('#auto-complete').completer({});
 
 					var $input = fixture.find('input[type="text"]');
 
@@ -143,12 +128,7 @@
 				it ("complete input when Enter key is pressed", function() {
 
 					var fixture = setHTMLFixture();
-					$('#searcher').completer({
-						url: '../../demo/files/completer.json',
-						field: 'Name',
-						fieldsToDisplay:['Name'],
-						onChar: 3
-					});
+					$('#auto-complete').completer({});
 
 					var $input = fixture.find('input[type="text"]');
 
