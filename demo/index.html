@@ -54,9 +54,7 @@
 
 <div id="wrapper">
 
-    <div id="searcher" class="form--light-search">
-        <input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." />
-    </div>
+    <input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." />
 
 </div>
 
@@ -95,9 +93,7 @@ $ bower install completer --save
 
 <pre>
     <code class="html">
-&lt;div id="searcher" class="form--light-search"&gt;
-    &lt;input type="text" name="autocomplete" id="autocomplete" class="input--search" autocomplete="off" /&gt;
-&lt;/div&gt;
+&lt;input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" /&gt;
     </code>
 </pre>
 
@@ -238,7 +234,7 @@ $(document).ready(function() {
 
 <script type="text/javascript">
     $(document).ready(function() {
-       $('#searcher').completer({
+       $('#auto-complete').completer({
            url: 'files/completer.json',
            field: 'Name',
            fieldsToDisplay: [ 'Name', 'CountryCode', 'Population' ],

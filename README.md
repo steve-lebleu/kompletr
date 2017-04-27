@@ -32,10 +32,7 @@ In your HTML page, between <head> tags, retrieve jQuery and Completer :
 Into your HTML code, place the following code :
 
 ``` html 
-<div id="searcher" class="form--light-search">
-    <input type="text" name="autocomplete" id="autocomplete" class="input--search" autocomplete="off" />
-    <button type="button" name="search" id="search" class="button--search"></button>
-</div>
+<input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" />
 ```
  
 Invoke the plugin with 2 required parameters :

@@ -51,6 +51,12 @@
 
     /**
      *
+     * @type {*|HTMLElement}
+     s*/
+    var _$wrapper = $('<div>', { 'id' : 'searcher', 'class' : 'form--light-search' });
+
+    /**
+     *
      */
     var _$container;
 
@@ -230,7 +236,8 @@
          *
          */
         var init = function() {
-            _$container.append(_$result);
+            _$input.wrap(_$wrapper);
+            _$input.after(_$result);
         };
 
         /**
@@ -546,11 +553,15 @@
                 throw new Error('Field option is mandatory');
             }
 
+            if(_options.fieldsToDisplay === null) {
+                throw new Error('fieldsToDisplay option is mandatory');
+            }
+
             // Set main container
-            _$container = $(this);
+           // _$container = $(this);
 
             // Set input
-            _$input = $(this).find('input[type="text"]');
+            _$input = $(this);
 
             // Initialize view component
             _app.view.init();
@@ -572,7 +583,7 @@
         onChar: 2,                                          // Launch request after n chars
         maxResults: 10,                                     // Number of max results to display
         field: null,                                        // Field on to apply filter REQUIRED
-        fieldsToDisplay: [ 1, 2, 3 ],
+        fieldsToDisplay: null,                              // Fields to display on the result item REQUIRED
         beforeDisplay: function(e, dataset){},              // Callback fired before display of result set
         afterDisplay: function(e, dataset){},               // Callback fired after display of result set
         beforeFocus: function(e, element){},                // Callback fired before focus on result item
