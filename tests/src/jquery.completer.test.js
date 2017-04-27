@@ -128,6 +128,7 @@
 				it ("complete input when Enter key is pressed", function() {
 
 					var fixture = setHTMLFixture();
+
 					$('#auto-complete').completer({});
 
 					var $input = fixture.find('input[type="text"]');
