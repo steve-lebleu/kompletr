@@ -59,8 +59,11 @@
 
 <header>
     <h1>completer.js</h1>
-    <span class="text--slogan">jQuery self-completion system</span>
-    <a class="button--download" href="https://github.com/e-lLess/completer/archive/master.zip" target="_blank">Download</a>
+    <span class="text--slogan">Autocomplete management with jQuery</span>
+    <a class="button--download" href="https://github.com/e-lLess/completer/archive/master.zip" target="_blank">
+        <span class="btn--txt">Download</span>
+        <span class="btn--bg_hidden"></span>
+    </a>
 </header>
 
 <div id="wrapper">
@@ -91,7 +94,7 @@ $ bower install completer --save
     </code>
 </pre>
 
-    <p>Next, import JavaScript files <em>js/jquery.min.js</em> and <em>js/jquery.completer.min.js</em> just before the <em>&lt;/body&gt;</em> tag :</p>
+    <p>Next, import JavaScript files <em>js/jquery.min.js</em> and <em>js/jquery.completer.min.js</em> :</p>
 
 <pre>
     <code class="html">
@@ -102,9 +105,15 @@ $ bower install completer --save
 
     <p>Puts the following HTML code in your page, where you will place your input, and replace data attributes values with your own values :</p>
 
+    <ul>
+        <li><em>data-url:</em> path to the data provider, which can be an action of controller or a JSON file. The data format returned must be JSON.</li>
+        <li><em>data-filter-on:</em> the property name of JSON object on which apply filter at keyup.</li>
+        <li><em>data-fields:</em> fields of JSON object to display, separated by a coma.</li>
+    </ul>
+
 <pre>
     <code class="html">
-&lt;input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" data-url="path_to_your_data_provider" data-filter-on="field_name_on_which_filter_data" data-fields="field_1, field_2, field_3" /&gt;
+&lt;input type="text" id="auto-complete" class="input--search" autocomplete="off" data-url="" data-filter-on="" data-fields="" /&gt;
     </code>
 </pre>
 
@@ -211,12 +220,6 @@ $(document).ready(function() {
         </tbody>
     </table>
 
-    <p class="text--center">
-        <small>
-            <sup>*</sup> Required parameter
-        </small>
-    </p>
-
 </section>
 
 <script type="text/javascript">
@@ -226,9 +229,19 @@ $(document).ready(function() {
 </script>
 <footer>
 
-    &copy; 2014 e-lLess
+    <p>
+        <a href="https://github.com/e-lLess" target="_blank">
+            <i class="icon-github-circled"></i>
+        </a>
+        <a href="https://www.facebook.com/E-lless-129297980574995/" target="_blank">
+            <i class="icon-facebook"></i>
+        </a>
+        <a href="https://twitter.com/e_lLess" target="_blank">
+            <i class="icon-twitter"></i>
+        </a>
+    </p>
 
-    <br />
+    <p>&copy; 2017 e-lLess</p>
 
     <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">completer.js</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.<br />Permissions beyond the scope of this license may be available at <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.e-lless.be" rel="cc:morePermissions">http://www.e-lless.be</a>.
 

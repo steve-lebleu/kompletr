@@ -13,10 +13,6 @@
  *
  **/
 
-// @todo errors management
-// @todo use event and|or deferred to set pointer after firing of events
-// @todo manage multiple instances on same page
-
 (function(window, document, $) {
 
     "use strict";
@@ -54,11 +50,6 @@
      * @type {*|HTMLElement}
      s*/
     var _$wrapper = $('<div>', { 'id' : 'searcher', 'class' : 'form--light-search' });
-
-    /**
-     *
-     */
-    var _$container;
 
     /**
      * Object who have current focus into search results items set
@@ -184,7 +175,7 @@
      */
     var request = function() {
 
-        var get = function(e) {
+        var get = function() {
 
             try {
 
@@ -463,7 +454,7 @@
             /**
              * Hide results set
              */
-            $body.on('click', function(e) {
+            $body.on('click', function() {
                 $(document).trigger('c.complete.after');
             });
 

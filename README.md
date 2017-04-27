@@ -29,10 +29,14 @@ In your HTML page, between <head> tags, retrieve jQuery and Completer :
 <script src="directory_of_your_completer/jquery.completer.js"></script>
 ```
 
-Into your HTML code, place the following code, with 3 data attributes :
+Into your HTML code, place the following code, with your data attributes values where :
+
+* **data-url:** path to the data provider, which can be an action of controller or a JSON file. The data format returned must be JSON.</li>
+* **data-filter-on:** the property name of JSON object on which apply filter at keyup.
+* **data-fields:** fields of JSON object to display, separated by a coma.
 
 ``` html 
-<input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." data-url="path_to_data_provider" data-filter-on="name_of_property_to_apply_filter" data-fields="Field1,Field2,Field3" />
+<input type="text" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." data-url="" data-filter-on="" data-fields="" />
 ```
  
 Invoke the plugin :
