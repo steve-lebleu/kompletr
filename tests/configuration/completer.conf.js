@@ -16,6 +16,7 @@ module.exports = function(config) {
     files: [
       'test-main.js',
       'demo/js/jquery.js',
+      'dist/js/jquery.completer.js',
       'node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
       'node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js',
       'node_modules/jasmine-core/lib/jasmine-core/boot.js',
