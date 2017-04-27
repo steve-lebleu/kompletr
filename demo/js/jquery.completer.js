@@ -542,26 +542,29 @@
 
             $.data(document.body, 'completer', true);
 
-            // Apply any options to the settings, override the defaults
-            _options = $.fn.completer.defaults = $.extend({ }, $.fn.completer.defaults, options);
-
-            if(_options.url === null) {
-                throw new Error('URL option is mandatory');
-            }
-
-            if(_options.field === null) {
-                throw new Error('Field option is mandatory');
-            }
-
-            if(_options.fieldsToDisplay === null) {
-                throw new Error('fieldsToDisplay option is mandatory');
-            }
-
-            // Set main container
-           // _$container = $(this);
-
             // Set input
             _$input = $(this);
+
+            // Todo utiliserun each pour utiliser plusieurs instances
+
+            if(_$input.data('url') === null || _$input.data('url') === '') {
+                throw new Error('URL data attribute is mandatory');
+            }
+
+            if(_$input.data('filter-on') === null || _$input.data('filter-on') === '') {
+                throw new Error('Field data attribute is mandatory');
+            }
+
+            if(_$input.data('fields') === null || _$input.data('fields') === '') {
+                throw new Error('fieldsToDisplay data-attribute is mandatory');
+            }
+
+            options.url = _$input.data('url');
+            options.field = _$input.data('filter-on');
+            options.fieldsToDisplay = _$input.data('fields').trim().split(',');
+
+            // Apply any options to the settings, override the defaults
+            _options = $.fn.completer.defaults = $.extend({}, $.fn.completer.defaults, options);
 
             // Initialize view component
             _app.view.init();

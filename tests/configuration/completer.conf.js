@@ -15,7 +15,12 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test-main.js',
-      'src/vendors/jquery/dist/jquery.js',
+      'demo/js/jquery.js',
+      'node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
+      'node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js',
+      'node_modules/jasmine-core/lib/jasmine-core/boot.js',
+      'node_modules/jasmine-core/lib/jasmine-core/json2.js',
+      'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
       'tests/**/*.test.js'
     ],
 

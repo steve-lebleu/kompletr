@@ -54,7 +54,7 @@
 
 <div id="wrapper">
 
-    <input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." />
+    <input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." data-url="files/completer.json" data-filter-on="Name" data-fields="Name,CountryCode,Population" />
 
 </div>
 
@@ -93,7 +93,7 @@ $ bower install completer --save
 
 <pre>
     <code class="html">
-&lt;input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" /&gt;
+&lt;input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" data-url="path_to_your_data_provider" data-filter-on="field_name_on_which_filter_data" data-fields="field_1, field_2, field_3" /&gt;
     </code>
 </pre>
 
@@ -102,10 +102,7 @@ $ bower install completer --save
 <pre>
     <code class="javascript">
 $(document).ready(function() {
-    $('#searcher').completer({
-        url: 'files/completer.json',
-        field: 'Name'
-    });
+    $('#searcher').completer();
 });
     </code>
 </pre>
@@ -235,11 +232,6 @@ $(document).ready(function() {
 <script type="text/javascript">
     $(document).ready(function() {
        $('#auto-complete').completer({
-           url: 'files/completer.json',
-           field: 'Name',
-           fieldsToDisplay: [ 'Name', 'CountryCode', 'Population' ],
-           speed: 350,
-           animation: 'slide',
            maxResults: 5
        });
     });
