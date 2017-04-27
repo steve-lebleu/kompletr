@@ -284,9 +284,9 @@
 
                         $item = $('<div>', { 'id' : i, 'class' : 'item--result ' + cls + ''});
 
-                        for(var j = 0; j < _options.fieldsToDisplay.length; j++) // @todo implements data retrieving by _options
+                        for(var j = 0; j < _options.fieldsToDisplay.length; j++)
                         {
-                            $span = $('<span>', { 'class' : 'data-' + j + '', 'html' : data[i][j]});
+                            $span = $('<span>', { 'class' : 'data-' + j + '', 'html' : data[i][_options.fieldsToDisplay[j]]});
                             $item[0].append($span[0]);
                         }
 
@@ -434,8 +434,6 @@
 
                 var keyCode = e.keyCode;
 
-                window.console.log('keyCode ' + keyCode);
-
                 // Up/Down into Results
                 if(keyCode === 38 || keyCode === 40)
                 {
@@ -449,8 +447,6 @@
                 // Do request to retrieve data according to currents chars
                 else
                 {
-                    window.console.log(_$input);
-                    window.console.log('In method value : ' + _$input.val());
                     if(_options.onChar <= _$input.val().length && _$input.val() !== _previous_value) {
                         $(document).trigger('c.request');
                     }
@@ -542,7 +538,6 @@
             // Apply any options to the settings, override the defaults
             _options = $.fn.completer.defaults = $.extend({ }, $.fn.completer.defaults, options);
 
-            window.console.log('in');
             if(_options.url === null) {
                 throw new Error('URL option is mandatory');
             }
@@ -550,7 +545,7 @@
             if(_options.field === null) {
                 throw new Error('Field option is mandatory');
             }
-window.console.log('out');
+
             // Set main container
             _$container = $(this);
 

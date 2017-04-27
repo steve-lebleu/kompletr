@@ -241,6 +241,7 @@ $(document).ready(function() {
        $('#searcher').completer({
            url: 'files/completer.json',
            field: 'Name',
+           fieldsToDisplay: [ 'Name', 'CountryCode', 'Population' ],
            speed: 350,
            animation: 'slide',
            maxResults: 5

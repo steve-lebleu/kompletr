@@ -49,7 +49,7 @@
   &.last, &:last-child {
     border-bottom: 1px solid @color_1;
   }
-  &:hover, &:focus {
+  &:hover, &.focus {
     cursor: pointer;
     color: @color_2;
     background: @color_4;
@@ -69,5 +69,11 @@
   }
   & .data-2 {
     clear: both;
+  }
+  & span:nth-child(n+4) {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    font-size: 0.8em;
   }
 }

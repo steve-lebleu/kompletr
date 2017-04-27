@@ -47,7 +47,7 @@
   border-bottom: 1px solid #dfdfdf;
 }
 .item--result:hover,
-.item--result:focus {
+.item--result.focus {
   cursor: pointer;
   color: #fff;
   background: #637c8e;
@@ -71,4 +71,10 @@
 }
 .item--result .data-2 {
   clear: both;
+}
+.item--result span:nth-child(n+4) {
+  display: block;
+  width: 100%;
+  margin: 5px 0;
+  font-size: 0.8em;
 }
