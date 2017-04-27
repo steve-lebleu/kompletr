@@ -8,3 +8,5 @@ before_install:
 before_script:
     - npm install
     - export CHROME_BIN=google-chrome
+    - export SAFARI_BIN=safari
+    - export IE_BIN=internet-explorer
