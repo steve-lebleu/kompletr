@@ -45,7 +45,7 @@ $('#auto-complete').completer({});
 
 Following options are available :
 
-* **animation**: string, style of animation ('fade'|'slide'|'none')
+* **animation**: string, style of animation ('fade','slide','none')
 * **animationSpeed**: int, speed of the animation
 * **begin**: boolean, check expression from beginning of the value if true, on the whole word if false
 * **onChar**: int, number of chars completed in input before Completer firing
