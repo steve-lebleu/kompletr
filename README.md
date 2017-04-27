@@ -29,29 +29,22 @@ In your HTML page, between <head> tags, retrieve jQuery and Completer :
 <script src="directory_of_your_completer/jquery.completer.js"></script>
 ```
 
-Into your HTML code, place the following code :
+Into your HTML code, place the following code, with 3 data attributes :
 
 ``` html 
-<input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" />
+<input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." data-url="path_to_data_provider" data-filter-on="name_of_property_to_apply_filter" data-fields="Field1,Field2,Field3" />
 ```
  
-Invoke the plugin with 2 required parameters :
+Invoke the plugin :
 
 ``` javascript
-$('#searcher').completer({
-    url : 'path_to_your_json_source.php',
-    field : 'name_of_the_field_on_which_filter_json_data'
-});
+$('#searcher').completer({});
 ```
 
 ## Options
 
 Following options are available :
 
-* **url**: string, path of the server script which return JSON data
-* **field**: string, name of the field to use for sort data on client side
-* **fieldsToDisplay**: array, fields to retrieve from JSON data and to display into result item
-* **completerName**: string, element ID used for multiples instances
 * **animation**: string, style of animation ('fade'|'slide'|'none')
 * **animationSpeed**: int, speed of the animation
 * **begin**: boolean, check expression from beginning of the value if true, on the whole word if false
