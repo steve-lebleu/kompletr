@@ -18,7 +18,7 @@ Obvious install with [Bower](http://bower.io) :
 
 In your HTML page, between <head> tags, retrieve Completer styles:
 
-'''html <link href="path_to_completer_css" rel="stylesheet" type="text/css" />'''
+''' html <link href="path_to_completer_css" rel="stylesheet" type="text/css" />'''
 
 In your HTML page, between <head> tags, retrieve first jQuery :
 
