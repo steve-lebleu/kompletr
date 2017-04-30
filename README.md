@@ -17,9 +17,7 @@ Obvious install with bower :
 
 In your HTML page, between <head> tags, retrieve Completer styles:
 
-''''html
-  <link href="path_to_completer_css" rel="stylesheet" type="text/css" />
-''''
+<link href="path_to_completer_css" rel="stylesheet" type="text/css" />
 
 In your HTML page, between <head> tags, retrieve jQuery and Completer :
 
@@ -35,10 +33,10 @@ Into your HTML code, place the following code :
  
 Finally, invoke the fabulous plugin with 2 required parameters :
 
-> $('#searcher').completer({
->   url : 'path_to_your_json_source.php',
->   field : 'name_of_the_field_on_which_filter_json_data'
-> });
+    $('#searcher').completer({
+        url : 'path_to_your_json_source.php',
+        field : 'name_of_the_field_on_which_filter_json_data'
+    });
 
 ## Options
 
