@@ -7,6 +7,8 @@ It can be used with or without databases or server language, the only required p
         
 ## Demo
 
+http://plugins.e-lless.be/completer/
+
 ## Installation
 
 Obvious install with bower :
@@ -17,11 +19,14 @@ Obvious install with bower :
 
 In your HTML page, between <head> tags, retrieve Completer styles:
 
-<link href="path_to_completer_css" rel="stylesheet" type="text/css" />
+> <link href="path_to_completer_css" rel="stylesheet" type="text/css" />
 
-In your HTML page, between <head> tags, retrieve jQuery and Completer :
+In your HTML page, between <head> tags, retrieve first jQuery :
 
 > <script src="directory_of_your_jquery/path_to_your_jquery.js"></script> 
+
+Next retrieve jquery.completer.js :
+
 > <script src="directory_of_your_completer/path_to_your_jquery.completer.js"></script>
 
 Into your HTML code, place the following code :
