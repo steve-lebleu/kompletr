@@ -66,5 +66,4 @@ Following options are availables :
 * **afterSelect**: function(e, element), callback fired after selection of result
 * **beforeComplete**: function(e, dataset, element), callback fired before insertion of result
 * **afterComplete**: function(e, dataset, element), callback fired after insertion of result
-
-## Documentation
+                
