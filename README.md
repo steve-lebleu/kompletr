@@ -18,34 +18,36 @@ Obvious install with [Bower](http://bower.io) :
 
 In your HTML page, between <head> tags, retrieve Completer styles:
 
-> <link href="path_to_completer_css" rel="stylesheet" type="text/css" />
+'''html <link href="path_to_completer_css" rel="stylesheet" type="text/css" />'''
 
 In your HTML page, between <head> tags, retrieve first jQuery :
 
-> <script src="directory_of_your_jquery/jquery.js"></script> 
+'''html <script src="directory_of_your_jquery/jquery.js"></script>''' 
 
 Next retrieve jquery.completer.js :
 
-> <script src="directory_of_your_completer/jquery.completer.js"></script>
+'''html <script src="directory_of_your_completer/jquery.completer.js"></script>'''
 
 Into your HTML code, place the following code :
 
-> <div id="searcher" class="form--light-search">
->  <input type="text" name="autocomplete" id="autocomplete" class="input--search" autocomplete="off" />
->  <button type="button" name="search" id="search" class="button--search"></button>
-> </div>
+'''html 
+<div id="searcher" class="form--light-search">
+        <input type="text" name="autocomplete" id="autocomplete" class="input--search" autocomplete="off" />
+        <button type="button" name="search" id="search" class="button--search"></button>
+</div>'''
  
 Invoke the plugin with 2 required parameters :
 
-''''javascript
+'''javascript
     $('#searcher').completer({
         url : 'path_to_your_json_source.php',
         field : 'name_of_the_field_on_which_filter_json_data'
     });
-''''
+'''
+
 ## Options
 
-Following options are available :
+Following options are availables :
 
 * url : string, path of the server script which return JSON data
 * field : string, name of the field to use for sort data on client side
