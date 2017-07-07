@@ -2150,7 +2150,7 @@ body {
   margin: 0;
   width: 100%;
   font-family: 'Open Sans', Helvetica, Geneva, Tahoma, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
 }
 nav {
   height: 30px;
@@ -2183,15 +2183,15 @@ header {
   padding: 50px 0;
 }
 footer {
-  padding: 30px 0 1px 0;
+  padding: 30px 0 15px 0;
   margin: 60px auto 0 auto;
   font-size: 0.8rem;
 }
 footer p:first-child {
-  margin: 125px auto 150px auto;
+  margin: 50px auto 75px auto;
 }
 footer a {
-  color: #BBBE64;
+  color: #bab8b3;
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
   -ms-transition: all 0.4s ease-in-out;
@@ -2337,4 +2337,20 @@ sup {
   -ms-transition: all 0.4s ease-in-out;
   -o-transition: all 0.4s ease-in-out;
   right: 0;
+}
+.github-svg {
+  fill: #BBBE64;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  border: 0;
+  right: 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+}
+.github-svg:hover {
+  fill: #94963f;
+  color: #fff;
 }
