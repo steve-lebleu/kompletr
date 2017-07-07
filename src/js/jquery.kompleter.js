@@ -526,7 +526,7 @@
      * @param options
      * @returns {$.fn}
      */
-    $.fn.completer = function(options) {
+    $.fn.kompleter = function(options) {
 
         // Ensure that only one completer exists
         if (!$.data(document.body, 'completer')) {
@@ -555,7 +555,7 @@
             options.fieldsToDisplay = _$input.data('fields').split(',');
 
             // Apply any options to the settings, override the defaults
-            _options = $.fn.completer.defaults = $.extend({}, $.fn.completer.defaults, options);
+            _options = $.fn.kompleter.defaults = $.extend({}, $.fn.kompleter.defaults, options);
 
             // Initialize view component
             _app.view.init();
@@ -568,11 +568,11 @@
     };
 
     // Defaults
-    $.fn.completer.defaults = {
+    $.fn.kompleter.defaults = {
         url: null,                                          // Path of script or file REQUIRED
-        completerName: 'completer',                         // Element ID
-        animation: 'fade', 				                          // Fade, slide, none
-        animationSpeed: 350, 			                          // Animation in speed (ms)
+        completerName: 'kompleter',                         // Element ID
+        animation: 'fade', 				                    // Fade, slide, none
+        animationSpeed: 350, 			                    // Animation in speed (ms)
         begin: true,                                        // Check by string begin if true, in all world if false
         onChar: 2,                                          // Launch request after n chars
         maxResults: 10,                                     // Number of max results to display
@@ -586,7 +586,7 @@
         afterComplete: function(e, dataset, element){}      // Callback fired after insertion of result
     };
 
-    $.completer = $.fn.completer;
+    $.kompleter = $.fn.kompleter;
 
 })(window, document, jQuery);
 

@@ -13,10 +13,6 @@
  *
  **/
 
-// @todo errors management
-// @todo use event and|or deferred to set pointer after firing of events
-// @todo manage multiple instances on same page
-
 (function(window, document, $) {
 
     "use strict";
@@ -54,11 +50,6 @@
      * @type {*|HTMLElement}
      s*/
     var _$wrapper = $('<div>', { 'id' : 'searcher', 'class' : 'form--light-search' });
-
-    /**
-     *
-     */
-    var _$container;
 
     /**
      * Object who have current focus into search results items set
@@ -184,7 +175,7 @@
      */
     var request = function() {
 
-        var get = function(e) {
+        var get = function() {
 
             try {
 
@@ -293,7 +284,7 @@
 
                         for(var j = 0; j < _options.fieldsToDisplay.length; j++)
                         {
-                            $span = $('<span>', { 'class' : 'data-' + j + '', 'html' : data[i][_options.fieldsToDisplay[j]]});
+                            $span = $('<span>', { 'class' : 'data-' + j + '', 'html' : data[i][_options.fieldsToDisplay[j].trim()]});
                             $item[0].append($span[0]);
                         }
 
@@ -463,7 +454,7 @@
             /**
              * Hide results set
              */
-            $body.on('click', function(e) {
+            $body.on('click', function() {
                 $(document).trigger('c.complete.after');
             });
 
@@ -535,7 +526,7 @@
      * @param options
      * @returns {$.fn}
      */
-    $.fn.completer = function(options) {
+    $.fn.kompleter = function(options) {
 
         // Ensure that only one completer exists
         if (!$.data(document.body, 'completer')) {
@@ -561,10 +552,10 @@
 
             options.url = _$input.data('url');
             options.field = _$input.data('filter-on');
-            options.fieldsToDisplay = _$input.data('fields').trim().split(',');
+            options.fieldsToDisplay = _$input.data('fields').split(',');
 
             // Apply any options to the settings, override the defaults
-            _options = $.fn.completer.defaults = $.extend({}, $.fn.completer.defaults, options);
+            _options = $.fn.kompleter.defaults = $.extend({}, $.fn.kompleter.defaults, options);
 
             // Initialize view component
             _app.view.init();
@@ -577,11 +568,11 @@
     };
 
     // Defaults
-    $.fn.completer.defaults = {
+    $.fn.kompleter.defaults = {
         url: null,                                          // Path of script or file REQUIRED
-        completerName: 'completer',                         // Element ID
-        animation: 'fade', 				                          // Fade, slide, none
-        animationSpeed: 350, 			                          // Animation in speed (ms)
+        completerName: 'kompleter',                         // Element ID
+        animation: 'fade', 				                    // Fade, slide, none
+        animationSpeed: 350, 			                    // Animation in speed (ms)
         begin: true,                                        // Check by string begin if true, in all world if false
         onChar: 2,                                          // Launch request after n chars
         maxResults: 10,                                     // Number of max results to display
@@ -595,7 +586,7 @@
         afterComplete: function(e, dataset, element){}      // Callback fired after insertion of result
     };
 
-    $.completer = $.fn.completer;
+    $.kompleter = $.fn.kompleter;
 
 })(window, document, jQuery);
 

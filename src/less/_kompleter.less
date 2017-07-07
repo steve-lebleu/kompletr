@@ -22,13 +22,22 @@
   min-width: 240px;
   max-width: 600px;
   height: auto;
-  font-size: 1rem;
+  font-size: 1.5rem;
   line-height: 1.5;
-  color: @color_0;
-  padding: 15px 5px;
-  border: 1px solid @color_1;
+  color: @color_9;
+  padding: 15px 10px;
+  border: none;
   background: @color_2;
   margin: 0 auto;
+  box-sizing: border-box;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
+::placeholder {
+  color: @color_5;
 }
 
 .form--search__result {
@@ -41,23 +50,29 @@
 .item--result {
   width: 100%;
   background: @color_2;
-  border-bottom: 1px dashed @color_1;;
-  border-left: 1px solid @color_1;;
-  border-right: 1px solid @color_1;
-  padding: 5px 5px;
+  border-bottom: 1px dashed @color_1;
+  border-left: none;
+  border-right: none;
+  padding: 15px;
   color: @color_0;
+  box-sizing: border-box;
   &.last, &:last-child {
-    border-bottom: 1px solid @color_1;
+    border-bottom: none;
   }
   &:hover, &.focus {
     cursor: pointer;
-    color: @color_2;
-    background: @color_4;
+    color: @color_8;
+    background: @color_11;
     .transition(all 0.2s ease-in-out);
+    & .data-1, & .data-2 {
+      color: @color_3;
+    }
   }
   & .data-0  {
     float: left;
+    color: @color_8;
     margin: 0 0 3px 0;
+    font-weight: 600;
   }
   & .data-1, & .data-2 {
     display: block;
