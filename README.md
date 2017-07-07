@@ -1,32 +1,32 @@
-# Completer - A jQuery auto-completion plugin
+# Kompleter - A jQuery auto-completion plugin
 
-[![GitHub version](https://badge.fury.io/gh/e-lLess%2Fcompleter.svg)](https://badge.fury.io/gh/e-lLess%2Fcompleter)
+[![GitHub version](https://badge.fury.io/gh/e-lLess%2Fkompleter.svg)](https://badge.fury.io/gh/e-lLess%2Fkompleter)
 
-Completer is a self-completion system developed with HTML 5, CSS 3, JavaScript and jQuery.
+Kompleter is a self-completion system developed with HTML 5, CSS 3, JavaScript and jQuery.
         
 ## Demo
 
-http://plugins.e-lless.be/completer/
+http://jquery.konfer.be/kompleter/
 
 ## Installation
 
 Obvious install with [Bower](http://bower.io) :
 
-> $ bower install completer --save
+> $ bower install kompleter --save
 
 ## How to use ?
 
-In your HTML page, between <head> tags, retrieve Completer styles:
+In your HTML page, between <head> tags, retrieve kompleter styles:
 
 ``` html 
-<link href="path_to_completer_css" rel="stylesheet" type="text/css" />
+<link href="path_to_kompleter_css" rel="stylesheet" type="text/css" />
 ```
 
-In your HTML page, between <head> tags, retrieve jQuery and Completer :
+In your HTML page, between <head> tags, retrieve jQuery and kompleter :
 
 ``` html 
 <script src="directory_of_your_jquery/jquery.js"></script>
-<script src="directory_of_your_completer/jquery.completer.js"></script>
+<script src="directory_of_your_kompleter/jquery.kompleter.js"></script>
 ```
 
 Into your HTML code, place the following code, with your data attributes values where :
@@ -42,7 +42,7 @@ Into your HTML code, place the following code, with your data attributes values 
 Invoke the plugin :
 
 ``` javascript
-$('#auto-complete').completer({});
+$('#auto-complete').kompleter({});
 ```
 
 ## Options
@@ -52,7 +52,7 @@ Following options are available :
 * **animation**: string, style of animation ('fade','slide','none')
 * **animationSpeed**: int, speed of the animation
 * **begin**: boolean, check expression from beginning of the value if true, on the whole word if false
-* **onChar**: int, number of chars completed in input before Completer firing
+* **onChar**: int, number of chars completed in input before kompleter firing
 * **maxResults**: int, number of max results to display
 * **beforeDisplay**: function(e, dataset), function, callback fired before display of result set
 * **afterDisplay**: function(e, dataset), function, callback fired after display of result set
