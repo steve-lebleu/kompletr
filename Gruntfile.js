@@ -9,9 +9,12 @@ module.exports = function(grunt) {
 					sourceMapName: 'dist/js/sourcemap.map'
 				},
 				files: {
-					"dist/js/jquery.completer.min.js": [
-						'src/js/jquery.completer.js'
-					]
+					"dist/js/jquery.kompleter.min.js": [
+						'src/js/jquery.kompleter.js'
+					],
+                    "demo/js/jquery.kompleter.min.js": [
+                        'src/js/jquery.kompleter.js'
+                    ]
 				}
 			}
 		},
@@ -22,7 +25,7 @@ module.exports = function(grunt) {
 			scripts: {
 				src: [
 					'src/vendors/jquery/dist/jquery.min.js',
-					'src/js/completer.js'
+					'src/js/kompleter.js'
 				],
 				dest: 'dist/js/app.js'
 			}
@@ -33,8 +36,8 @@ module.exports = function(grunt) {
 					paths: ["src/less/"]
 				},
 				files: {
-					"dist/css/completer.css": "src/less/main.less",
-					"demo/css/completer.css": "src/less/main.less",
+					"dist/css/kompleter.css": "src/less/main.less",
+					"demo/css/kompleter.css": "src/less/main.less",
 					"demo/css/demo.css": "src/less/demo.less"
 				}
 			}
@@ -64,7 +67,7 @@ module.exports = function(grunt) {
 				},
 				target: {
 					files: {
-						'src/css/completer.min.css': ['src/css/completer.css']
+						'src/css/kompleter.min.css': ['src/css/kompleter.css']
 					}
 				}
 			}
