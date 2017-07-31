@@ -528,42 +528,43 @@
      */
     $.fn.kompleter = function(options) {
 
-        // Ensure that only one completer exists
-        if (!$.data(document.body, 'completer')) {
+        // Ensure that only one kompleter exists
+        if (!$.data(document.body, 'kompleter')) {
 
-            $.data(document.body, 'completer', true);
+            $.data(document.body, 'kompleter', true);
 
-            // Set input
-            _$input = $(this);
+            return this.each(function() {
 
-            // Todo utiliserun each pour utiliser plusieurs instances
+                // Set input
+                _$input = $(this);
 
-            if(_$input.data('url') === null || _$input.data('url') === '') {
-                throw new Error('URL data attribute is mandatory');
-            }
+                if(_$input.data('url') === null || _$input.data('url') === '') {
+                    throw new Error('URL data attribute is mandatory');
+                }
 
-            if(_$input.data('filter-on') === null || _$input.data('filter-on') === '') {
-                throw new Error('Field data attribute is mandatory');
-            }
+                if(_$input.data('filter-on') === null || _$input.data('filter-on') === '') {
+                    throw new Error('Field data attribute is mandatory');
+                }
 
-            if(_$input.data('fields') === null || _$input.data('fields') === '') {
-                throw new Error('fieldsToDisplay data-attribute is mandatory');
-            }
+                if(_$input.data('fields') === null || _$input.data('fields') === '') {
+                    throw new Error('fieldsToDisplay data-attribute is mandatory');
+                }
 
-            options.url = _$input.data('url');
-            options.field = _$input.data('filter-on');
-            options.fieldsToDisplay = _$input.data('fields').split(',');
+                options.url = _$input.data('url');
+                options.field = _$input.data('filter-on');
+                options.fieldsToDisplay = _$input.data('fields').split(',');
 
-            // Apply any options to the settings, override the defaults
-            _options = $.fn.kompleter.defaults = $.extend({}, $.fn.kompleter.defaults, options);
+                // Apply any options to the settings, override the defaults
+                _options = $.fn.kompleter.defaults = $.extend({}, $.fn.kompleter.defaults, options);
 
-            // Initialize view component
-            _app.view.init();
+                // Initialize view component
+                _app.view.init();
 
-            // Bind events
-            _app.handlers.init();
+                // Bind events
+                _app.handlers.init();
 
-            return $(this);
+                //return $(this);
+            });
         }
     };
 
