@@ -12,9 +12,9 @@ module.exports = function(grunt) {
 					"dist/js/jquery.kompleter.min.js": [
 						'src/js/jquery.kompleter.js'
 					],
-                    "demo/js/jquery.kompleter.min.js": [
-                        'src/js/jquery.kompleter.js'
-                    ]
+					"demo/js/jquery.kompleter.min.js": [
+						'src/js/jquery.kompleter.js'
+					]
 				}
 			}
 		},
@@ -30,6 +30,17 @@ module.exports = function(grunt) {
 				dest: 'dist/js/app.js'
 			}
 		},
+		sass: {                              // Task
+			dist: {                            // Target
+				options: {                       // Target options
+					style: 'expanded'
+				},
+				files: {                         							
+					'dist/css/kompleter.css': [ 'src/sass/kompleter.scss' ],
+					'demo/css/demo.css': [ 'src/sass/demo.scss' ],
+				}
+			}
+		},
 		less: {
 			main: {
 				options: {
@@ -40,6 +51,39 @@ module.exports = function(grunt) {
 					"demo/css/kompleter.css": "src/less/main.less",
 					"demo/css/demo.css": "src/less/demo.less"
 				}
+			}
+		},
+		cssmin: {
+			main: {
+				options: {
+					shorthandCompacting: false,
+					roundingPrecision: -1
+				},
+				target: {
+					files: {
+						'src/css/kompleter.min.css': ['src/css/kompleter.css']
+					}
+				}
+			}
+		},
+		sprity: {
+			options: {
+				'cssPath': 'assets/img/logos/',
+				'processor': 'css',
+				'orientation': 'binary-tree',
+				'margin': 5,
+				'prefix': 'spr'
+			},
+			sprite: {
+				src: ['assets/img/logos/*'],
+				dest: 'assets/img/logos/sprite'
+			},
+			base64: {
+				options: {
+					'base64': true
+				},
+				src: ['assets/img/logos/*'],
+				dest: 'assets/css/base64.css'
 			}
 		},
 		watch: {
@@ -57,19 +101,6 @@ module.exports = function(grunt) {
 					'src/js/**/*.js'
 				],
 				tasks: ['concat:scripts']
-			}
-		},
-		cssmin: {
-			main: {
-				options: {
-					shorthandCompacting: false,
-					roundingPrecision: -1
-				},
-				target: {
-					files: {
-						'src/css/kompleter.min.css': ['src/css/kompleter.css']
-					}
-				}
 			}
 		},
 		jshint: {
@@ -105,6 +136,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-sass');
 
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('dev', ['watch']);
