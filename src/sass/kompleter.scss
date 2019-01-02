@@ -12,6 +12,9 @@
   width: 30%;
   position: relative;
   margin: 0 auto;
+  @media (max-width: 480px) {
+    width: 90%;
+  }
 }
 
 .input--search,

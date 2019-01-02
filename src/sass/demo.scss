@@ -77,7 +77,7 @@ h1 {
   text-transform: uppercase;
   font-family: $font-alt;
   @media (max-width: 480px) {
-    font-size: 3.5rem;
+    font-size: 2.7rem;
   }
 }
 
@@ -241,18 +241,5 @@ sup {
   &:hover {
     fill: darken($color_11, 15%);
     color: $color_2;
-  }
-}
-
-.kbox {
-  &-demo {
-    &-wrapper {
-      text-align: center;
-    }
-    &-thumbnail {
-      width: 180px;
-      margin: 15px;
-      border: 3px solid $color_1;
-    }
   }
 }
