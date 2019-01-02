@@ -1,15 +1,15 @@
 /**
- * Completer is a free script that implements an auto-completion system using AJAX technologies
+ * Kompleter.js is a free script that implements an auto-completion system using AJAX technologies
  *
- * Copyright (C) 2014  Lebleu Steve <dev@e-lless.be>
+ * Copyright (C) 2014  Lebleu Steve <info@konfer.be>
  *
- * URL : http://scripts.e-lless.be/completer/
+ * URL : https://demo.konfer.be/kompleter/
 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Creative Commons Licence.
  *
  * @author S. Lebleu
- * @update 24/04/2017
+ * @update 02/01/2019
  *
  **/
 
