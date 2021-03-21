@@ -1,7 +1,5 @@
 # Kompleter - jQuery auto-completion plugin
 
-![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/konfer-be/kompleter/master)
-![Requires.io (branch)](https://img.shields.io/requires/github/konfer-be/kompleter/master)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/konfer-be/kompleter)
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/konfer-be/kompleter/blob/master/LICENSE)
 
@@ -19,13 +17,17 @@ $ npm i kompleter --save
 
 ## How to use ?
 
-In your HTML page, between <head> tags, retrieve kompleter styles:
+Retrieve kompleter styles in the head section of your page:
 
 ``` html 
+<head>
+...
 <link href="path_to_kompleter_css" rel="stylesheet" type="text/css" />
+...
+</head>
 ```
 
-In your HTML page, between <head> tags, retrieve jQuery and kompleter :
+Retrieve jQuery and kompleter :
 
 ``` html 
 <script src="directory_of_your_jquery/jquery.js"></script>
