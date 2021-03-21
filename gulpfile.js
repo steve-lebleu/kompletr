@@ -14,14 +14,12 @@ const pump = require('pump');
 const concat = require('gulp-concat');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const csscomb = require('gulp-csscomb');
 const cssbeautify = require('gulp-cssbeautify');
 const autoprefixer = require('gulp-autoprefixer');
 const csso = require('gulp-csso');
 const rename = require('gulp-rename');
 const livereload = require('gulp-livereload');
 const imagemin = require('gulp-imagemin');
-const uncss = require('gulp-uncss');
 const critical = require('gulp-critical-css');
 
 /**
@@ -52,7 +50,6 @@ gulp.task('sass', function () {
 
 gulp.task('css', function () {
 	return gulp.src(lib + '/css/**/*.css')
-		.pipe(csscomb())
 		.pipe(cssbeautify( { indent : '  ' } ))
 		.pipe(autoprefixer())
 		.pipe(critical())

@@ -1,18 +1,18 @@
-# Kompleter - A jQuery auto-completion plugin
+# Kompleter - jQuery auto-completion plugin
 
-[![GitHub version](https://badge.fury.io/gh/e-lLess%2Fkompleter.svg)](https://badge.fury.io/gh/e-lLess%2Fkompleter)
+![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/konfer-be/kompleter/master)
+![Requires.io (branch)](https://img.shields.io/requires/github/konfer-be/kompleter/master)
+![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/konfer-be/kompleter)
 
-Kompleter is a self-completion system developed with HTML 5, CSS 3, JavaScript and jQuery.
+Self-completion plugin developed with HTML 5, CSS 3, JavaScript and jQuery. Demo here https://demo.konfer.be/kompleter/
         
-## Demo
+## Why ?
 
-http://jquery.konfer.be/kompleter/
+For the fun, principaly. And to deliver a functional and simple plugin that meets simple need. If you need to display results from an HXR call, this can help.
 
 ## Installation
 
-Obvious install with [Bower](http://bower.io) :
-
-> $ bower install kompleter --save
+> $ npm i kompleter --save
 
 ## How to use ?
 
@@ -60,4 +60,3 @@ Following options are available :
 * **afterFocus**: function(e, element), callback fired after focus on result item
 * **beforeComplete**: function(e, dataset, element), callback fired before insertion of result
 * **afterComplete**: function(e, dataset, element), callback fired after insertion of result
-                
