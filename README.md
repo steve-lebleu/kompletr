@@ -3,6 +3,7 @@
 ![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/konfer-be/kompleter/master)
 ![Requires.io (branch)](https://img.shields.io/requires/github/konfer-be/kompleter/master)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/konfer-be/kompleter)
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/konfer-be/kompleter/blob/master/LICENSE)
 
 Self-completion plugin developed with HTML 5, CSS 3, JavaScript and jQuery. Demo here https://demo.konfer.be/kompleter/
         
@@ -12,7 +13,9 @@ For the fun, principaly. And to deliver a functional and simple plugin that meet
 
 ## Installation
 
-> $ npm i kompleter --save
+``` bash 
+$ npm i kompleter --save
+```
 
 ## How to use ?
 
