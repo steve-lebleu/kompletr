@@ -13,3 +13,6 @@ tests/report
 
 # Retrieved by bower
 src/vendors/*
+
+# Do not push dist
+dist/

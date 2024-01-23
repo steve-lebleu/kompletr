@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+
+    <title>jQuery auto-complete plugin - Kompleter.js</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <![endif]-->
+
+    <link href='https://fonts.googleapis.com/css?family=Lato|Open+Sans|Montserrat' rel='stylesheet' type='text/css' />
+    <link href="css/kompleter.min.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <script src="./js/jquery.kompleter.min.js"></script>
+
+</head>
+
+<body>
+
+  <div id="wrapper">
+    <input
+      type="text"
+      name="auto-complete"
+      id="auto-complete"
+      class="input--search"
+      autocomplete="off"
+      placeholder="Enter a city name ..."
+      value=""
+      data-url="files/kompleter.json"
+      data-filter-on="Name"
+      data-fields="Name,CountryCode,Population" />
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#auto-complete').kompleter({});
+    });
+  </script>
+
+</body>
+
+</html>

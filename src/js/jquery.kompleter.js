@@ -1,9 +1,9 @@
 /**
  * Completer is a free script that implements an auto-completion system using AJAX technologies
  *
- * Copyright (C) 2014  Lebleu Steve <dev@e-lless.be>
+ * Copyright (C) 2014  Lebleu Steve <steve@konfer.be>
  *
- * URL : http://scripts.e-lless.be/completer/
+ * URL : https://fabrik.konfer.be/kompleter
 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Creative Commons Licence.
@@ -572,8 +572,8 @@
     $.fn.kompleter.defaults = {
         url: null,                                          // Path of script or file REQUIRED
         completerName: 'kompleter',                         // Element ID
-        animation: 'fade', 				                    // Fade, slide, none
-        animationSpeed: 350, 			                    // Animation in speed (ms)
+        animation: 'fade', 				                          // Fade, slide, none
+        animationSpeed: 350, 			                          // Animation in speed (ms)
         begin: true,                                        // Check by string begin if true, in all world if false
         onChar: 2,                                          // Launch request after n chars
         maxResults: 10,                                     // Number of max results to display
