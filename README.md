@@ -73,3 +73,4 @@ Following options are available:
 - Include vanilla version
 - Refactoring code jquery
 - More E2E
+- Security MR
