@@ -64,6 +64,12 @@ Following options are available:
 * **beforeComplete**: function(e, dataset, element), callback fired before insertion of result
 * **afterComplete**: function(e, dataset, element), callback fired after insertion of result
 
-## Bug
+## Todo's
 
 - Suggestions are not refreshed / removed after keyboard delete
+- Code coverage in CI/CD
+- Deploy NPM package CI/CD
+- Release new version
+- Include vanilla version
+- Refactoring code jquery
+- More E2E
