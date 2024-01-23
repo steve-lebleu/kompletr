@@ -66,4 +66,4 @@ Following options are available:
 
 ## Bug
 
-Les suggestions ne sont pas supprimées après suppression des caractères
+- Suggestions are not refreshed / removed after keyboard delete
