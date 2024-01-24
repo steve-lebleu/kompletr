@@ -28,11 +28,13 @@
   ],
   "author": "Steve Lebleu",
   "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.7.1"
+  },
   "devDependencies": {
     "@babel/runtime": "^7.23.6",
     "cypress": "^13.6.3",
     "html-loader": "^5.0.0",
-    "jquery": "3.1.1",
     "node-sass": "^9.0.0",
     "terser": "^5.26.0",
     "webpack": "^5.89.0",

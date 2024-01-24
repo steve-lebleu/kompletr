@@ -12,7 +12,6 @@ module.exports = {
       bundles: [
         {
           src: [
-            './src/js/jquery.js',
             './src/js/jquery.kompleter.js',
           ],
           dest: './dist/js/jquery.kompleter.min.js',

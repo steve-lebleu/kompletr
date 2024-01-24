@@ -66,11 +66,10 @@ Following options are available:
 
 ## Todo's
 
-- Suggestions are not refreshed / removed after keyboard delete
+- Security MR
 - Code coverage in CI/CD
 - Deploy NPM package CI/CD
 - Release new version
 - Include vanilla version
 - Refactoring code jquery
 - More E2E
-- Security MR
