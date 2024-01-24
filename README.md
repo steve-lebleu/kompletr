@@ -1,9 +1,10 @@
 # Kompleter - jQuery auto-completion plugin
 
+![Github action workflow status](https://github.com/steve-lebleu/kompleter/actions/workflows/build/badge.svg)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/steve-lebleu/kompleter)
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/steve-lebleu/kompleter/blob/master/LICENSE)
 
-Self-completion plugin with HTML 5, CSS 3, JavaScript and jQuery.
+Self-completion plugin with HTML 5, CSS 3, JavaScript and jQuery > 3.1.1.
 
 Demo here: https://fabrik.konfer.be/kompleter/
 
