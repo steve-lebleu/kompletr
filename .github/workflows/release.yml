@@ -38,6 +38,8 @@ jobs:
       RUNNER: github
       NODE_ENV: dev
     steps:
+      - name: Github checkout
+        uses: actions/checkout@v4
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
