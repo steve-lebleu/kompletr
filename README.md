@@ -1,6 +1,6 @@
 # Kompleter - jQuery auto-completion plugin
 
-![Github action workflow status](https://github.com/steve-lebleu/kompleter/actions/workflows/build.yml/badge.svg)
+![Github action workflow status](https://github.com/steve-lebleu/kompleter/actions/workflows/build.yml/badge.svg?branch=master)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/steve-lebleu/kompleter)
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/steve-lebleu/kompleter/blob/master/LICENSE)
 
