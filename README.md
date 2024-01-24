@@ -6,7 +6,9 @@
 
 Self-completion plugin with HTML 5, CSS 3, JavaScript and jQuery > 3.1.1.
 
-Demo here: https://fabrik.konfer.be/kompleter/
+Demo: https://fabrik.konfer.be/kompleter/
+
+Github page: https://github.com/steve-lebleu/kompleter
 
 ## Installation
 
@@ -35,7 +37,7 @@ Retrieve jQuery and Kompleter.js:
 
 Into HTML code, place the following code with your data attributes values:
 
-* **data-url:** path to the data provider, which can be an API endpoint or a JSON file. The returned data format must be JSON.</li>
+* **data-url:** path to the data provider, which can be API endpoint or JSON file. Returned data format must be JSON.</li>
 * **data-filter-on:** property name of JSON object on which apply filter at keyup.
 * **data-fields:** JSON object fields to display, coma separated.
 
@@ -64,13 +66,3 @@ Following options are available:
 * **afterFocus**: function(e, element), callback fired after focus on result item
 * **beforeComplete**: function(e, dataset, element), callback fired before insertion of result
 * **afterComplete**: function(e, dataset, element), callback fired after insertion of result
-
-## Todo's
-
-- Security MR
-- Code coverage in CI/CD
-- Deploy NPM package CI/CD
-- Release new version
-- Include vanilla version
-- Refactoring code jquery
-- More E2E

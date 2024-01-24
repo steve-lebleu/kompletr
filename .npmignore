@@ -8,8 +8,11 @@
 # Node modules, can be retrieved by npm
 node_modules
 
-# Must be launched by plato
-tests/report
-
 # Retrieved by bower
-src/vendors/*
+src
+
+# E2E tests
+cypress
+
+# Github workflows
+.github
