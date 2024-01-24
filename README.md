@@ -2,13 +2,18 @@
 
 ![Github action workflow status](https://github.com/steve-lebleu/kompleter/actions/workflows/build.yml/badge.svg?branch=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/steve-lebleu/kompleter/badge)](https://www.codefactor.io/repository/github/steve-lebleu/kompleter)
+![GitHub Release](https://img.shields.io/github/v/release/steve-lebleu/kompleter?logo=Github)
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/steve-lebleu/kompleter/blob/master/LICENSE)
 
 Self-completion plugin with HTML 5, CSS 3, JavaScript and jQuery > 3.1.1.
 
+## > Demo
+
 Demo: https://fabrik.konfer.be/kompleter/
 
-Github page: https://github.com/steve-lebleu/kompleter
+## > Page
+
+Github page: https://steve-lebleu.github.io/kompleter
 
 ## Installation
 
