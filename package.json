@@ -1,6 +1,6 @@
 {
   "name": "kompleter",
-  "version": "1.0.4",
+  "version": "1.1.4",
   "description": "jQuery auto-complete plugin",
   "main": "src/js/index.js",
   "scripts": {

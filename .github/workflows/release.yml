@@ -84,7 +84,7 @@ jobs:
   release-npm:
     name: Release on NPM registry
     runs-on: ubuntu-latest
-    needs: [ build, test, release-github ]
+    needs: [ build, test ]
     steps:
       - name: Cache dependencies
         uses: actions/cache@v2
