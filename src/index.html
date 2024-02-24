@@ -51,13 +51,18 @@
     };
     ready(() => {
       kompleter.init({
+        id: 'auto-complete',
         dataSource: 'files/kompleter.json',
         filterOn: 'Name',
         fieldsToDisplay: [
           'Name',
           'CountryCode',
           'Population'
-        ]
+        ],
+        animation: {
+          type: 'fadeIn',
+          duration: 500
+        }
       });
     });
   </script>
