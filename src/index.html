@@ -18,8 +18,9 @@
     <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="./js/jquery.kompleter.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+
+    <script src="./js/kompleter.min.js"></script>
 
 </head>
 
@@ -40,8 +41,24 @@
   </div>
 
   <script type="text/javascript">
-    $(document).ready(function() {
-      $('#auto-complete').kompleter({});
+    <!-- TODO Keep data- attributes, and let ability to choose that or options object. If data-, support all attributes -->
+    function ready(fn) {
+      if (document.readyState !== 'loading') {
+        fn();
+        return;
+      }
+      document.addEventListener('DOMContentLoaded', fn);
+    };
+    ready(() => {
+      kompleter.init({
+        dataSource: 'files/kompleter.json',
+        filterOn: 'Name',
+        fieldsToDisplay: [
+          'Name',
+          'CountryCode',
+          'Population'
+        ]
+      });
     });
   </script>
 

@@ -4,7 +4,7 @@
   "description": "jQuery auto-complete plugin",
   "main": "src/js/index.js",
   "scripts": {
-    "build": "mkdir -p dist && cp -r src/index.html src/files/ dist/ & npm run js & npm run css & exit",
+    "build": "mkdir -p dist && cp -r src/index.html src/files/ dist/ & npm run css & npm run js",
     "css": "node-sass ./src/sass/kompleter.scss ./dist/css/kompleter.min.css --output-style compressed",
     "js": "webpack",
     "cypress:open": "cypress open",

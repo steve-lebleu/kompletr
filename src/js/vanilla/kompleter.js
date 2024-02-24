@@ -3,7 +3,7 @@
     throw new Error('window.kompleter already exists !');
   }
 
-  window.kompleter = {
+  const kompleter = {
     HTMLElements: {
       focused: null,
       input: null,
@@ -11,51 +11,46 @@
       suggestions: [],
     },
     props: {
-      response: {},
+      response: {}, // Clarify / refactor the usage of response vs suggestions
       pointer: -1,
       previousValue: null,
     },
     options: {
-      id: '',
-      url: '',
-      store: false,
-      animation: '',
-      animationSpeed: '',
+      id: 'default-kompleter', // Todo
+      dataSource: '',
+      store: false, // Todo
+      animation: '', // Todo
+      animationSpeed: '', // Todo
       begin: true,
       startOnChar: 2,
       maxResults: 10,
-      field: null,
+      filterOn: null,
       fieldsToDisplay: null,
-      beforeDisplay: (e, dataset) => {},
-      afterDisplay: (e, dataset) => {},
-      beforeFocus: (e, dataset) => {},
-      afterFocus: (e, dataset) => {},
-      beforeComplete: (e, dataset) => {},
-      afterComplete: (e, dataset) => {},
+      beforeDisplayResults: (e, dataset) => {},
+      afterDisplayResults: (e, dataset) => {},
+      beforeFocusOnItem: (e, dataset, current) => {},
+      afterFocusOnItem: (e, dataset, current) => {},
+      beforeSelectItem: (e, dataset, current) => {},
+      afterSelectItem: (e, dataset, current) => {},
     },
     listeners: {
-      onNavigate: () => {
-        this.HTMLElements.input.addEventListener('keyup', (e) => {
-          e = e || windows.event;
-          const keycode = e.keycode;
-          // Up / down in results
-          if(keycode === 38 || keycode === 40) {
-            kompleter.handlers.navigate(keycode);
-          }
-          // Insert suggestion who's have the focus
-          else if (keycode === 13) {
+      onType: () => {
+        kompleter.HTMLElements.input.addEventListener('keyup', (e) => {
+          const keyCode = e.keyCode;
+
+          if(keyCode === 38 || keyCode === 40) { // Up / down 
+            kompleter.handlers.navigate(keyCode);
+          } else if (keyCode === 13) { // Enter 
             kompleter.handlers.select();
-          } else {
-            if(kompleter.HTMLElements.input.value !== kompleter.props.previousValue) {
-              kompleter.handlers.display();
-            }
+          } else if (kompleter.HTMLElements.input.value !== kompleter.props.previousValue) {
+            kompleter.handlers.suggest();
           }
         });
       },
-      onHide: (HTMLElements) => {
-        const body = document.getElementsByTagName('body').shift();
+      onHide: () => {
+        const body = document.getElementsByTagName('body')[0];
         body.addEventListener('click', (e) => {
-          HTMLElements.style.display = 'none';
+          kompleter.HTMLElements.result.style.display = 'none';
         });
       },
       onSelect: (className) => {
@@ -64,60 +59,107 @@
           const numberOfSuggestions = kompleter.HTMLElements.suggestions.length;
           if(numberOfSuggestions) {
             for(let i = 0; i < numberOfSuggestions; i++) {
-              return function(i) {
-                kompleter.HTMLElements.suggestions[i].addEventListener('click', (e) => {
+              ((i) => {
+                return kompleter.HTMLElements.suggestions[i].addEventListener('click', (e) => {
                   kompleter.HTMLElements.focused = kompleter.HTMLElements.suggestions[i];
                   kompleter.handlers.select();
                 });
-              }
+              })(i)
             }
           }
         }
       }
     },
     handlers: {
-      navigate: (keycode) => {
+      build: function (element, attributes = []) {
+        const htmlElement = document.createElement(element);
+        attributes.forEach(attribute => {
+          htmlElement.setAttribute(attribute.key, attribute.value);
+        });
+        return htmlElement;
+      },
+      filter: function(records) {
+        const value = kompleter.HTMLElements.input.value.toLowerCase();
+        return records.filter(record => {
+          if(isNaN(value)) {
+            return kompleter.options.begin === true ? record[kompleter.options.filterOn].toLowerCase().lastIndexOf(value, 0) === 0 : record[kompleter.options.filterOn].toLowerCase().lastIndexOf(value) !== -1;
+          } else {
+            return parseInt(value) === parseInt(record[kompleter.options.filterOn]);
+          }
+        });
+      },
+      focus: function(action) {
+        if (!['add', 'remove'].includes(action)) {
+          throw new Error('action should be one of ["add", "remove]: ' + action + ' given.');
+        }
+        switch (action) {
+          case 'remove':
+            kompleter.HTMLElements.focused = null;
+            Array.from(kompleter.HTMLElements.suggestions).forEach(suggestion => {
+              ((suggestion) => {
+                suggestion.className = 'item--result';
+              })(suggestion)
+            });
+            break;
+          case 'add':
+            kompleter.HTMLElements.focused = kompleter.HTMLElements.suggestions[kompleter.props.pointer];
+            kompleter.HTMLElements.suggestions[kompleter.props.pointer].className += ' focus';
+            break;
+        }
+      },
+      navigate: function (keyCode) {
+        this.point(keyCode);
+        this.focus('remove');
+        this.focus('add');
+      },
+      point: function(keyCode) {
+        // The pointer is in the range: after or as the initial position and before the last element in suggestions
         if(kompleter.props.pointer >= -1 && kompleter.props.pointer <= kompleter.HTMLElements.suggestions.length - 1) {
-          // Pointeur en dehors du data set, avant le premier résultat
-          if(kompleter.props.pointer === -1) {
-            if(keycode === 40) {
-              kompleter.SetFocus(keycode);
-            }
-          }
-          // Pointeur au dernier résultat du data set
-          else if (kompleter.props.pointer === kompleter.HTMLElements.suggestions.length - 1) {
-            if(keycode === 38) {
-              kompleter.SetFocus(keycode);
-            }
-          }
-          // Pointeur dans le data set
-          else { 
-            kompleter.SetFocus(keycode);
+          // Pointer in initial position, and we switch down -> up index of the pointer
+          if(kompleter.props.pointer === -1 && keyCode === 40) {
+            kompleter.props.pointer++;
+          } else if (kompleter.props.pointer === kompleter.HTMLElements.suggestions.length - 1 && keyCode === 38) {  // Pointer in last position, and we switch up -> down index of the pointer
+            kompleter.props.pointer--;
+          } else if (keyCode === 38) { // Pointer in range, down index of the pointer
+            kompleter.props.pointer--;
+          } else if (keyCode === 40) { // Pointer in range, up index of the pointer
+            kompleter.props.pointer++;
           }
         }
       },
-      suggest: () => {
+      select: function () {
+        let id = null;
+        id = kompleter.HTMLElements.focused.id || 0;
+        kompleter.HTMLElements.input.value = kompleter.props.response[id][0];
+        kompleter.props.pointer = -1;
+        kompleter.HTMLElements.result.style.display = 'none';
+      },
+      suggest: function () {
         kompleter.HTMLElements.result.style.display = 'block';
         kompleter.props.pointer = -1;
         
+        // TODO requestExpression should be managed somewhere else. This method is just responsible to retrieve the data. To challenge vs the cache/store
+
         const headers = new Headers();
         headers.append('content-type', 'application/x-www-form-urlencoded');
         headers.append('method', 'GET');
 
-        fetch(`${kompleter.options.url}?'requestExpression=${kompleter.HTMLElements.input.value}`, headers)
+        fetch(`${kompleter.options.dataSource}?'requestExpression=${kompleter.HTMLElements.input.value}`, headers)
           .then(result => result.json())
           .then(result => {
+            console.log('result', result)
+            console.log('result', typeof result)
             let text = "";
             if(result && result.length) {
-              kompleter.props.response = result;
+              kompleter.props.response = this.filter(result);
               const properties = kompleter.options.fieldsToDisplay.length;
               for(let i = 0; i < result.length ; i++) {
-                if(typeof response[i] !== 'undefined') {
+                if(typeof kompleter.props.response[i] !== 'undefined') {
                   let cls;
                   i + 1 === result.length ? cls = 'last' : cls = '';
                   text += '<div id="' + i + '" class="item--result">';
                   for(let j = 0; j < properties; j++) {
-                    text += '<span class="data-' + j + '">' + response[i][j] + '</span>';
+                    text += '<span class="data-' + j + '">' + kompleter.props.response[i][j] + '</span>';
                   }
                   text += '</div>';
                 } 
@@ -132,58 +174,98 @@
             kompleter.listeners.onSelect('item--result');
           });
       },
-      select: () => {
-        const id = null;
-        kompleter.HTMLElements.focused !== null ? id = kompleter.HTMLElements.Focused.id : id = 0;
-        kompleter.HTMLElements.input.value = kompleter.HTMLElements.response[id][0];
-        kompleter.props.pointer = -1;
-        kompleter.HTMLElements.result.style.display = 'none';
-      },
-    },
-    init: (options) => {
-      this.options = options;
-      this.HTMLElements.result = this.build('div', [ { id: 'result', className: 'form--lightsearch__result' } ]);
-      
-      const searcher = document.getElementById('searcher');
-      searcher.appendChild(this.HTMLElements.result);
-
-      this.HTMLElements.input = document.getElementById('autocomplete');
-
-      this.listeners.onNavigate();
-      this.listeners.onHide();
-    },
-    build: (element, attributes = []) => {
-      const html = document.createElement(element);
-      attributes.forEach(attribute => {
-        html.setAttribute(attribute.key, attribute.value);
-      });
-    },
-    setFocus: (keycode) => {
-      if(keycode === 40) {
-        if(this.Pointer !== -1) {
-          kompleter.removeFocus();
-        } 
-        kompleter.props.pointer++;
-        kompleter.getFocus();
-      } else if(keycode === 38) {
-        kompleter.removeFocus();
-        kompleter.props.pointer--;
-        if(kompleter.props.pointer !== -1) {
-          kompleter.GetFocus();
-        }
+      validate: function(options) {
+        // Ne valider que ce qui est donné ou requis
+        // Le reste doit fallback sur des valeurs par défaut quand c'est possible
       }
     },
-    getFocus: () => {
-      kompleter.HTMLElements.focused = kompleter.HTMLElements.suggestions[kompleter.props.pointer];
-      kompleter.HTMLElements.suggestions[kompleter.props.pointer].className += ' focus';
-    },
-    removeFocus: () => {
-      kompleter.HTMLElements.focused = null;
-      kompleter.HTMLElements.suggestions[kompleter.props.pointer].className += ' item--result';
+    init: function(options) {
+
+      // Préfixer sur les valeurs
+
+      // ---------- Gérer les callbacks opts
+
+      // ---------- Gérer le store
+        // Gérer le fetch mutliple en cas de store
+        // Gérer la durée de validité du store en cas de store
+
+      // ---------- Gérer les animations
+
+      kompleter.options = Object.assign(kompleter.options, options);
+      
+      kompleter.HTMLElements.result = kompleter.handlers.build('div', [ { id: 'result', className: 'form--lightsearch__result' } ]);
+      
+      const searcher = document.getElementById('wrapper');
+      searcher.appendChild(kompleter.HTMLElements.result);
+
+      kompleter.HTMLElements.input = document.getElementById('auto-complete');
+
+      // ---------- Gérer les paramètres opts
+
+        // Aller chercher sur data- et options, faire un merge, c'est options qui gagne si conflit
+        // Valider le résultat
+          // id unique, obligé
+
+        // L'assigner si c'est ok
+
+        // /!\ Si tu bouges aux options ici, tu vas devoir adapter le jQuery aussi
+
+      // --- Currently managed as data-attributes
+
+      const dataSource = kompleter.HTMLElements.input.dataset['url'];
+      const filterOn = kompleter.HTMLElements.input.dataset['filter-on'];
+      const fieldsToDisplay = kompleter.HTMLElements.input.dataset['fields-to-display'];
+
+      console.log('v', dataSource)
+      console.log('v', filterOn)
+      console.log('v', fieldsToDisplay)
+
+      // --- Other ones
+      
+      /**
+      id
+      store: false, // Todo
+      animation: '', // Todo
+      animationSpeed: '', // Todo
+      begin: true,
+      startOnChar: 2,
+      maxResults: 10,
+      beforeDisplayResults: (e, dataset) => {},
+      afterDisplayResults: (e, dataset) => {},
+      beforeFocusOnItem: (e, dataset, current) => {},
+      afterFocusOnItem: (e, dataset, current) => {},
+      beforeSelectItem: (e, dataset, current) => {},
+      afterSelectItem: (e, dataset, current) => {},
+      */
+
+      // --- Playable as data-
+
+      /**
+      store: false, // Todo
+      animation: '', // Todo
+      animationSpeed: '', // Todo
+      begin: true,
+      startOnChar: 2,
+      maxResults: 10,
+      */
+      
+      // --- Required as options
+
+      /**
+      beforeDisplayResults: (e, dataset) => {},
+      afterDisplayResults: (e, dataset) => {},
+      beforeFocusOnItem: (e, dataset, current) => {},
+      afterFocusOnItem: (e, dataset, current) => {},
+      beforeSelectItem: (e, dataset, current) => {},
+      afterSelectItem: (e, dataset, current) => {},
+      */
+
+      // --- Special case: the id -> ? Pass the input by id reference or HTMLElement ?
+      
+      kompleter.listeners.onType();
+      kompleter.listeners.onHide();
     },
   };
 
-  window.kompleter.init();
+  window.kompleter = { init: kompleter.init };
 })(window);
-
-// Le set properties, il n'est pas nécessaire -> tu peux define ça dans une config js coté client
