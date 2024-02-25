@@ -3,11 +3,19 @@
     throw new Error('window.kompleter already exists !');
   }
 
+  /**
+   * @summary Kompleter.js is a library providing features dedicated to autocomplete fields. 
+   * @author Steve Lebleu <ping@steve-lebleu.dev>
+   */
   const kompleter = {
+
+    /**
+     * @descrption Animations functions
+     */
     animations: {
-      fadeIn: function(element, display) {
+      fadeIn: function(element, display = 'block', duration = 500) {
         element.style.opacity = 0;
-        element.style.display = display || 'block';
+        element.style.display = display;
         (function fade(){
           let value = parseFloat(element.style.opacity);
           if (!((value += .1) > 1)) {
@@ -16,7 +24,7 @@
           }
         })()
       },
-      fadeOut: function(element) {
+      fadeOut: function(element, duration = 500) {
         element.style.opacity = 1;
         (function fade() {
           if ((element.style.opacity -= .1) < 0) {
@@ -26,33 +34,87 @@
           }
         })();
       },
-      slideUp: function() {
-
+      slideUp: function(element, duration = 500) {
+        element.style.transitionProperty = 'height, margin, padding';
+        element.style.transitionDuration = duration + 'ms';
+        element.style.boxSizing = 'border-box';
+        element.style.height = element.offsetHeight + 'px';
+        element.offsetHeight;
+        element.style.overflow = 'hidden';
+        element.style.height = 0;
+        element.style.paddingTop = 0;
+        element.style.paddingBottom = 0;
+        element.style.marginTop = 0;
+        element.style.marginBottom = 0;
+        window.setTimeout( () => {
+          element.style.display = 'none';
+          element.style.removeProperty('height');
+          element.style.removeProperty('padding-top');
+          element.style.removeProperty('padding-bottom');
+          element.style.removeProperty('margin-top');
+          element.style.removeProperty('margin-bottom');
+          element.style.removeProperty('overflow');
+          element.style.removeProperty('transition-duration');
+          element.style.removeProperty('transition-property');
+        }, duration);
       },
-      slideDown: function() {
-
+      slideDown: function(element, duration = 500) {
+        element.style.removeProperty('display');
+        let display = window.getComputedStyle(element).display;
+        if (display === 'none') display = 'block';
+        element.style.display = display;
+        let height = element.offsetHeight;
+        element.style.overflow = 'hidden';
+        element.style.height = 0;
+        element.style.paddingTop = 0;
+        element.style.paddingBottom = 0;
+        element.style.marginTop = 0;
+        element.style.marginBottom = 0;
+        element.offsetHeight;
+        element.style.boxSizing = 'border-box';
+        element.style.transitionProperty = "height, margin, padding";
+        element.style.transitionDuration = duration + 'ms';
+        element.style.height = height + 'px';
+        element.style.removeProperty('padding-top');
+        element.style.removeProperty('padding-bottom');
+        element.style.removeProperty('margin-top');
+        element.style.removeProperty('margin-bottom');
+        window.setTimeout( () => {
+          element.style.removeProperty('height');
+          element.style.removeProperty('overflow');
+          element.style.removeProperty('transition-duration');
+          element.style.removeProperty('transition-property');
+        }, duration);
       }
     },
+
+    /**
+     * @description Custom events
+     */
     events: {
-      'kompleter.render.result.done': new CustomEvent('kompleter.render.result.done', {
-        detail: {},
+      error: (detail = {}) => new CustomEvent('kompleter.error', {
+        detail,
         bubble: true,
         cancelable: false,
         composed: false,
       }),
-      'kompleter.request.done': new CustomEvent('kompleter.request.done', {
-        detail: {},
+      rendrResultDone: (detail = {}) => new CustomEvent('kompleter.render.result.done', {
+        detail,
         bubble: true,
         cancelable: false,
         composed: false,
       }),
-      'kompleter.result.show': new CustomEvent('kompleter.result.show', {
-        detail: {},
+      requestDone: (detail = {}) => new CustomEvent('kompleter.request.done', {
+        detail,
         bubble: true,
         cancelable: false,
         composed: false,
-      })
+      }),
     },
+
+    /**
+     * @description Handlers of all religions
+     */
     handlers: {
       build: function (element, attributes = []) {
         const htmlElement = document.createElement(element);
@@ -120,12 +182,10 @@
           .then(result => result.json())
           .then(result => {
             kompleter.props.response = this.filter(result);
-            document.dispatchEvent(kompleter.events['kompleter.request.done']);
+            document.dispatchEvent(kompleter.events.requestDone());
           })
           .catch(e => {
-            console.error(e.message);
-            kompleter.htmlElements.result.innerHTML = '<div class="item--result">Error</div>';
-            kompleter.animations.fadeIn(kompleter.htmlElements.result);
+            document.dispatchEvent(kompleter.events.error({ message: e.message, stack: e?.stack, instance: e }));
           });
       },
       select: function () {
@@ -136,16 +196,24 @@
         kompleter.htmlElements.result.style.display = 'none';
       },
       validate: function(options) {
-        // Ne valider que ce qui est donné ou requis
-        // Le reste doit fallback sur des valeurs par défaut quand c'est possible
+        // Valid only what's required OR provided
+        // The rest should fallback on default values when it's feasible
       }
     },
+
+    /**
+     * @description HTMLElements container
+     */
     htmlElements: {
       focused: null,
       input: null,
       result: null,
       suggestions: [],
     },
+
+    /**
+     * @description Events listeners
+     */
     listeners: {
       onHide: () => {
         const body = document.getElementsByTagName('body')[0];
@@ -171,18 +239,11 @@
       },
       onRequestDone: () => {
         document.addEventListener('kompleter.request.done', (e) => {
-          kompleter.renders.results(e)
+          kompleter.render.results(e)
         });
       },
       onRenderDone: () => {
         document.addEventListener('kompleter.render.result.done', (e) => {
-          console.log('kompleter.render.result.done', e)
-          kompleter.animations.fadeIn(kompleter.htmlElements.result);
-          kompleter.listeners.onSelect('item--result');
-        });
-      },
-      onShow: () => {
-        document.addEventListener('kompleter.result.show', (e) => {
           kompleter.animations.fadeIn(kompleter.htmlElements.result);
           kompleter.listeners.onSelect('item--result');
         });
@@ -200,9 +261,13 @@
         });
       },
     },
+
+    /**
+     * @description Public options
+     */
     options: {
       id: null,
-      dataSource: null,
+      dataSource: null, // Can be ommited if data is provided directly. In this case we don't fetch. Allow credentials or API key on fetch ?
       store: {
         type: 'memory', // memory | indexedDB | localStorage
         timelife: 50000,
@@ -210,6 +275,9 @@
       animation: {
         type: 'fadeIn',
         duration: 500
+      },
+      notification: {
+        // TODO
       },
       begin: true,
       startOnChar: 2,
@@ -223,14 +291,26 @@
       beforeSelectItem: (e, dataset, current) => {},
       afterSelectItem: (e, dataset, current) => {},
     },
+
+    /**
+     * @description Internal properties
+     */
     props: {
       response: {}, // Clarify / refactor the usage of response vs suggestions
       pointer: -1,
       previousValue: null,
     },
-    renders: {
+
+    /**
+     * @description Rendering methods
+     */
+    render: {
+      error: function(e) {
+        // TODO Do better on the error display / logging / notifications
+        kompleter.htmlElements.result.innerHTML = '<div class="item--result">Error</div>';
+        kompleter.animations.fadeIn(kompleter.htmlElements.result);
+      },
       results: function(e) {
-        console.log('render.results', e)
         let html = '';
         if(kompleter.props.response && kompleter.props.response.length) {
           const properties = kompleter.options.fieldsToDisplay.length; // TODO should be validated as 3 or 4 max + flexbox design
@@ -247,19 +327,16 @@
           html = '<div class="item--result">Not found</div>';
         }
         kompleter.htmlElements.result.innerHTML = html;
-        console.log('kompleter.htmlElements.result', kompleter.htmlElements.result)
-        document.dispatchEvent(kompleter.events['kompleter.render.result.done'])
+        document.dispatchEvent(kompleter.events.rendrResultDone());
       }
     },
+
+    /**
+     * @description Kompleter entry point
+     * 
+     * @param {*} options 
+     */
     init: function(options) {
-
-      // Préfixer sur les valeurs
-
-      // ---------- Gérer les callbacks opts
-
-      // ---------- Gérer le store
-        // Gérer le fetch mutliple en cas de store
-        // Gérer la durée de validité du store en cas de store
 
       // ---------- Gérer les animations
 
@@ -274,56 +351,23 @@
 
       // ---------- Gérer les paramètres opts
 
-        // Aller chercher sur data- et options, faire un merge, c'est options qui gagne si conflit
-        // Valider le résultat
-          // id unique, obligé
-
+        // Valider le résultat -> pas de lib externe
+        // id unique, obligé
         // L'assigner si c'est ok
 
         // /!\ Si tu bouges aux options ici, tu vas devoir adapter le jQuery aussi
-
-      // --- Currently managed as data-attributes
-
-      const dataSource = kompleter.htmlElements.input.dataset['url'];
-      const filterOn = kompleter.htmlElements.input.dataset['filter-on'];
-      const fieldsToDisplay = kompleter.htmlElements.input.dataset['fields-to-display'];
-
-      console.log('v', dataSource)
-      console.log('v', filterOn)
-      console.log('v', fieldsToDisplay)
 
       // --- Other ones
       
       /**
       id
-      store: false, // Todo
-      animation: '', // Todo
-      animationSpeed: '', // Todo
+      store: false,
+      animation: '', 
+      animationSpeed: '', 
       begin: true,
       startOnChar: 2,
       maxResults: 10,
-      beforeDisplayResults: (e, dataset) => {},
-      afterDisplayResults: (e, dataset) => {},
-      beforeFocusOnItem: (e, dataset, current) => {},
-      afterFocusOnItem: (e, dataset, current) => {},
-      beforeSelectItem: (e, dataset, current) => {},
-      afterSelectItem: (e, dataset, current) => {},
-      */
-
-      // --- Playable as data-
-
-      /**
-      store: false, // Todo
-      animation: '', // Todo
-      animationSpeed: '', // Todo
-      begin: true,
-      startOnChar: 2,
-      maxResults: 10,
-      */
-      
-      // --- Required as options
-
-      /**
+      notification: an instance of notifier, console by default
       beforeDisplayResults: (e, dataset) => {},
       afterDisplayResults: (e, dataset) => {},
       beforeFocusOnItem: (e, dataset, current) => {},
@@ -333,6 +377,18 @@
       */
 
       // --- Special case: the id -> ? Pass the input by id reference or HTMLElement ?
+
+      // Préfixer sur les valeurs
+
+      // ---------- Gérer les callbacks opts
+
+      // ---------- Gérer le store
+        // Gérer le fetch mutliple en cas de store
+        // Gérer la durée de validité du store en cas de store
+
+      // ---------- Errorrs management
+        // Try catches
+        // Display
 
       kompleter.listeners.onHide();
       kompleter.listeners.onShow();
