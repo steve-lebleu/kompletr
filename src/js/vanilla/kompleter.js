@@ -4,7 +4,8 @@
   }
 
   /**
-   * @summary Kompleter.js is a library providing features dedicated to autocomplete fields. 
+   * @summary Kompleter.js is a library providing features dedicated to autocomplete fields.
+   * 
    * @author Steve Lebleu <ping@steve-lebleu.dev>
    */
   const kompleter = {
@@ -85,6 +86,17 @@
           element.style.removeProperty('transition-duration');
           element.style.removeProperty('transition-property');
         }, duration);
+      }
+    },
+
+    /**
+     * @description Local pseudo enumerations
+     */
+    enums: {
+      storage: {
+        memory: 'memory',
+        localStorage: 'localStorage',
+        indexedDb: 'indexedDb',
       }
     },
 
@@ -180,9 +192,8 @@
 
         fetch(`${kompleter.options.dataSource}?'r=${kompleter.htmlElements.input.value}`, headers)
           .then(result => result.json())
-          .then(result => {
-            kompleter.props.response = this.filter(result);
-            document.dispatchEvent(kompleter.events.requestDone());
+          .then(data => {
+            document.dispatchEvent(kompleter.events.requestDone({ fromStore: false, data })); 
           })
           .catch(e => {
             document.dispatchEvent(kompleter.events.error({ message: e.message, stack: e?.stack, instance: e }));
@@ -239,7 +250,15 @@
       },
       onRequestDone: () => {
         document.addEventListener('kompleter.request.done', (e) => {
-          kompleter.render.results(e)
+          // TODO: store in cache
+          // TODO: filter shouldn' be applied systematicaly if the back returns filtered data
+          // TODO: should we store filtered data or not ?
+          // TODO probably the following line will be in the store.set for memory cache
+          kompleter.props.response = kompleter.handlers.filter(e.detail.data);
+          if (!e.detail.fromStore) {
+            kompleter.store.set(e.detail.data);
+          }
+          kompleter.render.results(e.detail.data);
         });
       },
       onRenderDone: () => {
@@ -255,8 +274,13 @@
             kompleter.handlers.navigate(keyCode);
           } else if (keyCode === 13) { // Enter 
             kompleter.handlers.select();
-          } else if (kompleter.htmlElements.input.value !== kompleter.props.previousValue) {
-            kompleter.handlers.request();
+          } else if ( kompleter.htmlElements.input.value !== kompleter.props.previousValue ) {
+            
+            if (kompleter.store.isActive() && kompleter.store.isValid()) {
+              document.dispatchEvent(kompleter.events.requestDone({ fromStore: true, data: kompleter.store.get() }));
+            } else {
+              kompleter.handlers.request();
+            }
           }
         });
       },
@@ -268,8 +292,9 @@
     options: {
       id: null,
       dataSource: null, // Can be ommited if data is provided directly. In this case we don't fetch. Allow credentials or API key on fetch ?
+      dataSet: null, // It's dataset with the data, or dataSource without. If data source, you can play with a store, if not consumer play on his side
       store: {
-        type: 'memory', // memory | indexedDB | localStorage
+        type: 'localStorage',
         timelife: 50000,
       },
       animation: {
@@ -331,14 +356,62 @@
       }
     },
 
+    store: {
+      get: () => {
+        switch (kompleter.options.store.type) {
+          case kompleter.enums.storage.memory:
+            break;
+          case kompleter.enums.storage.localStorage:
+            return JSON.parse(window.localStorage.getItem('kompleter.cache.data'));  
+            break;
+          case kompleter.enums.storage.indexedDB:
+            break;
+        };
+        if (kompleter.options.store.storage === kompleter.enums.storage.localStorage) {
+          const createdAt = JSON.parse(window.localStorage.getItem('kompleter.cache.createdAt'));
+          if (createdAt + kompleter.options.store.duration < Date.now()) {
+             
+          } 
+        }
+      },
+      isActive: () => {
+        return kompleter.options.store;
+      },
+      isValid: () => {
+        switch (kompleter.options.store.type) {
+          case kompleter.enums.storage.memory:
+            break;
+          case kompleter.enums.storage.localStorage:
+            const createdAt = JSON.parse(window.localStorage.getItem('kompleter.cache.createdAt'));
+            if (parseInt(createdAt + kompleter.options.store.duration, 10) >= Date.now()) {
+              return true;   
+            }
+            return false;
+            break;
+          case kompleter.enums.storage.indexedDB:
+            break;
+        };
+      },
+      set: (data) => {
+        switch (kompleter.options.store.type) {
+          case kompleter.enums.storage.memory:
+            break;
+          case kompleter.enums.storage.localStorage:
+            window.localStorage.setItem('kompleter.cache.createdAt', JSON.stringify(Date.now()));
+            window.localStorage.setItem('kompleter.cache.data', JSON.stringify(data));
+            break;
+          case kompleter.enums.storage.indexedDB:
+            break;
+        };
+      },
+    },
+
     /**
      * @description Kompleter entry point
      * 
      * @param {*} options 
      */
     init: function(options) {
-
-      // ---------- Gérer les animations
 
       kompleter.options = Object.assign(kompleter.options, options);
       
@@ -349,49 +422,32 @@
 
       kompleter.htmlElements.input = document.getElementById(kompleter.options.id);
 
-      // ---------- Gérer les paramètres opts
+      // /!\ Adapt jQuery version to be ISO
 
-        // Valider le résultat -> pas de lib externe
-        // id unique, obligé
-        // L'assigner si c'est ok
-
-        // /!\ Si tu bouges aux options ici, tu vas devoir adapter le jQuery aussi
+      // ---------- Manage animations
+      // ---------- Manage options
+      // ---------- Manage callback options
+        // No external lib
 
       // --- Other ones
       
-      /**
-      id
-      store: false,
-      animation: '', 
-      animationSpeed: '', 
-      begin: true,
-      startOnChar: 2,
-      maxResults: 10,
-      notification: an instance of notifier, console by default
-      beforeDisplayResults: (e, dataset) => {},
-      afterDisplayResults: (e, dataset) => {},
-      beforeFocusOnItem: (e, dataset, current) => {},
-      afterFocusOnItem: (e, dataset, current) => {},
-      beforeSelectItem: (e, dataset, current) => {},
-      afterSelectItem: (e, dataset, current) => {},
-      */
-
       // --- Special case: the id -> ? Pass the input by id reference or HTMLElement ?
 
-      // Préfixer sur les valeurs
-
-      // ---------- Gérer les callbacks opts
-
-      // ---------- Gérer le store
-        // Gérer le fetch mutliple en cas de store
-        // Gérer la durée de validité du store en cas de store
+      // ---------- Manage store
+        // KISS
+        // fetch pagination
+        // manage memory, localStorage, indexedDB or websql
+      
+      // ---------- Manage datasource
+        // kompleter fetch
+        // provided by consummer
 
       // ---------- Errorrs management
         // Try catches
         // Display
+        // Notifications
 
       kompleter.listeners.onHide();
-      kompleter.listeners.onShow();
       kompleter.listeners.onType();
       kompleter.listeners.onRequestDone();
       kompleter.listeners.onRenderDone();

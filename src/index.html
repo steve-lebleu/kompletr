@@ -53,6 +53,10 @@
       kompleter.init({
         id: 'auto-complete',
         dataSource: 'files/kompleter.json',
+        store: {
+          type: 'localStorage',
+          duration: 5000
+        },
         filterOn: 'Name',
         fieldsToDisplay: [
           'Name',
