@@ -98,7 +98,6 @@
           .then(cache => {
             cache.match(queryString)
               .then(async (data) => {
-                console.log('cache.emit', data)
                 document.dispatchEvent(kompleter.events.requestDone({ fromCache: true, data: await data.json() }));
               });
           })
@@ -145,7 +144,7 @@
      */
     callbacks: {
       onError: (error) => {},
-      onKeyup: (value) => {},
+      onKeyup: (value, cb) => {},
       onSelect: (selected) => {},
     },
 
@@ -225,7 +224,6 @@
         return true;
       },
       qs: function(term = '') {
-        console.log('qs func')
         const qs = new URLSearchParams();
         Object.keys(kompleter.props.dataSource.queryString.keys)
           .forEach(param => qs.append(kompleter.props.dataSource.queryString.keys[param], param === 'term' ? term : kompleter.props.dataSource.queryString.values[param]));
@@ -236,7 +234,6 @@
         headers.append('content-type', 'application/x-www-form-urlencoded');
         headers.append('method', 'GET');
         
-        console.log('request', request);
         fetch(`${kompleter.props.dataSource.url}?${this.qs(kompleter.htmlElements.input.value)}`, headers)
           .then(result => result.json())
           .then(data => {
@@ -316,7 +313,6 @@
       onRequestDone: () => {
         document.addEventListener('kompleter.request.done', (e) => {
           kompleter.props.dataSource.data = e.detail.data;
-          // TODO: tu set de la data alors que c'est normalement interdit -> du coup ça plante -> TOFIX
           if (!e.detail.fromCache) {
             kompleter.cache.set(e.detail);
           }
@@ -342,15 +338,12 @@
             default:
               if ( kompleter.htmlElements.input.value !== kompleter.props.previousValue ) {
                 if (kompleter.props.dataSource.url) {
-                  console.log('Here')
                   const qs = kompleter.handlers.qs(kompleter.htmlElements.input.value);
-                  console.log('qs', qs);
-                  console.log('cache is active', kompleter.cache.isActive());
-                  console.log('cache is valid', await kompleter.cache.isValid(qs))
                   kompleter.cache.isActive() && await kompleter.cache.isValid(qs) ? kompleter.cache.emit(qs) : kompleter.handlers.request();
                 } else if (kompleter.props.dataSource.data) {
-                  console.log('there')
-                  kompleter.callbacks.onKeyup(kompleter.htmlElements.input.value);
+                  kompleter.callbacks.onKeyup(kompleter.htmlElements.input.value, (data) => {
+                    document.dispatchEvent(kompleter.events.requestDone({ fromCache: false, queryString: 'test', data })); // TODO: change fromCache by from: cache|local|request
+                  });
                 } else {
                   document.dispatchEvent(kompleter.events.error(new Error('None of url or data found on dataSource')));
                 }
@@ -382,6 +375,7 @@
         duration: 500
       },
       cache: 5000,
+      fieldsToDisplay: null,
       maxResults: 10,
       startQueriyngFromChar: 2,
     },
@@ -406,7 +400,6 @@
             perPage: 10,
           }
         },
-        fieldsToDisplay: null,
         propertyToValue: null,
       },
       pointer: -1,
@@ -429,7 +422,7 @@
           throw new Error(`Valid URL is required as dataSource.url when you delegate querying. Please provide a valid url (${dataSource.url} given)`);
         }
 
-        if (dataSource?.data && Array.isArray(dataSource.data)) {
+        if (dataSource?.data && !Array.isArray(dataSource.data)) {
           throw new Error(`Valid dataset is required as dataSource.data when you take ownsership on the data hydratation. Please provide a valid data set array (${dataSource.data} given)`);
         }
 
@@ -459,6 +452,11 @@
         if (options.cache && isNaN(parseInt(options.cache))) {
           options.cache = kompleter.options.cache;
           document.dispatchEvent(kompleter.events.warning({ message: `options.cache should be integer, ${options.cache.toString()} given. Fallback on default value of 5000ms.` }));
+        }
+
+        if (options.fieldsToDisplay && (!Array.isArray(options.fieldsToDisplay) || !options.fieldsToDisplay.length)) {
+          options.fieldsToDisplay = kompleter.options.fieldsToDisplay;
+          document.dispatchEvent(kompleter.events.warning({ message: `options.fieldsToDisplay should be array, ${options.fieldsToDisplay.toString()} given. Fallback on default value of 10` }));
         }
 
         if (options.maxResults && isNaN(parseInt(options.maxResults))) {
@@ -516,8 +514,8 @@
       results: function(e) {
         let html = '';
         if(kompleter.props.dataSource.data && kompleter.props.dataSource.data.length) {
-          const properties = kompleter.props.dataSource.fieldsToDisplay.length; // TODO should be validated as 3 or 4 max + flexbox design
-          for(let i = 0; i < kompleter.props.dataSource.data.length && i <= kompleter.options.maxResults || true ; i++) {
+          const properties = kompleter.options.fieldsToDisplay.length; // TODO should be validated as 3 or 4 max + flexbox design + this works only on current dataSet ?
+          for(let i = 0; i < kompleter.props.dataSource.data.length && i <= kompleter.options.maxResults; i++) {
             if(typeof kompleter.props.dataSource.data[i] !== 'undefined') {
               html += `<div id="${i}" class="item--result ${i + 1 === kompleter.props.dataSource.data.length ? 'last' : ''}">`;
               for(let j = 0; j < properties; j++) {
@@ -544,15 +542,10 @@
      */
     init: function(input, dataSource, options, callbacks) {
 
-      // ---------- Manage datasource
-        // provided by consummer
-
-        // TODO: next feature, with input hidden - Manage result as [string] or [object] with a mapPropertyValue
-
       try {
 
         // 1. Validate
-              
+
         kompleter.validators.input(input);
         kompleter.validators.dataSource(dataSource);
         options && kompleter.validators.options(options);
@@ -560,7 +553,7 @@
 
         // 2. Assign
 
-        kompleter.props.dataSource = dataSource;
+        kompleter.props.dataSource = Object.assign(kompleter.props.dataSource, dataSource);
         
         if(options) {
           kompleter.options = Object.assign(kompleter.options, options);
@@ -590,6 +583,7 @@
         kompleter.listeners.onViewResultDone();
         kompleter.listeners.onWarning();
 
+        console.log('Kompleter', kompleter);
       } catch(e) {
         console.error(e);
       }
@@ -598,8 +592,8 @@
 
   window.kompleter = kompleter.init;
   
-  window.HTMLInputElement.prototype.kompleter = function(options) {
-    window.kompleter(this, options);
+  window.HTMLInputElement.prototype.kompleter = function(dataSource, options, callbacks) {
+    window.kompleter(this, dataSource, options, callbacks);
   }
 
 })(window);

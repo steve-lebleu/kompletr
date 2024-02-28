@@ -67,11 +67,6 @@
             perPage: 10,
           }
         },
-        fieldsToDisplay: [
-          'Name',
-          'CountryCode',
-          'Population'
-        ],
         propertyToValue: null,
       };
 
@@ -80,12 +75,132 @@
           type: 'fadeIn',
           duration: 500
         },
-        cache: 5000
+        cache: 5000,
+        fieldsToDisplay: [
+          'Name',
+          'CountryCode',
+          'Population'
+        ],
       };
 
+      const d = {
+        data: [
+            {
+                "0": "Breda",
+                "1": "NLD",
+                "2": "160398",
+                "Name": "Breda",
+                "CountryCode": "NLD",
+                "Population": "160398"
+            },
+            {
+                "0": "Tres de Febrero",
+                "1": "ARG",
+                "2": "352311",
+                "Name": "Tres de Febrero",
+                "CountryCode": "ARG",
+                "Population": "352311"
+            },
+            {
+                "0": "LÂ´Hospitalet de Llobregat",
+                "1": "ESP",
+                "2": "247986",
+                "Name": "LÂ´Hospitalet de Llobregat",
+                "CountryCode": "ESP",
+                "Population": "247986"
+            },
+            {
+                "0": "Libreville",
+                "1": "GAB",
+                "2": "419000",
+                "Name": "Libreville",
+                "CountryCode": "GAB",
+                "Population": "419000"
+            },
+            {
+                "0": "Brescia",
+                "1": "ITA",
+                "2": "191317",
+                "Name": "Brescia",
+                "CountryCode": "ITA",
+                "Population": "191317"
+            },
+            {
+                "0": "Cape Breton",
+                "1": "CAN",
+                "2": "114733",
+                "Name": "Cape Breton",
+                "CountryCode": "CAN",
+                "Population": "114733"
+            },
+            {
+                "0": "Brest",
+                "1": "FRA",
+                "2": "149634",
+                "Name": "Brest",
+                "CountryCode": "FRA",
+                "Population": "149634"
+            },
+            {
+                "0": "Bremen",
+                "1": "DEU",
+                "2": "540330",
+                "Name": "Bremen",
+                "CountryCode": "DEU",
+                "Population": "540330"
+            },
+            {
+                "0": "Freiburg im Breisgau",
+                "1": "DEU",
+                "2": "202455",
+                "Name": "Freiburg im Breisgau",
+                "CountryCode": "DEU",
+                "Population": "202455"
+            },
+            {
+                "0": "Bremerhaven",
+                "1": "DEU",
+                "2": "122735",
+                "Name": "Bremerhaven",
+                "CountryCode": "DEU",
+                "Population": "122735"
+            },
+            {
+                "0": "Debrecen",
+                "1": "HUN",
+                "2": "203648",
+                "Name": "Debrecen",
+                "CountryCode": "HUN",
+                "Population": "203648"
+            },
+            {
+                "0": "Brest",
+                "1": "BLR",
+                "2": "286000",
+                "Name": "Brest",
+                "CountryCode": "BLR",
+                "Population": "286000"
+            }
+        ]
+      }
+
+      const cbs = {
+        onKeyup: (value, cb) => {
+          console.log('cb.onKeyup ', value);
+          console.log('I\'m doing scrappy stuffs with the data!');
+          console.log('You want the data? There is!');
+          cb(dataSet);
+        },
+        onSelect: (value) => {
+          console.log('cb.onSelect', value);
+        },
+        onError: (value) => {
+          console.log('cb.onError ', value);
+        }
+      };
 
       // Way 1
-      input.kompleter(dataSource, options, { onKeyup: (value) => { console.log('cb.onKeyup ', value); }, onSelect: (value) => { console.log('cb.onSelect', value); }, onError: (value) => { console.log('cb.onError ', value); } })
+      input.kompleter(d, options, cbs)
       
       // Way 2
       // kompleter(input, options);
