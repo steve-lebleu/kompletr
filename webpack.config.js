@@ -6,7 +6,6 @@ const WebpackConcatPlugin = require('webpack-concat-files-plugin');
 module.exports = {
   entry: './src/js/index.js',
   mode: 'development',
-
   plugins: [
     new WebpackConcatPlugin({
       bundles: [
@@ -56,6 +55,7 @@ module.exports = {
     compress: true,
     port: 9000,
     historyApiFallback: true,
-    liveReload: true
+    liveReload: true,
+    watchFiles: path.join(__dirname, './dist')
   },
 };

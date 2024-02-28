@@ -90,14 +90,63 @@
     },
 
     /**
-     * @description Local pseudo enumerations
+     * @description Cache related methods
      */
-    enums: {
-      storage: {
-        memory: 'memory',
-        localStorage: 'localStorage',
-        indexedDb: 'indexedDb',
-      }
+    cache: {
+      emit: (queryString) => {
+        window.caches.open('kompleter.cache')
+          .then(cache => {
+            cache.match(queryString)
+              .then(async (data) => {
+                console.log('cache.emit', data)
+                document.dispatchEvent(kompleter.events.requestDone({ fromCache: true, data: await data.json() }));
+              });
+          })
+          .catch(e => {
+            document.dispatchEvent(kompleter.events.error({ error: e }));
+          });
+      },
+      isActive: () => {
+        return typeof kompleter.options.cache !== 'undefined';
+      },
+      isValid: async (queryString) => {
+        const uuid = kompleter.handlers.uuid(queryString);
+        const cache = await window.caches.open('kompleter.cache');
+        const response = await cache.match(uuid);
+        if (!response) {
+          return false;
+        }
+
+        const createdAt = await response.text();
+        if (parseInt(createdAt + kompleter.options.cache, 10) <= Date.now()) {
+          return false;   
+        }
+        return true;
+      },
+      reset: () => {},
+      set: ({ queryString, data }) => {
+        data = JSON.stringify(data);
+        window.caches.open('kompleter.cache')
+          .then(cache => {
+            const headers = new Headers;
+            headers.set('content-type', 'application/json');
+            const uuid = kompleter.handlers.uuid(queryString);
+            cache.put(uuid, new Response(Date.now(), { headers }));
+            cache.put(queryString, new Response(data, { headers }));
+          })
+          .catch(e => {
+            document.dispatchEvent(kompleter.events.error({ error: e }));
+          });
+      },
+    },
+
+    /**
+     * @description Client callbacks
+     */
+    callbacks: {
+      onError: (error) => {},
+      onKeyup: (value) => {},
+      onSelect: (selected) => {},
     },
 
     /**
@@ -110,13 +159,31 @@
         cancelable: false,
         composed: false,
       }),
-      rendrResultDone: (detail = {}) => new CustomEvent('kompleter.render.result.done', {
+      navigationEnd: (detail = {}) => new CustomEvent('kompleter.navigation.end', {
+        detail,
+        bubble: true,
+        cancelable: false,
+        composed: false,
+      }),
+      renderResultDone: (detail = {}) => new CustomEvent('kompleter.view.result.done', {
         detail,
         bubble: true,
         cancelable: false,
         composed: false,
       }),
       requestDone: (detail = {}) => new CustomEvent('kompleter.request.done', {
+        detail,
+        bubble: true,
+        cancelable: false,
+        composed: false,
+      }),
+      selectDone: (detail = {}) => new CustomEvent('kompleter.select.done', {
+        detail,
+        bubble: true,
+        cancelable: false,
+        composed: false,
+      }),
+      warning: (detail = {}) => new CustomEvent('kompleter.warning', {
         detail,
         bubble: true,
         cancelable: false,
@@ -135,81 +202,62 @@
         });
         return htmlElement;
       },
-      filter: function(records) {
-        const value = kompleter.htmlElements.input.value.toLowerCase();
-        return records.filter(record => {
-          if(isNaN(value)) {
-            return kompleter.options.begin === true ? record[kompleter.options.filterOn].toLowerCase().lastIndexOf(value, 0) === 0 : record[kompleter.options.filterOn].toLowerCase().lastIndexOf(value) !== -1;
-          } else {
-            return parseInt(value) === parseInt(record[kompleter.options.filterOn]);
-          }
-        });
-      },
-      focus: function(action) {
-        if (!['add', 'remove'].includes(action)) {
-          throw new Error('action should be one of ["add", "remove]: ' + action + ' given.');
-        }
-        switch (action) {
-          case 'remove':
-            kompleter.htmlElements.focused = null;
-            Array.from(kompleter.htmlElements.suggestions).forEach(suggestion => {
-              ((suggestion) => {
-                suggestion.className = 'item--result';
-              })(suggestion)
-            });
-            break;
-          case 'add':
-            kompleter.htmlElements.focused = kompleter.htmlElements.suggestions[kompleter.props.pointer];
-            kompleter.htmlElements.suggestions[kompleter.props.pointer].className += ' focus';
-            break;
-        }
-      },
       navigate: function (keyCode) {
-        // TODO fix navigation after last element is broken
-        this.point(keyCode);
-        this.focus('remove');
-        this.focus('add');
+        if (this.point(keyCode)) {
+          kompleter.view.focus('remove').focus('add');
+        };
       },
       point: function(keyCode) {
-        // The pointer is in the range: after or as the initial position and before the last element in suggestions
-        if(kompleter.props.pointer >= -1 && kompleter.props.pointer <= kompleter.htmlElements.suggestions.length - 1) {
-          // Pointer in initial position, and we switch down -> up index of the pointer
-          if(kompleter.props.pointer === -1 && keyCode === 40) {
-            kompleter.props.pointer++;
-          } else if (kompleter.props.pointer === kompleter.htmlElements.suggestions.length - 1 && keyCode === 38) {  // Pointer in last position, and we switch up -> down index of the pointer
-            kompleter.props.pointer--;
-          } else if (keyCode === 38) { // Pointer in range, down index of the pointer
-            kompleter.props.pointer--;
-          } else if (keyCode === 40) { // Pointer in range, up index of the pointer
-            kompleter.props.pointer++;
-          }
+        if (keyCode != 38 && keyCode != 40) {
+          return false;
         }
+        
+        if(kompleter.props.pointer < -1 || kompleter.props.pointer > kompleter.htmlElements.suggestions.length - 1) {
+          return false;
+        }
+
+        if (keyCode === 38 && kompleter.props.pointer >= -1) {
+          kompleter.props.pointer--;
+        } else if (keyCode === 40 && kompleter.props.pointer < kompleter.htmlElements.suggestions.length - 1) {
+          kompleter.props.pointer++;
+        } 
+
+        return true;
+      },
+      qs: function(term = '') {
+        console.log('qs func')
+        const qs = new URLSearchParams();
+        Object.keys(kompleter.props.dataSource.queryString.keys)
+          .forEach(param => qs.append(kompleter.props.dataSource.queryString.keys[param], param === 'term' ? term : kompleter.props.dataSource.queryString.values[param]));
+        return qs.toString();
       },
       request: function() {
         const headers = new Headers();
         headers.append('content-type', 'application/x-www-form-urlencoded');
         headers.append('method', 'GET');
-
-        fetch(`${kompleter.options.dataSource}?'r=${kompleter.htmlElements.input.value}`, headers)
+        
+        console.log('request', request);
+        fetch(`${kompleter.props.dataSource.url}?${this.qs(kompleter.htmlElements.input.value)}`, headers)
           .then(result => result.json())
           .then(data => {
-            document.dispatchEvent(kompleter.events.requestDone({ fromStore: false, data })); 
+            document.dispatchEvent(kompleter.events.requestDone({ fromCache: false, queryString: this.qs(kompleter.htmlElements.input.value), data })); 
           })
           .catch(e => {
-            document.dispatchEvent(kompleter.events.error({ message: e.message, stack: e?.stack, instance: e }));
+            document.dispatchEvent(kompleter.events.error(e));
           });
       },
       select: function () {
-        let id = null;
-        id = kompleter.htmlElements.focused.id || 0;
-        kompleter.htmlElements.input.value = kompleter.props.response[id][0];
-        kompleter.props.pointer = -1;
-        kompleter.htmlElements.result.style.display = 'none';
+        const id = kompleter.htmlElements.focused.id || 0;
+        kompleter.htmlElements.input.value = kompleter.props.dataSource.data[id][0];
+        kompleter.callbacks.onSelect(kompleter.props.dataSource.data[id]);
+        document.dispatchEvent(kompleter.events.selectDone());
       },
-      validate: function(options) {
-        // Valid only what's required OR provided
-        // The rest should fallback on default values when it's feasible
-      }
+      uuid: function(string) {
+        return string.split('')
+          .map(v => v.charCodeAt(0))
+          .reduce((a, v) => a + ((a<<7) + (a<<3)) ^ v)
+          .toString(16);
+      },
     },
 
     /**
@@ -220,16 +268,33 @@
       input: null,
       result: null,
       suggestions: [],
+      wrapper: null,
     },
 
     /**
      * @description Events listeners
      */
     listeners: {
+      onError: () => {
+        document.addEventListener('kompleter.error', (e) => {
+          console.error(`[kompleter] An error has occured -> ${e?.detail?.stack}`);
+          kompleter.callbacks.onError(e?.detail);
+        });
+      },
       onHide: () => {
         const body = document.getElementsByTagName('body')[0];
         body.addEventListener('click', (e) => {
           kompleter.animations.fadeOut(kompleter.htmlElements.result);
+          document.dispatchEvent(kompleter.events.navigationEnd());
+        });
+        document.addEventListener('kompleter.select.done', (e) => {
+          kompleter.animations.fadeOut(kompleter.htmlElements.result);
+          document.dispatchEvent(kompleter.events.navigationEnd());
+        });
+      },
+      onNavigationEnd: () => {
+        document.addEventListener('kompleter.navigation.end', (e) => {
+          kompleter.props.pointer = -1;
         });
       },
       onSelect: (className) => {
@@ -250,100 +315,213 @@
       },
       onRequestDone: () => {
         document.addEventListener('kompleter.request.done', (e) => {
-          // TODO: store in cache
-          // TODO: filter shouldn' be applied systematicaly if the back returns filtered data
-          // TODO: should we store filtered data or not ?
-          // TODO probably the following line will be in the store.set for memory cache
-          kompleter.props.response = kompleter.handlers.filter(e.detail.data);
-          if (!e.detail.fromStore) {
-            kompleter.store.set(e.detail.data);
+          kompleter.props.dataSource.data = e.detail.data;
+          // TODO: tu set de la data alors que c'est normalement interdit -> du coup ça plante -> TOFIX
+          if (!e.detail.fromCache) {
+            kompleter.cache.set(e.detail);
           }
-          kompleter.render.results(e.detail.data);
+          kompleter.view.results(e.detail.data);
         });
       },
-      onRenderDone: () => {
-        document.addEventListener('kompleter.render.result.done', (e) => {
+      onType: () => {
+        kompleter.htmlElements.input.addEventListener('keyup', async (e) => {
+          if (kompleter.htmlElements.input.value.length < kompleter.options.startQueriyngFromChar) {
+            return;
+          }
+          
+          const keyCode = e.keyCode;
+
+          switch (keyCode) {
+            case 13:  // Enter
+              kompleter.handlers.select();
+              break;
+            case 38: // Up
+            case 40: // Down
+              kompleter.handlers.navigate(keyCode);
+              break;
+            default:
+              if ( kompleter.htmlElements.input.value !== kompleter.props.previousValue ) {
+                if (kompleter.props.dataSource.url) {
+                  console.log('Here')
+                  const qs = kompleter.handlers.qs(kompleter.htmlElements.input.value);
+                  console.log('qs', qs);
+                  console.log('cache is active', kompleter.cache.isActive());
+                  console.log('cache is valid', await kompleter.cache.isValid(qs))
+                  kompleter.cache.isActive() && await kompleter.cache.isValid(qs) ? kompleter.cache.emit(qs) : kompleter.handlers.request();
+                } else if (kompleter.props.dataSource.data) {
+                  console.log('there')
+                  kompleter.callbacks.onKeyup(kompleter.htmlElements.input.value);
+                } else {
+                  document.dispatchEvent(kompleter.events.error(new Error('None of url or data found on dataSource')));
+                }
+              }
+              document.dispatchEvent(kompleter.events.navigationEnd());
+              break
+          }
+        });
+      },
+      onViewResultDone: () => {
+        document.addEventListener('kompleter.view.result.done', (e) => {
           kompleter.animations.fadeIn(kompleter.htmlElements.result);
           kompleter.listeners.onSelect('item--result');
         });
       },
-      onType: () => {
-        kompleter.htmlElements.input.addEventListener('keyup', (e) => {
-          const keyCode = e.keyCode;
-          if(keyCode === 38 || keyCode === 40) { // Up / down 
-            kompleter.handlers.navigate(keyCode);
-          } else if (keyCode === 13) { // Enter 
-            kompleter.handlers.select();
-          } else if ( kompleter.htmlElements.input.value !== kompleter.props.previousValue ) {
-            
-            if (kompleter.store.isActive() && kompleter.store.isValid()) {
-              document.dispatchEvent(kompleter.events.requestDone({ fromStore: true, data: kompleter.store.get() }));
-            } else {
-              kompleter.handlers.request();
-            }
-          }
+      onWarning: () => {
+        document.addEventListener('kompleter.warning', (e) => {
+          console.warn(e.detail.message);
         });
-      },
+      }
     },
 
     /**
      * @description Public options
      */
     options: {
-      id: null,
-      dataSource: null, // Can be ommited if data is provided directly. In this case we don't fetch. Allow credentials or API key on fetch ?
-      dataSet: null, // It's dataset with the data, or dataSource without. If data source, you can play with a store, if not consumer play on his side
-      store: {
-        type: 'localStorage',
-        timelife: 50000,
-      },
       animation: {
         type: 'fadeIn',
         duration: 500
       },
-      notification: {
-        // TODO
-      },
-      begin: true,
-      startOnChar: 2,
+      cache: 5000,
       maxResults: 10,
-      filterOn: null,
-      fieldsToDisplay: null,
-      beforeDisplayResults: (e, dataset) => {},
-      afterDisplayResults: (e, dataset) => {},
-      beforeFocusOnItem: (e, dataset, current) => {},
-      afterFocusOnItem: (e, dataset, current) => {},
-      beforeSelectItem: (e, dataset, current) => {},
-      afterSelectItem: (e, dataset, current) => {},
+      startQueriyngFromChar: 2,
     },
 
     /**
      * @description Internal properties
      */
     props: {
-      response: {}, // Clarify / refactor the usage of response vs suggestions
+      dataSource: {
+        url: null,
+        data: null,
+        queryString: {  
+          keys: {
+            term: 'q',
+            limit: 'limit',
+            offset: 'offset',
+            perPage: 'perPage',
+          },
+          values: {
+            limit: 100,
+            offset: 0,
+            perPage: 10,
+          }
+        },
+        fieldsToDisplay: null,
+        propertyToValue: null,
+      },
       pointer: -1,
       previousValue: null,
+    },
+
+    validators: {
+      input: (input) => {
+        if (input instanceof HTMLInputElement === false && !document.getElementById(input)) {
+          throw new Error(`input should be an HTMLInputElement instance or a valid id identifier. None of boths given, ${input} received`);
+        }
+        return true;
+      },
+      dataSource: (dataSource) => {
+        if (!dataSource?.url && !dataSource?.data) {
+          throw new Error(`None of dataSource.url or dataSource.data found on dataSource. Please provide a valid url or dataset.`);
+        }
+
+        if (dataSource?.url && /^http|https/i.test(dataSource.url) === false) {
+          throw new Error(`Valid URL is required as dataSource.url when you delegate querying. Please provide a valid url (${dataSource.url} given)`);
+        }
+
+        if (dataSource?.data && Array.isArray(dataSource.data)) {
+          throw new Error(`Valid dataset is required as dataSource.data when you take ownsership on the data hydratation. Please provide a valid data set array (${dataSource.data} given)`);
+        }
+
+        if (dataSource?.queryString && !Object.keys(dataSource.queryString?.keys || []).length) {
+          dataSource.queryString.keys = kompleter.props.dataSource.queryString.keys;
+          document.dispatchEvent(kompleter.events.warning({ message: `dataSource.queryString.keys should be an object with a keys mapping, ${dataSource.queryString.keys.toString()} given. Fallback on default values` }));
+        }
+
+        if (dataSource?.queryString && !Object.keys(dataSource.queryString?.values || []).length) {
+          dataSource.queryString.values = kompleter.props.dataSource.queryString.values;
+          document.dispatchEvent(kompleter.events.warning({ message: `options.dataSource.queryString.values should be an object with a values mapping, ${dataSource.queryString.values.toString()} given. Fallback on default values` }));
+        }
+      },
+      options: (options) => {
+        if (options.animation) {
+          if (!['fadeIn', 'slideDown'].includes(options.animation.type)) {
+            options.animation.type = kompleter.options.animation.type;
+            document.dispatchEvent(kompleter.events.warning({ message: `options.animation.type should be one of ['fadeIn', 'slideDown'], ${options.animation.type.toString()} given. Fallback on default value 'fadeIn'.` }));
+          }
+
+          if (isNaN(parseInt(options.animation.duration))) {
+            options.animation.duration = kompleter.options.animation.duration;
+            document.dispatchEvent(kompleter.events.warning({ message: `options.animation.duration should be integer, ${options.animation.duration.toString()} given. Fallback on default value of 5000ms.` }));
+          }
+        }
+
+        if (options.cache && isNaN(parseInt(options.cache))) {
+          options.cache = kompleter.options.cache;
+          document.dispatchEvent(kompleter.events.warning({ message: `options.cache should be integer, ${options.cache.toString()} given. Fallback on default value of 5000ms.` }));
+        }
+
+        if (options.maxResults && isNaN(parseInt(options.maxResults))) {
+          options.maxResults = kompleter.options.maxResults;
+          document.dispatchEvent(kompleter.events.warning({ message: `options.maxResults should be integer, ${options.maxResults.toString()} given. Fallback on default value of 10` }));
+        }
+
+        if (options.startQueriyngFromChar && isNaN(parseInt(options.startQueriyngFromChar))) {
+          options.startQueriyngFromChar = kompleter.options.startQueriyngFromChar;
+          document.dispatchEvent(kompleter.events.warning({ message: `options.startQueriyngFromChar should be integer, ${options.startQueriyngFromChar.toString()} given. Fallback on default value of 2` }));
+        }
+
+        return true;
+      },
+      callbacks: (callbacks) => {
+        Object.keys(callbacks).forEach(key => {
+          if (!Object.keys(kompleter.callbacks).includes(key)) {
+            throw new Error(`Unrecognized callback function ${key}. Please use onKeyup, onSelect and onError as valid callbacks functions.`);
+          }
+          if (typeof callbacks[key] !== 'function') {
+            throw new Error(`callback function ${key} should be a function`);
+          }
+        });
+      }
     },
 
     /**
      * @description Rendering methods
      */
-    render: {
+    view: {
       error: function(e) {
-        // TODO Do better on the error display / logging / notifications
         kompleter.htmlElements.result.innerHTML = '<div class="item--result">Error</div>';
         kompleter.animations.fadeIn(kompleter.htmlElements.result);
       },
+      focus: function(action) {
+        if (!['add', 'remove'].includes(action)) {
+          throw new Error('action should be one of ["add", "remove]: ' + action + ' given.');
+        }
+        switch (action) {
+          case 'add':
+            kompleter.htmlElements.focused = kompleter.htmlElements.suggestions[kompleter.props.pointer];
+            kompleter.htmlElements.suggestions[kompleter.props.pointer].className += ' focus';
+            break;
+          case 'remove':
+            kompleter.htmlElements.focused = null;
+            Array.from(kompleter.htmlElements.suggestions).forEach(suggestion => {
+              ((suggestion) => {
+                suggestion.className = 'item--result';
+              })(suggestion)
+            });
+            break;
+        }
+        return this;
+      },
       results: function(e) {
         let html = '';
-        if(kompleter.props.response && kompleter.props.response.length) {
-          const properties = kompleter.options.fieldsToDisplay.length; // TODO should be validated as 3 or 4 max + flexbox design
-          for(let i = 0; i < kompleter.props.response.length ; i++) {
-            if(typeof kompleter.props.response[i] !== 'undefined') {
-              html += `<div id="${i}" class="item--result ${i + 1 === kompleter.props.response.length ? 'last' : ''}">`;
+        if(kompleter.props.dataSource.data && kompleter.props.dataSource.data.length) {
+          const properties = kompleter.props.dataSource.fieldsToDisplay.length; // TODO should be validated as 3 or 4 max + flexbox design
+          for(let i = 0; i < kompleter.props.dataSource.data.length && i <= kompleter.options.maxResults || true ; i++) {
+            if(typeof kompleter.props.dataSource.data[i] !== 'undefined') {
+              html += `<div id="${i}" class="item--result ${i + 1 === kompleter.props.dataSource.data.length ? 'last' : ''}">`;
               for(let j = 0; j < properties; j++) {
-                html += '<span class="data-' + j + '">' + kompleter.props.response[i][j] + '</span>';
+                html += '<span class="data-' + j + '">' + kompleter.props.dataSource.data[i][j] + '</span>';
               }
               html += '</div>';
             } 
@@ -352,107 +530,76 @@
           html = '<div class="item--result">Not found</div>';
         }
         kompleter.htmlElements.result.innerHTML = html;
-        document.dispatchEvent(kompleter.events.rendrResultDone());
+        document.dispatchEvent(kompleter.events.renderResultDone());
       }
-    },
-
-    store: {
-      get: () => {
-        switch (kompleter.options.store.type) {
-          case kompleter.enums.storage.memory:
-            break;
-          case kompleter.enums.storage.localStorage:
-            return JSON.parse(window.localStorage.getItem('kompleter.cache.data'));  
-            break;
-          case kompleter.enums.storage.indexedDB:
-            break;
-        };
-        if (kompleter.options.store.storage === kompleter.enums.storage.localStorage) {
-          const createdAt = JSON.parse(window.localStorage.getItem('kompleter.cache.createdAt'));
-          if (createdAt + kompleter.options.store.duration < Date.now()) {
-             
-          } 
-        }
-      },
-      isActive: () => {
-        return kompleter.options.store;
-      },
-      isValid: () => {
-        switch (kompleter.options.store.type) {
-          case kompleter.enums.storage.memory:
-            break;
-          case kompleter.enums.storage.localStorage:
-            const createdAt = JSON.parse(window.localStorage.getItem('kompleter.cache.createdAt'));
-            if (parseInt(createdAt + kompleter.options.store.duration, 10) >= Date.now()) {
-              return true;   
-            }
-            return false;
-            break;
-          case kompleter.enums.storage.indexedDB:
-            break;
-        };
-      },
-      set: (data) => {
-        switch (kompleter.options.store.type) {
-          case kompleter.enums.storage.memory:
-            break;
-          case kompleter.enums.storage.localStorage:
-            window.localStorage.setItem('kompleter.cache.createdAt', JSON.stringify(Date.now()));
-            window.localStorage.setItem('kompleter.cache.data', JSON.stringify(data));
-            break;
-          case kompleter.enums.storage.indexedDB:
-            break;
-        };
-      },
     },
 
     /**
      * @description Kompleter entry point
      * 
-     * @param {*} options 
+     * @param {String|HTMLInputElement} input 
+     * @param {Object} dataSource
+     * @param {Object} options 
+     * @param {Object} callbacks { onKeyup, onSelect, onError }
      */
-    init: function(options) {
+    init: function(input, dataSource, options, callbacks) {
 
-      kompleter.options = Object.assign(kompleter.options, options);
-      
-      kompleter.htmlElements.result = kompleter.handlers.build('div', [ { id: 'result' }, { className: 'form--lightsearch__result' } ]);
-      
-      const searcher = document.getElementById('wrapper');
-      searcher.appendChild(kompleter.htmlElements.result);
-
-      kompleter.htmlElements.input = document.getElementById(kompleter.options.id);
-
-      // /!\ Adapt jQuery version to be ISO
-
-      // ---------- Manage animations
-      // ---------- Manage options
-      // ---------- Manage callback options
-        // No external lib
-
-      // --- Other ones
-      
-      // --- Special case: the id -> ? Pass the input by id reference or HTMLElement ?
-
-      // ---------- Manage store
-        // KISS
-        // fetch pagination
-        // manage memory, localStorage, indexedDB or websql
-      
       // ---------- Manage datasource
-        // kompleter fetch
         // provided by consummer
 
-      // ---------- Errorrs management
-        // Try catches
-        // Display
-        // Notifications
+        // TODO: next feature, with input hidden - Manage result as [string] or [object] with a mapPropertyValue
 
-      kompleter.listeners.onHide();
-      kompleter.listeners.onType();
-      kompleter.listeners.onRequestDone();
-      kompleter.listeners.onRenderDone();
+      try {
+
+        // 1. Validate
+              
+        kompleter.validators.input(input);
+        kompleter.validators.dataSource(dataSource);
+        options && kompleter.validators.options(options);
+        dataSource.data && kompleter.validators.callbacks(callbacks);
+
+        // 2. Assign
+
+        kompleter.props.dataSource = dataSource;
+        
+        if(options) {
+          kompleter.options = Object.assign(kompleter.options, options);
+        }
+
+        if (dataSource.data) {
+          kompleter.callbacks = Object.assign(kompleter.callbacks, callbacks);
+        }
+
+        // 3. Build HTML
+
+        kompleter.htmlElements.wrapper = input.parentElement;
+
+        kompleter.htmlElements.input = input instanceof HTMLInputElement ? input : document.getElementById(input);
+
+        kompleter.htmlElements.result = kompleter.handlers.build('div', [ { id: 'result' }, { className: 'form--lightsearch__result' } ]);
+
+        kompleter.htmlElements.wrapper.appendChild(kompleter.htmlElements.result);
+
+        // 4. Listeners
+
+        kompleter.listeners.onError();
+        kompleter.listeners.onHide();
+        kompleter.listeners.onNavigationEnd();
+        kompleter.listeners.onType();
+        kompleter.listeners.onRequestDone();
+        kompleter.listeners.onViewResultDone();
+        kompleter.listeners.onWarning();
+
+      } catch(e) {
+        console.error(e);
+      }
     },
   };
 
-  window.kompleter = { init: kompleter.init };
+  window.kompleter = kompleter.init;
+  
+  window.HTMLInputElement.prototype.kompleter = function(options) {
+    window.kompleter(this, options);
+  }
+
 })(window);

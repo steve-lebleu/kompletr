@@ -41,7 +41,6 @@
   </div>
 
   <script type="text/javascript">
-    <!-- TODO Keep data- attributes, and let ability to choose that or options object. If data-, support all attributes -->
     function ready(fn) {
       if (document.readyState !== 'loading') {
         fn();
@@ -50,24 +49,50 @@
       document.addEventListener('DOMContentLoaded', fn);
     };
     ready(() => {
-      kompleter.init({
-        id: 'auto-complete',
-        dataSource: 'files/kompleter.json',
-        store: {
-          type: 'localStorage',
-          duration: 5000
+      const input = document.getElementById('auto-complete');
+      console.log(input);
+
+      const dataSource = {
+        url: 'http://localhost:3000/api',
+        queryString: {  
+          keys: {
+            term: 'q',
+            limit: 'limit',
+            offset: 'offset',
+            perPage: 'perPage',
+          },
+          values: {
+            limit: 100,
+            offset: 0,
+            perPage: 10,
+          }
         },
-        filterOn: 'Name',
         fieldsToDisplay: [
           'Name',
           'CountryCode',
           'Population'
         ],
+        propertyToValue: null,
+      };
+
+      const options = {
         animation: {
           type: 'fadeIn',
           duration: 500
-        }
-      });
+        },
+        cache: 5000
+      };
+
+
+      // Way 1
+      input.kompleter(dataSource, options, { onKeyup: (value) => { console.log('cb.onKeyup ', value); }, onSelect: (value) => { console.log('cb.onSelect', value); }, onError: (value) => { console.log('cb.onError ', value); } })
+      
+      // Way 2
+      // kompleter(input, options);
+
+      // Way 3
+      // kompleter('auto-complete', options);
+
     });
   </script>
 

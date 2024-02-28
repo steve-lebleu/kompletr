@@ -16,3 +16,5 @@ src/vendors/*
 
 # Do not push dist
 dist/
+
+api/

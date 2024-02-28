@@ -9,7 +9,7 @@
     "js": "webpack",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --browser chrome ./cypress",
-    "start": "webpack serve"
+    "start": "webpack serve --hot"
   },
   "repository": {
     "type": "git",
