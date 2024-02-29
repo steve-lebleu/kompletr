@@ -67,7 +67,7 @@
             perPage: 10,
           }
         },
-        propertyToValue: null,
+        cache: 5000,
       };
 
       const options = {
@@ -75,16 +75,17 @@
           type: 'fadeIn',
           duration: 500
         },
-        cache: 5000,
+
         fieldsToDisplay: [
           'Name',
           'CountryCode',
           'Population'
         ],
+
+        propToMapAsValue: 'Name'
       };
 
-      const d = {
-        data: [
+      let data = { data: [
             {
                 "0": "Breda",
                 "1": "NLD",
@@ -182,14 +183,14 @@
                 "Population": "286000"
             }
         ]
-      }
+      };
 
       const cbs = {
         onKeyup: (value, cb) => {
           console.log('cb.onKeyup ', value);
           console.log('I\'m doing scrappy stuffs with the data!');
-          console.log('You want the data? There is!');
-          cb(dataSet);
+          console.log('You want the data? There is!', data.data);
+          cb(data.data);
         },
         onSelect: (value) => {
           console.log('cb.onSelect', value);
@@ -200,13 +201,13 @@
       };
 
       // Way 1
-      input.kompleter(d, options, cbs)
+      input.kompleter(options, data.data, cbs)
       
-      // Way 2
-      // kompleter(input, options);
+      // Way 2.1
+      // kompleter(input, d, cbs, options);
 
-      // Way 3
-      // kompleter('auto-complete', options);
+      // Way 2.2
+      // kompleter('auto-complete', d, cbs, options);
 
     });
   </script>

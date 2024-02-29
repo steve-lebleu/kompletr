@@ -3,99 +3,102 @@
 @import 'variables';
 
 /* Module code */
-.form--search {
-  margin: 0;
-  padding: 0;
-}
 
-.form--light-search {
-  width: 30%;
-  position: relative;
-  margin: 0 auto;
-  @media (max-width: 480px) {
-    width: 90%;
+.kompleter {
+  .form--search {
+    margin: 0;
+    padding: 0;
   }
-}
-
-.input--search,
-.item--result {
-  font-family: $font-base;
-  font-size: 100%;
-}
-
-.input--search {
-  display: block;
-  width: 100%;
-  min-width: 240px;
-  max-width: 600px;
-  height: auto;
-  font-size: 1.5rem;
-  line-height: 1.5;
-  color: $color_9;
-  padding: 15px 10px;
-  border: none;
-  background: $color_2;
-  margin: 0 auto;
-  box-sizing: border-box;
-  &:focus {
-    border: none;
-    outline: none;
-  }
-}
-
-::placeholder {
-  color: $color_5;
-}
-
-.form--search__result {
-  position: absolute;
-  margin: 0;
-  width: 100%;
-}
-
-/* Block one item result */
-.item--result {
-  width: 100%;
-  background: $color_2;
-  border-bottom: 1px dashed $color_1;
-  border-left: none;
-  border-right: none;
-  padding: 15px;
-  color: $color_0;
-  box-sizing: border-box;
-  &.last, &:last-child {
-    border-bottom: none;
-  }
-  &:hover, &.focus {
-    cursor: pointer;
-    color: $color_8;
-    background: $color_11;
-    @include transition(0.2s ease-in-out);
-    & .data-1, & .data-2 {
-      color: $color_3;
+  
+  .form--light-search {
+    width: 30%;
+    position: relative;
+    margin: 0 auto;
+    @media (max-width: 480px) {
+      width: 90%;
     }
   }
-  & .data-0  {
-    float: left;
-    color: $color_8;
-    margin: 0 0 3px 0;
-    font-weight: 600;
+  
+  .input--search,
+  .item--result {
+    font-family: $font-base;
+    font-size: 100%;
   }
-  & .data-1, & .data-2 {
-    display: block;
-    color: $color_5;
-    font-weight: normal;
-  }
-  & .data-1 {
-    float: right;
-  }
-  & .data-2 {
-    clear: both;
-  }
-  & span:nth-child(n+4) {
+  
+  .input--search {
     display: block;
     width: 100%;
-    margin: 5px 0;
-    font-size: 0.8em;
+    min-width: 240px;
+    max-width: 600px;
+    height: auto;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: $color_9;
+    padding: 15px 10px;
+    border: none;
+    background: $color_2;
+    margin: 0 auto;
+    box-sizing: border-box;
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+  
+  ::placeholder {
+    color: $color_5;
+  }
+  
+  .form--search__result {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+  }
+  
+  /* Block one item result */
+  .item--result {
+    width: 100%;
+    background: $color_2;
+    border-bottom: 1px dashed $color_1;
+    border-left: none;
+    border-right: none;
+    padding: 15px;
+    color: $color_0;
+    box-sizing: border-box;
+    &.last, &:last-child {
+      border-bottom: none;
+    }
+    &:hover, &.focus {
+      cursor: pointer;
+      color: $color_8;
+      background: $color_11;
+      @include transition(0.2s ease-in-out);
+      & .data-1, & .data-2 {
+        color: $color_3;
+      }
+    }
+    & .data-0  {
+      float: left;
+      color: $color_8;
+      margin: 0 0 3px 0;
+      font-weight: 600;
+    }
+    & .data-1, & .data-2 {
+      display: block;
+      color: $color_5;
+      font-weight: normal;
+    }
+    & .data-1 {
+      float: right;
+    }
+    & .data-2 {
+      clear: both;
+    }
+    & span:nth-child(n+4) {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      font-size: 0.8em;
+    }
   }
 }
