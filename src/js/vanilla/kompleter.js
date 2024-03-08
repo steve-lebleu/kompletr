@@ -1049,7 +1049,7 @@
         let html = '';
 
         if(kompleter.props.dataSet && kompleter.props.dataSet.length) {
-          for(let i = 0; i < kompleter.props.dataSet.length && i <= kompleter.options.maxResults; i++) {
+          for(let i = 0; i < kompleter.props.dataSet.length && i <= kompleter.options.maxResults - 1; i++) {
             if(typeof kompleter.props.dataSet[i] !== 'undefined') {
               html += `<div id="${i}" class="item--result ${i + 1 === kompleter.props.dataSet.length ? 'last' : ''}">`;
               switch (typeof kompleter.props.dataSet[i]) {
@@ -1118,7 +1118,7 @@
         kompleter.htmlElements.result = kompleter.utils.build('div', [ { id: 'kpl-result' }, { class: 'form--search__result' } ]);
 
         kompleter.htmlElements.wrapper = kompleter.htmlElements.input.parentElement;
-        kompleter.htmlElements.wrapper.setAttribute('class', 'kompleter');
+        kompleter.htmlElements.wrapper.setAttribute('class', `${kompleter.htmlElements.wrapper.getAttribute('class')} kompletr`);
         kompleter.htmlElements.wrapper.appendChild(kompleter.htmlElements.result);
 
         // 4. Listeners

@@ -1,16 +1,66 @@
-@import url('https://fonts.googleapis.com/css?family=Thasadith');
+
 @import 'mixins';
 @import 'variables';
 
-/* Module code */
+/* Demo code */
 
-.kompleter {
-  .form--search {
-    margin: 0;
-    padding: 0;
+html {
+  font-size: $font-size-base;
+}
+
+.github-corner {
+  border-bottom: 0;
+  position: fixed;
+  right: 0;
+  text-decoration: none;
+  top: 0;
+  z-index: 1;
+  & svg {
+    color: #fff;
+    fill: #333;
+    fill: var(--theme-color, #333);
+    height: 80px;
+    width: 80px;
   }
-  
-  .form--light-search {
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: $font-base;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(133,255,189,1) 50%, rgba(255,251,125,1) 100%);
+}
+
+hgroup {
+  text-align: center;
+  margin: 0 auto 40px auto;
+}
+
+h1 {
+  font-family: $font-title;
+  font-size: 7rem;
+  margin: 3rem auto 0 auto;
+}
+
+a {
+  color: #333;
+}
+
+footer {
+  color: #333;
+  text-align: center;
+  margin-top: auto;
+}
+////
+// Module code
+////
+
+.kompletr {
+
+  &.form--search {
     width: 30%;
     position: relative;
     margin: 0 auto;
@@ -27,18 +77,18 @@
   
   .input--search {
     display: block;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 15px 10px;
     width: 100%;
     min-width: 240px;
     max-width: 600px;
     height: auto;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     line-height: 1.5;
-    color: $color_9;
-    padding: 15px 10px;
+    color: $color-4;
     border: none;
-    background: $color_2;
-    margin: 0 auto;
-    box-sizing: border-box;
+    background: $color-1;
     &:focus {
       border: none;
       outline: none;
@@ -46,7 +96,7 @@
   }
   
   ::placeholder {
-    color: $color_5;
+    color: $color-2;
   }
   
   .form--search__result {
@@ -57,35 +107,41 @@
   
   /* Block one item result */
   .item--result {
+    box-sizing: border-box;
     width: 100%;
-    background: $color_2;
-    border-bottom: 1px dashed $color_1;
+    padding: 15px;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.75);
+    border-bottom: 1px dashed $color-3;
     border-left: none;
     border-right: none;
-    padding: 15px;
-    color: $color_0;
-    box-sizing: border-box;
+    color: $color-6;
+
     &.last, &:last-child {
       border-bottom: none;
     }
+
     &:hover, &.focus {
       cursor: pointer;
-      color: $color_8;
-      background: $color_11;
+      backdrop-filter: blur(26px) saturate(120%);
+      -webkit-backdrop-filter: blur(26px) saturate(120%);
+      background-color: rgba(255, 255, 255, 0.50);
+      color: $color-5;
       @include transition(0.2s ease-in-out);
       & .data-1, & .data-2 {
-        color: $color_3;
+        color: $color-5;
       }
     }
     & .data-0  {
       float: left;
-      color: $color_8;
+      color: $color-5;
       margin: 0 0 3px 0;
       font-weight: 600;
     }
     & .data-1, & .data-2 {
       display: block;
-      color: $color_5;
+      color: $color-2;
       font-weight: normal;
     }
     & .data-1 {
