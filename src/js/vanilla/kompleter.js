@@ -1,15 +1,15 @@
 ((window) => {
-  if (window.kompleter) {
-    throw new Error('window.kompleter already exists !');
+  if (window.kompltetr) {
+    throw new Error('window.kompltetr already exists !');
   }
 
   /**
-   * @summary Kompleter.js is a library providing features dedicated to autocomplete fields.
+   * @summary Kømpletr.js is a library providing features dedicated to autocomplete fields.
    * 
    * @author Steve Lebleu <ping@steve-lebleu.dev>
-   * @see https://github.com/steve-lebleu/kompleter
+   * @see https://github.com/steve-lebleu/kompletr
    */
-  const kompleter = {
+  const kompltetr = {
 
     /**
      * @descrption Animations functions.
@@ -146,21 +146,21 @@
        * 
        * @param {String} queryString URLSearchParams of the current request as string. IE q=term&limit=10&perPage=10&offset=0
        * 
-       * @emits CustomEvent 'kompleter.request.done' { from, queryString, data }
-       * @emits CustomEvent 'kompleter.error' { error }
+       * @emits CustomEvent 'kompltetr.request.done' { from, queryString, data }
+       * @emits CustomEvent 'kompltetr.error' { error }
        * 
        * @returns {Void}
        */
       emit: (queryString) => {
-        window.caches.open('kompleter.cache')
+        window.caches.open('kompltetr.cache')
           .then(cache => {
             cache.match(queryString)
               .then(async (data) => {
-                document.dispatchEvent(kompleter.events.requestDone({ from: kompleter.enums.origin.cache, queryString: null, data: await data.json() }));
+                document.dispatchEvent(kompltetr.events.requestDone({ from: kompltetr.enums.origin.cache, queryString: null, data: await data.json() }));
               });
           })
           .catch(e => {
-            document.dispatchEvent(kompleter.events.error(e));
+            document.dispatchEvent(kompltetr.events.error(e));
           });
       },
 
@@ -170,7 +170,7 @@
        * @returns {Boolean} Cache is active or not
        */
       isActive: () => {
-        return typeof kompleter.options.cache !== 'undefined';
+        return typeof kompltetr.options.cache !== 'undefined';
       },
 
       /**
@@ -181,8 +181,8 @@
        * @returns {Promise<Boolean>} 
        */
       isValid: async (queryString) => {
-        const uuid = kompleter.utils.uuid(queryString);
-        const cache = await window.caches.open('kompleter.cache');
+        const uuid = kompltetr.utils.uuid(queryString);
+        const cache = await window.caches.open('kompltetr.cache');
         
         const response = await cache.match(uuid);
         if (!response) {
@@ -190,7 +190,7 @@
         }
 
         const createdAt = await response.text();
-        if (parseInt(createdAt + kompleter.options.cache, 10) <= Date.now()) {
+        if (parseInt(createdAt + kompltetr.options.cache, 10) <= Date.now()) {
           return false;   
         }
         return true;
@@ -201,22 +201,22 @@
        * 
        * @param {Object} args { queryString, data }
        * 
-       * @emits CustomEvent 'kompleter.error' { error }
+       * @emits CustomEvent 'kompltetr.error' { error }
        * 
        * @returns {Void}
        */
       set: ({ queryString, data }) => {
         data = JSON.stringify(data);
-        window.caches.open('kompleter.cache')
+        window.caches.open('kompltetr.cache')
           .then(cache => {
             const headers = new Headers;
             headers.set('content-type', 'application/json');
-            const uuid = kompleter.utils.uuid(queryString);
+            const uuid = kompltetr.utils.uuid(queryString);
             cache.put(uuid, new Response(Date.now(), { headers }));
             cache.put(queryString, new Response(data, { headers }));
           })
           .catch(e => {
-            document.dispatchEvent(kompleter.events.error(e));
+            document.dispatchEvent(kompltetr.events.error(e));
           });
       },
     },
@@ -288,18 +288,18 @@
     },
 
     /**
-     * @description Kompleter custom events getters functions.
+     * @description kompltetr custom events getters functions.
      */
     events: {
 
       /**
-       * @description Get a CustomEvent instance for an event with name 'kompleter.error'
+       * @description Get a CustomEvent instance for an event with name 'kompltetr.error'
        * 
        * @param {*} detail 
        * 
        * @returns {CustomEvent}
        */
-      error: (detail = { message: '', stack: '', name: ''}) => new CustomEvent('kompleter.error', {
+      error: (detail = { message: '', stack: '', name: ''}) => new CustomEvent('kompltetr.error', {
         detail,
         bubble: true,
         cancelable: false,
@@ -307,13 +307,13 @@
       }),
 
       /**
-       * @description Get a CustomEvent instance for an event with name 'kompleter.navigation.end'
+       * @description Get a CustomEvent instance for an event with name 'kompltetr.navigation.end'
        * 
        * @param {*} detail 
        * 
        * @returns {CustomEvent}
        */
-      navigationEnd: (detail = {}) => new CustomEvent('kompleter.navigation.end', {
+      navigationEnd: (detail = {}) => new CustomEvent('kompltetr.navigation.end', {
         detail,
         bubble: true,
         cancelable: false,
@@ -321,13 +321,13 @@
       }),
 
       /**
-       * @description Get a CustomEvent instance for an event with name 'kompleter.view.result.done'
+       * @description Get a CustomEvent instance for an event with name 'kompltetr.view.result.done'
        * 
        * @param {*} detail 
        * 
        * @returns {CustomEvent}
        */
-      renderResultDone: (detail = {}) => new CustomEvent('kompleter.view.result.done', {
+      renderResultDone: (detail = {}) => new CustomEvent('kompltetr.view.result.done', {
         detail,
         bubble: true,
         cancelable: false,
@@ -335,13 +335,13 @@
       }),
 
       /**
-       * @description Get a CustomEvent instance for an event with name 'kompleter.request.done'
+       * @description Get a CustomEvent instance for an event with name 'kompltetr.request.done'
        * 
        * @param {*} detail 
        * 
        * @returns {CustomEvent}
        */
-      requestDone: (detail = { from: '', queryString: null, data: null }) => new CustomEvent('kompleter.request.done', {
+      requestDone: (detail = { from: '', queryString: null, data: null }) => new CustomEvent('kompltetr.request.done', {
         detail,
         bubble: true,
         cancelable: false,
@@ -349,13 +349,13 @@
       }),
 
       /**
-       * @description Get a CustomEvent instance for an event with name 'kompleter.select.done'
+       * @description Get a CustomEvent instance for an event with name 'kompltetr.select.done'
        * 
        * @param {Object} detail 
        * 
        * @returns {CustomEvent}
        */
-      selectDone: (detail = {}) => new CustomEvent('kompleter.select.done', {
+      selectDone: (detail = {}) => new CustomEvent('kompltetr.select.done', {
         detail,
         bubble: true,
         cancelable: false,
@@ -364,7 +364,7 @@
     },
 
     /**
-     * @description Kompleter events handlers.
+     * @description kompltetr events handlers.
      */
     handlers: {
 
@@ -377,8 +377,8 @@
        */
       filter: function (string, records) {
         return records.filter(record => {
-          const value = typeof record === 'string' ? record : record[kompleter.options.propToMapAsValue];
-          if (kompleter.options.filterOn === 'prefix') {
+          const value = typeof record === 'string' ? record : record[kompltetr.options.propToMapAsValue];
+          if (kompltetr.options.filterOn === 'prefix') {
             return value.toLowerCase().lastIndexOf(string.toLowerCase(), 0) === 0;
           }
           return value.toLowerCase().lastIndexOf(string.toLowerCase()) !== -1;
@@ -390,8 +390,8 @@
        * 
        * @param {String} value Current input value
        * 
-       * @emits CustomEvent 'kompleter.request.done' { from, queryString, data }
-       * @emits CustomEvent 'kompleter.error' { error }
+       * @emits CustomEvent 'kompltetr.request.done' { from, queryString, data }
+       * @emits CustomEvent 'kompltetr.error' { error }
        * 
        * @returns {Void}
        */
@@ -400,16 +400,16 @@
           // TODO manage cache -> if data available in the cache, get it from there
           // TODO udpate requestDOne to take care of the new signature of the detail, without queryString, but just base on the search term
           // TODO origin is not longer valid arg, querystring no more
-          if (kompleter.callbacks.onKeyup) {
-            kompleter.callbacks.onKeyup(value, (data) => {
-              document.dispatchEvent(kompleter.events.requestDone({ from: kompleter.enums.origin.local, queryString: null, data }));
+          if (kompltetr.callbacks.onKeyup) {
+            kompltetr.callbacks.onKeyup(value, (data) => {
+              document.dispatchEvent(kompltetr.events.requestDone({ from: kompltetr.enums.origin.local, queryString: null, data }));
             });
           } else {
-            const data = kompleter.handlers.filter(value, kompleter.props.data);
-            document.dispatchEvent(kompleter.events.requestDone({ from: kompleter.enums.origin.local, queryString: null, data }));
+            const data = kompltetr.handlers.filter(value, kompltetr.props.data);
+            document.dispatchEvent(kompltetr.events.requestDone({ from: kompltetr.enums.origin.local, queryString: null, data }));
           }
         } catch(e) {
-          document.dispatchEvent(kompleter.events.error(e));
+          document.dispatchEvent(kompltetr.events.error(e));
         }
       },
 
@@ -425,18 +425,18 @@
           return false;
         }
         
-        if(kompleter.props.pointer < -1 || kompleter.props.pointer > kompleter.htmlElements.suggestions.length - 1) {
+        if(kompltetr.props.pointer < -1 || kompltetr.props.pointer > kompltetr.htmlElements.suggestions.length - 1) {
           return false;
         }
 
-        if (keyCode === 38 && kompleter.props.pointer >= -1) {
-          kompleter.props.pointer--;
-        } else if (keyCode === 40 && kompleter.props.pointer < kompleter.htmlElements.suggestions.length - 1) {
-          kompleter.props.pointer++;
+        if (keyCode === 38 && kompltetr.props.pointer >= -1) {
+          kompltetr.props.pointer--;
+        } else if (keyCode === 40 && kompltetr.props.pointer < kompltetr.htmlElements.suggestions.length - 1) {
+          kompltetr.props.pointer++;
         } 
 
-        kompleter.view.focus('remove');
-        kompleter.view.focus('add');
+        kompltetr.view.focus('remove');
+        kompltetr.view.focus('add');
       },
 
       /**
@@ -444,19 +444,19 @@
        * 
        * @param {Number} idx The index of the selected suggestion
        * 
-       * @emits CustomEvent 'kompleter.select.done'
+       * @emits CustomEvent 'kompltetr.select.done'
        * 
        * @returns {Void}
        */
       select: function (idx = 0) {
-        kompleter.htmlElements.input.value = typeof kompleter.props.data[idx] === 'object' ? kompleter.props.data[idx][kompleter.options.propToMapAsValue] : kompleter.props.data[idx];
-        kompleter.callbacks.onSelect(kompleter.props.data[idx]);
-        document.dispatchEvent(kompleter.events.selectDone());
+        kompltetr.htmlElements.input.value = typeof kompltetr.props.data[idx] === 'object' ? kompltetr.props.data[idx][kompltetr.options.propToMapAsValue] : kompltetr.props.data[idx];
+        kompltetr.callbacks.onSelect(kompltetr.props.data[idx]);
+        document.dispatchEvent(kompltetr.events.selectDone());
       },
     },
 
     /**
-     * @description Kompleter HTMLElements container.
+     * @description kompltetr HTMLElements container.
      */
     htmlElements: {
 
@@ -481,48 +481,48 @@
       suggestions: [],
 
       /**
-       * @description HTMLElemnt identifed as first direct parent of the HTMLInputElement kompleter.htmlElements.input
+       * @description HTMLElemnt identifed as first direct parent of the HTMLInputElement kompltetr.htmlElements.input
        */
       wrapper: null,
     },
 
     /**
-     * @description Kompleter events listeners of all religions.
+     * @description kompltetr events listeners of all religions.
      */
     listeners: {
 
       /**
-       * @description CustomEvent 'kompleter.error' listener
+       * @description CustomEvent 'kompltetr.error' listener
        */
       onError: () => {
-        document.addEventListener('kompleter.error', (e) => {
-          console.error(`[kompleter] An error has occured -> ${e.detail.stack}`);
-          kompleter.animations.fadeIn(kompleter.htmlElements.result);
-          kompleter.callbacks.onError && kompleter.callbacks.onError(e.detail);
+        document.addEventListener('kompltetr.error', (e) => {
+          console.error(`[kompltetr] An error has occured -> ${e.detail.stack}`);
+          kompltetr.animations.fadeIn(kompltetr.htmlElements.result);
+          kompltetr.callbacks.onError && kompltetr.callbacks.onError(e.detail);
         });
       },
 
       /**
-       * @description 'body.click' && kompleter.select.done listeners
+       * @description 'body.click' && kompltetr.select.done listeners
        */
       onHide: () => {
         const body = document.getElementsByTagName('body')[0];
         body.addEventListener('click', (e) => {
-          kompleter.animations.fadeOut(kompleter.htmlElements.result);
-          document.dispatchEvent(kompleter.events.navigationEnd());
+          kompltetr.animations.fadeOut(kompltetr.htmlElements.result);
+          document.dispatchEvent(kompltetr.events.navigationEnd());
         });
-        document.addEventListener('kompleter.select.done', (e) => {
-          kompleter.animations.fadeOut(kompleter.htmlElements.result);
-          document.dispatchEvent(kompleter.events.navigationEnd());
+        document.addEventListener('kompltetr.select.done', (e) => {
+          kompltetr.animations.fadeOut(kompltetr.htmlElements.result);
+          document.dispatchEvent(kompltetr.events.navigationEnd());
         });
       },
 
       /**
-       * @description CustomEvent 'kompleter.navigation.end' listener
+       * @description CustomEvent 'kompltetr.navigation.end' listener
        */
       onNavigationEnd: () => {
-        document.addEventListener('kompleter.navigation.end', (e) => {
-          kompleter.props.pointer = -1;
+        document.addEventListener('kompltetr.navigation.end', (e) => {
+          kompltetr.props.pointer = -1;
         });
       },
 
@@ -530,17 +530,17 @@
        * @description HTMLElements.click listener 
        */
       onSelect: () => {
-        kompleter.htmlElements.suggestions = document.getElementsByClassName('item--result');
+        kompltetr.htmlElements.suggestions = document.getElementsByClassName('item--result');
 
-        if(typeof kompleter.htmlElements.suggestions !== 'undefined') {
-          const numberOfSuggestions = kompleter.htmlElements.suggestions.length;
+        if(typeof kompltetr.htmlElements.suggestions !== 'undefined') {
+          const numberOfSuggestions = kompltetr.htmlElements.suggestions.length;
           
           if(numberOfSuggestions) {
             for(let i = 0; i < numberOfSuggestions; i++) {
               ((i) => {
-                return kompleter.htmlElements.suggestions[i].addEventListener('click', (e) => {
-                  kompleter.htmlElements.focused = kompleter.htmlElements.suggestions[i];
-                  kompleter.handlers.select();
+                return kompltetr.htmlElements.suggestions[i].addEventListener('click', (e) => {
+                  kompltetr.htmlElements.focused = kompltetr.htmlElements.suggestions[i];
+                  kompltetr.handlers.select();
                 });
               })(i)
             }
@@ -549,15 +549,15 @@
       },
 
       /**
-       * @description CustomEvent 'kompleter.request.done' listener
+       * @description CustomEvent 'kompltetr.request.done' listener
        */
       onRequestDone: () => {
-        document.addEventListener('kompleter.request.done', async (e) => {
-          kompleter.props.data = e.detail.data;
-          if (kompleter.cache.isActive() && await kompleter.cache.isValid()) {
-            kompleter.cache.set(e.detail);
+        document.addEventListener('kompltetr.request.done', async (e) => {
+          kompltetr.props.data = e.detail.data;
+          if (kompltetr.cache.isActive() && await kompltetr.cache.isValid()) {
+            kompltetr.cache.set(e.detail);
           }
-          kompleter.view.results(e.detail.data);
+          kompltetr.view.results(e.detail.data);
         });
       },
 
@@ -565,8 +565,8 @@
        * @description 'input.keyup' listener
        */
       onKeyup: () => {
-        kompleter.htmlElements.input.addEventListener('keyup', async (e) => {
-          if (kompleter.htmlElements.input.value.length < kompleter.options.startQueriyngFromChar) {
+        kompltetr.htmlElements.input.addEventListener('keyup', async (e) => {
+          if (kompltetr.htmlElements.input.value.length < kompltetr.options.startQueriyngFromChar) {
             return;
           }
           
@@ -574,37 +574,37 @@
 
           switch (keyCode) {
             case 13:  // Enter
-              kompleter.handlers.select(kompleter.htmlElements.focused.id);
+              kompltetr.handlers.select(kompltetr.htmlElements.focused.id);
               break;
             case 38: // Up
             case 40: // Down
-              kompleter.handlers.navigate(keyCode);
+              kompltetr.handlers.navigate(keyCode);
               break;
             default:
-              if (kompleter.htmlElements.input.value !== kompleter.props.previousValue) {
-                kompleter.handlers.hydrate(kompleter.htmlElements.input.value);
+              if (kompltetr.htmlElements.input.value !== kompltetr.props.previousValue) {
+                kompltetr.handlers.hydrate(kompltetr.htmlElements.input.value);
               }
-              document.dispatchEvent(kompleter.events.navigationEnd());
+              document.dispatchEvent(kompltetr.events.navigationEnd());
               break
           }
         });
       },
 
       /**
-       * @description CustomEvent 'kompleter.view.result.done' listener
+       * @description CustomEvent 'kompltetr.view.result.done' listener
        * 
        * @todo Try to move the event listener into the event handler instead ot this listener
        */
       onViewResultDone: () => {
-        document.addEventListener('kompleter.view.result.done', (e) => {
-          kompleter.animations.fadeIn(kompleter.htmlElements.result);
-          kompleter.listeners.onSelect();
+        document.addEventListener('kompltetr.view.result.done', (e) => {
+          kompltetr.animations.fadeIn(kompltetr.htmlElements.result);
+          kompltetr.listeners.onSelect();
         });
       },
     },
 
     /**
-     * @description Kompleter public options.
+     * @description kompltetr public options.
      */
     options: {
 
@@ -632,7 +632,7 @@
         },
 
         set type(value) {
-          const valid = Object.keys(kompleter.enums.animation);
+          const valid = Object.keys(kompltetr.enums.animation);
           if (!valid.includes(value)) {
             throw new Error(`animation.type should be one of ${valid}`);
           }
@@ -753,7 +753,7 @@
     },
 
     /**
-     * @description Kompleter internal properties.
+     * @description kompltetr internal properties.
      */
     props: {
       
@@ -800,7 +800,7 @@
     },
 
     /**
-     * @description Kompleter params validation functions.
+     * @description kompltetr params validation functions.
      */
     validators: {
 
@@ -843,7 +843,7 @@
        */
       callbacks: (callbacks) => {
         Object.keys(callbacks).forEach(key => {
-          if (!Object.keys(kompleter.callbacks).includes(key)) {
+          if (!Object.keys(kompltetr.callbacks).includes(key)) {
             throw new Error(`Unrecognized callback function ${key}. Please use onKeyup, onSelect and onError as valid callbacks functions.`);
           }
           if (callbacks[key] && typeof callbacks[key] !== 'function') {
@@ -855,7 +855,7 @@
     },
 
     /**
-     * @description Kompleter utils functions.
+     * @description kompltetr utils functions.
      */
     utils: {
 
@@ -891,7 +891,7 @@
     },
 
     /**
-     * @description Kompleter rendering functions.
+     * @description kompltetr rendering functions.
      */
     view: {
 
@@ -909,12 +909,12 @@
 
         switch (action) {
           case 'add':
-            kompleter.htmlElements.focused = kompleter.htmlElements.suggestions[kompleter.props.pointer];
-            kompleter.htmlElements.suggestions[kompleter.props.pointer].className += ' focus';
+            kompltetr.htmlElements.focused = kompltetr.htmlElements.suggestions[kompltetr.props.pointer];
+            kompltetr.htmlElements.suggestions[kompltetr.props.pointer].className += ' focus';
             break;
           case 'remove':
-            kompleter.htmlElements.focused = null;
-            Array.from(kompleter.htmlElements.suggestions).forEach(suggestion => {
+            kompltetr.htmlElements.focused = null;
+            Array.from(kompltetr.htmlElements.suggestions).forEach(suggestion => {
               ((suggestion) => {
                 suggestion.className = 'item--result';
               })(suggestion)
@@ -926,25 +926,25 @@
       /**
        * @description Display results according to the current input value / setup
        * 
-       * @emits CustomEvent 'kompleter.view.result.done'
+       * @emits CustomEvent 'kompltetr.view.result.done'
        * 
        * @returns {Void}
        */
       results: function() {
         let html = '';
 
-        if(kompleter.props.data && kompleter.props.data.length) {
-          for(let i = 0; i < kompleter.props.data.length && i <= kompleter.options.maxResults - 1; i++) {
-            if(typeof kompleter.props.data[i] !== 'undefined') {
-              html += `<div id="${i}" class="item--result ${i + 1 === kompleter.props.data.length ? 'last' : ''}">`;
-              switch (typeof kompleter.props.data[i]) {
+        if(kompltetr.props.data && kompltetr.props.data.length) {
+          for(let i = 0; i < kompltetr.props.data.length && i <= kompltetr.options.maxResults - 1; i++) {
+            if(typeof kompltetr.props.data[i] !== 'undefined') {
+              html += `<div id="${i}" class="item--result ${i + 1 === kompltetr.props.data.length ? 'last' : ''}">`;
+              switch (typeof kompltetr.props.data[i]) {
                 case 'string':
-                  html += '<span class="item--data">' + kompleter.props.data[i] + '</span>';
+                  html += '<span class="item--data">' + kompltetr.props.data[i] + '</span>';
                   break;
                 case 'object':
-                  let properties = Array.isArray(kompleter.options.fieldsToDisplay) && kompleter.options.fieldsToDisplay.length ? kompleter.options.fieldsToDisplay.slice(0, 3) : Object.keys(kompleter.props.data[i]).slice(0, 3);
+                  let properties = Array.isArray(kompltetr.options.fieldsToDisplay) && kompltetr.options.fieldsToDisplay.length ? kompltetr.options.fieldsToDisplay.slice(0, 3) : Object.keys(kompltetr.props.data[i]).slice(0, 3);
                   for(let j = 0; j < properties.length; j++) {
-                    html += '<span class="item--data">' + kompleter.props.data[i][properties[j]] + '</span>';
+                    html += '<span class="item--data">' + kompltetr.props.data[i][properties[j]] + '</span>';
                   }
                   break;
               }
@@ -955,14 +955,14 @@
           html = '<div class="item--result">Not found</div>';
         }
 
-        kompleter.htmlElements.result.innerHTML = html;
+        kompltetr.htmlElements.result.innerHTML = html;
         
-        document.dispatchEvent(kompleter.events.renderResultDone());
+        document.dispatchEvent(kompltetr.events.renderResultDone());
       }
     },
 
     /**
-     * @description Kompleter entry point.
+     * @description kompltetr entry point.
      * 
      * @param {String|HTMLInputElement} input HTMLInputElement
      * @param {Object} options Main options and configuration parameters
@@ -977,52 +977,52 @@
 
         // 1. Validate
 
-        kompleter.validators.input(input);
-        kompleter.validators.data(data);    
-        kompleter.validators.callbacks({ onKeyup, onSelect, onError });
+        kompltetr.validators.input(input);
+        kompltetr.validators.data(data);    
+        kompltetr.validators.callbacks({ onKeyup, onSelect, onError });
 
         // 2. Assign TODO: possible to do better with this ?
 
         if (data) {
-          kompleter.props.data = data;
+          kompltetr.props.data = data;
         }
 
         if(options) {
-          kompleter.options = Object.assign(kompleter.options, options);
+          kompltetr.options = Object.assign(kompltetr.options, options);
         }
         
         if (onKeyup || onSelect || onError) {
-          kompleter.callbacks = Object.assign(kompleter.callbacks, { onKeyup, onSelect, onError });
+          kompltetr.callbacks = Object.assign(kompltetr.callbacks, { onKeyup, onSelect, onError });
         }
 
         // 3. Build DOM
 
-        kompleter.htmlElements.input = input instanceof HTMLInputElement ? input : document.getElementById(input);
+        kompltetr.htmlElements.input = input instanceof HTMLInputElement ? input : document.getElementById(input);
 
-        kompleter.htmlElements.result = kompleter.utils.build('div', [ { id: 'kpl-result' }, { class: 'form--search__result' } ]);
+        kompltetr.htmlElements.result = kompltetr.utils.build('div', [ { id: 'kpl-result' }, { class: 'form--search__result' } ]);
 
-        kompleter.htmlElements.wrapper = kompleter.htmlElements.input.parentElement;
-        kompleter.htmlElements.wrapper.setAttribute('class', `${kompleter.htmlElements.wrapper.getAttribute('class')} kompletr ${kompleter.options.theme}`);
-        kompleter.htmlElements.wrapper.appendChild(kompleter.htmlElements.result);
+        kompltetr.htmlElements.wrapper = kompltetr.htmlElements.input.parentElement;
+        kompltetr.htmlElements.wrapper.setAttribute('class', `${kompltetr.htmlElements.wrapper.getAttribute('class')} kompletr ${kompltetr.options.theme}`);
+        kompltetr.htmlElements.wrapper.appendChild(kompltetr.htmlElements.result);
 
         // 4. Listeners
 
-        kompleter.listeners.onError();
-        kompleter.listeners.onHide();
-        kompleter.listeners.onKeyup();
-        kompleter.listeners.onNavigationEnd();
-        kompleter.listeners.onRequestDone();
-        kompleter.listeners.onViewResultDone();
+        kompltetr.listeners.onError();
+        kompltetr.listeners.onHide();
+        kompltetr.listeners.onKeyup();
+        kompltetr.listeners.onNavigationEnd();
+        kompltetr.listeners.onRequestDone();
+        kompltetr.listeners.onViewResultDone();
       } catch(e) {
         console.error(e);
       }
     },
   };
 
-  window.kompleter = kompleter.init;
+  window.kompltetr = kompltetr.init;
   
-  window.HTMLInputElement.prototype.kompleter = function({ data, options, onKeyup, onSelect, onError }) {
-    window.kompleter({ input: this, data, options, onKeyup, onSelect, onError });
+  window.HTMLInputElement.prototype.kompltetr = function({ data, options, onKeyup, onSelect, onError }) {
+    window.kompltetr({ input: this, data, options, onKeyup, onSelect, onError });
   };
 
 })(window);
