@@ -71,3 +71,25 @@ Following options are available:
 * **afterFocus**: function(e, element), callback fired after focus on result item
 * **beforeComplete**: function(e, dataset, element), callback fired before insertion of result
 * **afterComplete**: function(e, dataset, element), callback fired after insertion of result
+
+### Analyze and refactoring to Vanilla version 
+
+Two ways of usage: static, dynamic local, dynamic api
+
+#### Static
+
+Consumer give the full dataset when kompltr is initialized
+
+-> No lazy loading
+-> async onKeyup callback optional
+-> Cache available
+-> Filtering is made at kompletr side
+
+#### Dynamic
+
+Consumer give nothing when kompltr is initialized
+
+-> Lazy loading
+-> async onKeyup callback required
+-> Cache available
+-> Filtering is made at client side

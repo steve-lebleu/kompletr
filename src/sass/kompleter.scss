@@ -9,40 +9,40 @@ html {
 }
 
 .github-corner {
-  border-bottom: 0;
   position: fixed;
   right: 0;
-  text-decoration: none;
   top: 0;
+  border-bottom: 0;
+  text-decoration: none;
   z-index: 1;
   & svg {
+    height: 80px;
+    width: 80px;
     color: #fff;
     fill: #333;
     fill: var(--theme-color, #333);
-    height: 80px;
-    width: 80px;
   }
 }
 
 body {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   margin: 0;
+  min-height: 100vh;
   font-family: $font-base;
   background: rgb(2,0,36);
   background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(133,255,189,1) 50%, rgba(255,251,125,1) 100%);
 }
 
 hgroup {
-  text-align: center;
   margin: 0 auto 40px auto;
+  text-align: center;
 }
 
 h1 {
+  margin: 3rem auto 0 auto;
   font-family: $font-title;
   font-size: 7rem;
-  margin: 3rem auto 0 auto;
 }
 
 a {
@@ -50,10 +50,11 @@ a {
 }
 
 footer {
+  margin-top: auto;
   color: #333;
   text-align: center;
-  margin-top: auto;
 }
+
 ////
 // Module code
 ////
@@ -86,17 +87,11 @@ footer {
     height: auto;
     font-size: 1.2rem;
     line-height: 1.5;
-    color: $color-4;
     border: none;
-    background: $color-1;
     &:focus {
       border: none;
       outline: none;
     }
-  }
-  
-  ::placeholder {
-    color: $color-2;
   }
   
   .form--search__result {
@@ -105,56 +100,109 @@ footer {
     width: 100%;
   }
   
-  /* Block one item result */
   .item--result {
     box-sizing: border-box;
     width: 100%;
     padding: 15px;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background-color: rgba(255, 255, 255, 0.75);
-    border-bottom: 1px dashed $color-3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     border-left: none;
     border-right: none;
-    color: $color-6;
 
-    &.last, &:last-child {
+    &:last-child {
       border-bottom: none;
     }
 
     &:hover, &.focus {
       cursor: pointer;
-      backdrop-filter: blur(26px) saturate(120%);
-      -webkit-backdrop-filter: blur(26px) saturate(120%);
-      background-color: rgba(255, 255, 255, 0.50);
-      color: $color-5;
       @include transition(0.2s ease-in-out);
-      & .data-1, & .data-2 {
-        color: $color-5;
+    }
+
+    & .item--data {
+      flex: 50%;
+
+      &:nth-child(even) {
+        text-align: right;
+      }
+
+      &:nth-child(0) {
+        font-weight: 600;
+      }
+
+      &:nth-child(n+2) {
+        font-weight: normal;
       }
     }
-    & .data-0  {
-      float: left;
-      color: $color-5;
-      margin: 0 0 3px 0;
-      font-weight: 600;
+  }
+
+  &.light {
+    .input--search {
+      color: $color-4;
+      background: $color-1;
     }
-    & .data-1, & .data-2 {
-      display: block;
+
+    ::placeholder {
       color: $color-2;
-      font-weight: normal;
     }
-    & .data-1 {
-      float: right;
+
+    .item--result {
+      color: $color-6;
+      border-bottom: 1px dashed $color-3;
+      @include backdrop(16px, 180%, 0.75);
+
+      &:hover, &.focus {
+        @include backdrop(26px, 120%, 0.50);
+        
+        & .item--data:nth-child(n+2) {
+          color: $color-6;
+        }
+      }
+
+      & .item--data {
+        &:nth-child(0) {
+          color: $color-6;
+        }
+  
+        &:nth-child(n+2) {
+          color: $color-4;
+        }
+      }
     }
-    & .data-2 {
-      clear: both;
+  }
+
+  &.dark {
+    .input--search {
+      color: $color-1;
+      background: $color-6;
     }
-    & span:nth-child(n+4) {
-      display: block;
-      width: 100%;
-      margin: 5px 0;
-      font-size: 0.8em;
+
+    ::placeholder {
+      color: $color-2;
+    }
+
+    .item--result {
+      color: $color-1;
+      border-bottom: 1px dashed $color-4;
+      @include backdrop(16px, 180%, 0.75, 'dark');
+
+      &:hover, &.focus {
+        @include backdrop(26px, 120%, 0.50, 'dark');
+        
+        & .item--data:nth-child(n+2) {
+          color: $color-1;
+        }
+      }
+
+      & .item--data {
+        &:nth-child(0) {
+          color: $color-1;
+        }
+  
+        &:nth-child(n+2) {
+          color: $color-4;
+        }
+      }
     }
   }
 }
