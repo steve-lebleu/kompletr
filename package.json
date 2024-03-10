@@ -34,6 +34,7 @@
   "devDependencies": {
     "@babel/runtime": "^7.23.6",
     "cypress": "^13.6.3",
+    "esbuild-loader": "^4.1.0",
     "html-loader": "^5.0.0",
     "node-sass": "^9.0.0",
     "terser": "^5.26.0",

@@ -21,7 +21,7 @@
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
 
-    <script src="./js/kompleter.min.js"></script>
+    <script type="module" src="./main.js"></script>
 
 </head>
 
@@ -88,7 +88,7 @@
           propToMapAsValue: 'Name',
           startQueriyngFromChar: 2,
           filterOn: 'prefix',
-          cache: 5000
+          cache: 50000
         },
         /**onKeyup: async function (value, cb) {
           console.log('cb.onKeyup ', value);
@@ -113,7 +113,6 @@
         fetch(`http://localhost:3000/api`, headers)
           .then(result => result.json())
           .then(data => {
-            console.log('there is', data)
             options.data = data;
             input.kompletr(options);
           })
