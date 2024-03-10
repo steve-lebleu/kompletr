@@ -207,16 +207,10 @@ import { fadeIn, fadeOut } from './kompletr.animations';
           });
         }
 
-        // TODO le cache ne devrait être actif que si un callback onKeyup ? Pas forcément
+        // With CB, the utility is to prevent some HTTP calls, and to retrieve data in small set as well
+        // Without CB, the utility is to retrieve data in a small lot
 
-        // Si cb -> dans ce cas, on va set la data ici, et on va faire un check avant d'appeler le keyup pour voir s'il faut aller recherche la donnée...
-        // L'autre utilité c'est d'avoir la donnée présente avant de faire un call de quoi que ce soit
-        // Ce qu'il faudrait c'est que data soit une fonction qui retourne Promise<Array>, comme ça si tu as du cache tu ne charges même pas, et là c'est utile
-        // de même pour le callback onKeyup
-
-        // Sinon, sans cb,  la seule utilité, c'est d'aller chercher une donnée déjà filtrée, ce qui peut se tenir aussi...
-
-        // CCL -> data doit retourner Promise<Array>, de même que le callback onKeyup
+        // TODO -> data doit retourner Promise<Array>, de même que le callback onKeyup
 
         if (kompletr.cache.isActive() && await kompletr.cache.isValid(kompletr.dom.input.value) === false) {
           kompletr.cache.set({ string: kompletr.dom.input.value, data: e.detail.data });
