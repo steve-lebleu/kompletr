@@ -11,18 +11,6 @@ module.exports = {
       bundles: [
         {
           src: [
-            './src/js/jquery/jquery.kompleter.js',
-          ],
-          dest: './dist/js/jquery.kompleter.min.js',
-          transforms: {
-            after: async (code) => {
-              const minifiedCode = await terser.minify(code);
-              return minifiedCode.code;
-            },
-          },
-        },
-        {
-          src: [
             './src/js/vanilla/kompleter.js',
           ],
           dest: './dist/js/kompleter.min.js',

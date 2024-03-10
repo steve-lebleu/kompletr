@@ -1,1 +1,1 @@
-import kompletr from "./vanilla/kompleter"
+import kompletr from "./kompleter"
