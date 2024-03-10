@@ -4,18 +4,34 @@
   "description": "jQuery auto-complete plugin",
   "main": "src/js/index.js",
   "type": "module",
-  "scripts": {
-    "build": "mkdir -p dist && cp -r src/index.html src/files/ dist/ & npm run css & npm run js",
-    "css": "node-sass ./src/sass/kompleter.scss ./dist/css/kompleter.min.css --output-style compressed",
-    "js": "webpack",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run --browser chrome ./cypress",
-    "start": "webpack serve --hot"
+  "author": {
+    "name": "Steve Lebleu",
+    "email": "steve@konfer.be",
+    "url": "https://www.konfer.be"
   },
+  "homepage": "https://github.com/steve-lebleu/kompletr",
   "repository": {
     "type": "git",
-    "url": "https://github.com/steve-lebleu/kompleter.git"
+    "url": "https://github.com/steve-lebleu/kompletr.git"
   },
+  "bugs": {
+    "url": "https://github.com/steve-lebleu/kompletr/issues",
+    "email": "steve@konfer.be"
+  },
+  "demo": "",
+  "download": "",
+  "directories": {
+    "src": "src",
+    "dist": "dist",
+    "docs": "docs"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "browser": "dist/kompletr.min.js",
+  "unpkg": "dist/kompletr.min.js",
+  "module": "dist/kompletr.min.js",
   "keywords": [
     "html",
     "html5",
@@ -23,14 +39,20 @@
     "css3",
     "vanilla",
     "javascript",
-    "jquery",
     "plugin",
-    "auto-complete"
+    "auto-complete",
+    "auto-completion",
+    "autocomplete",
+    "autocompletion"
   ],
-  "author": "Steve Lebleu",
   "license": "ISC",
-  "dependencies": {
-    "jquery": "^3.7.1"
+  "scripts": {
+    "build": "mkdir -p dist && cp -r src/index.html src/files/ dist/ & npm run css & npm run js",
+    "css": "node-sass ./src/sass/kompleter.scss ./dist/css/kompleter.min.css --output-style compressed",
+    "js": "webpack",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser chrome ./cypress",
+    "start": "webpack serve --hot"
   },
   "devDependencies": {
     "@babel/runtime": "^7.23.6",

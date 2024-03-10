@@ -6,6 +6,11 @@ import { build } from './kompletr.utils';
 export class DOM {
 
   /**
+   * @description Body tag
+   */
+  _body = null;
+
+  /**
    * @description Main input text
    */
   _input = null;
@@ -21,12 +26,22 @@ export class DOM {
   _result = null;
 
   constructor(input, options = { theme: 'light' }) {
+    this._body = document.getElementsByTagName('body')[0];
+    
     this._input = input instanceof HTMLInputElement ? input : document.getElementById(input);
 
     this._result = build('div', [ { id: 'kpl-result' }, { class: 'form--search__result' } ]);
 
     this._input.parentElement.setAttribute('class', `${this._input.parentElement.getAttribute('class')} kompletr ${options.theme}`);
     this._input.parentElement.appendChild(this._result);
+  }
+
+  get body() {
+    return this._body;
+  }
+
+  set body(value) {
+    this._body = value;
   }
 
   get input() {

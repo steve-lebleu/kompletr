@@ -7,7 +7,6 @@ import { ViewEngine } from './kompletr.view-engine';
 import { EventManager } from './kompletr.events';
 
 import { animation, origin } from './kompletr.enums';
-import { uuid } from './kompletr.utils';
 import { fadeIn, fadeOut } from './kompletr.animations';
 
 ((window) => {
@@ -95,13 +94,13 @@ import { fadeIn, fadeOut } from './kompletr.animations';
             kompletr.cache.emit(value);
           } else if (kompletr.callbacks.onKeyup) {
             kompletr.callbacks.onKeyup(value, (data) => {
-              EventManager.trigger('requestDone', { from: origin.local, data })
+              EventManager.trigger(EventManager.event.requestDone, { from: origin.local, data })
             });
           } else {
-            EventManager.trigger('requestDone', { from: origin.local, data: kompletr.props.data })
+            EventManager.trigger(EventManager.event.requestDone, { from: origin.local, data: kompletr.props.data })
           }
         } catch(e) {
-          EventManager.trigger('error', e)
+          EventManager.trigger(EventManager.event.error, e)
         }
       },
 
@@ -146,9 +145,10 @@ import { fadeIn, fadeOut } from './kompletr.animations';
         
         kompletr.dom.input.value = typeof kompletr.props.data[idx] === 'object' ? kompletr.props.data[idx][kompletr.options.propToMapAsValue] : kompletr.props.data[idx];
         
-        kompletr.callbacks.onSelect(kompletr.props.data[idx]); // TODO more clean -> give details ? -> put in same handler listener dans selectDone
+        // TODO more clean -> give details ? -> put in same handler listener dans selectDone
+        kompletr.callbacks.onSelect(kompletr.props.data[idx]); 
         
-        EventManager.trigger('selectDone');
+        EventManager.trigger(EventManager.event.selectDone);
   
       },
     },
@@ -160,7 +160,6 @@ import { fadeIn, fadeOut } from './kompletr.animations';
 
     /**
      * @description kompletr events listeners of all religions.
-     * @dependency callbacks + dom + events + props + listeners
      */
     listeners: {
 
@@ -244,7 +243,7 @@ import { fadeIn, fadeOut } from './kompletr.animations';
             if (kompletr.dom.input.value !== kompletr.props.previousValue) {
               kompletr.handlers.hydrate(kompletr.dom.input.value);
             }
-            EventManager.trigger('navigationDone');
+            EventManager.trigger(EventManager.event.navigationDone);
             break
         }
       },
@@ -305,7 +304,7 @@ import { fadeIn, fadeOut } from './kompletr.animations';
 
         // 2. Assign 
 
-        if(data) {
+        if(data) { // TODO data should be a Promise<Array>
           kompletr.props = new Properties({ data });
         }
 
@@ -327,10 +326,8 @@ import { fadeIn, fadeOut } from './kompletr.animations';
 
         // 4. Listeners
 
+        kompletr.dom.body.addEventListener('click', kompletr.listeners.onHide);
         kompletr.dom.input.addEventListener('keyup', kompletr.listeners.onKeyup);
-        
-        const body = document.getElementsByTagName('body')[0];
-        body.addEventListener('click', kompletr.listeners.onHide);
 
         document.addEventListener('kompletr.select.done', kompletr.listeners.onHide);
         document.addEventListener('kompletr.navigation.done', kompletr.listeners.onNavigationDone);        

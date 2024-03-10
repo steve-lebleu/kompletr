@@ -1,5 +1,4 @@
-import { animation, origin } from './kompletr.enums';
-import { build, uuid } from './kompletr.utils';
+import { origin } from './kompletr.enums';
 
  /**
    * @description Kompletr caching mechanism implementation.
@@ -32,7 +31,6 @@ export class Cache {
    * @returns {Void}
    */
   emit(string) {
-    console.log('get from the cache')
     window.caches.open(this._name)
       .then(cache => {
         cache.match(string)
@@ -41,7 +39,7 @@ export class Cache {
           });
       })
       .catch(e => {
-        this._eventManager.trigger('error', e);
+        this._eventManager.trigger(this._eventManager.event.error, e);
       });
   }
 
@@ -86,17 +84,15 @@ export class Cache {
    * @returns {Void}
    */
   set({ string, data }) {
-    console.log('set the cache')
-    data = JSON.stringify(data);
     window.caches.open(this._name)
       .then(cache => {
-        const headers = new Headers;
-        headers.set('content-type', 'application/json');
-        headers.set('cache-control', `max-age=${this._duration}`);
-        cache.put(`/${string}`, new Response(data, { headers }));
+        const headers = new Headers()
+          .set('Content-Type', 'application/json')
+          .set('Cache-Control', `max-age=${this._duration}`);
+        cache.put(`/${string}`, new Response(JSON.stringify(data), { headers }));
       })
       .catch(e => {
-        this._eventManager.trigger('error', e);
+        this._eventManager.trigger(this._eventManager.event.error, e);
       });
   }
 };
