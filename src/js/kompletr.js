@@ -1,13 +1,13 @@
-import { Validation } from './kompletr.validation';
-import { Options } from './kompletr.options';
-import { Cache } from './kompletr.cache';
-import { Properties } from './kompletr.properties';
-import { DOM } from './kompletr.dom';
-import { ViewEngine } from './kompletr.view-engine';
-import { EventManager } from './kompletr.events';
+import { Validation } from './kompletr.validation.js';
+import { Options } from './kompletr.options.js';
+import { Cache } from './kompletr.cache.js';
+import { Properties } from './kompletr.properties.js';
+import { DOM } from './kompletr.dom.js';
+import { ViewEngine } from './kompletr.view-engine.js';
+import { EventManager } from './kompletr.events.js';
 
-import { animation, origin } from './kompletr.enums';
-import { fadeIn, fadeOut } from './kompletr.animations';
+import { animation, origin } from './kompletr.enums.js';
+import { fadeIn, fadeOut } from './kompletr.animations.js';
 
 ((window) => {
   if (window.kompletr) {
@@ -81,26 +81,28 @@ import { fadeIn, fadeOut } from './kompletr.animations';
        * 
        * @param {String} value Current input value
        * 
-       * @emits CustomEvent 'kompletr.request.done' { from, queryString, data }
+       * @emits CustomEvent 'kompletr.request.done' { from, data }
        * @emits CustomEvent 'kompletr.error' { error }
        * 
        * @returns {Void}
+       * 
+       * @todo opotions.data should returns Promise<Array>, and same for the onKeyup callback
        */
       hydrate: async function(value) {
         try {
-          // TODO manage cache -> if data available in the cache, get it from there
-
           if (kompletr.cache.isActive() && await kompletr.cache.isValid(value)) {
-            kompletr.cache.emit(value);
+            kompletr.cache.get(value, (data) => {
+              EventManager.trigger(EventManager.event.dataDone, { from: origin.cache, data });  
+            });
           } else if (kompletr.callbacks.onKeyup) {
             kompletr.callbacks.onKeyup(value, (data) => {
-              EventManager.trigger(EventManager.event.requestDone, { from: origin.local, data })
+              EventManager.trigger(EventManager.event.dataDone, { from: origin.callback, data });
             });
           } else {
-            EventManager.trigger(EventManager.event.requestDone, { from: origin.local, data: kompletr.props.data })
+            EventManager.trigger(EventManager.event.dataDone, { from: origin.local, data: kompletr.props.data });
           }
         } catch(e) {
-          EventManager.trigger(EventManager.event.error, e)
+          EventManager.trigger(EventManager.event.error, e);
         }
       },
 
@@ -126,7 +128,6 @@ import { fadeIn, fadeOut } from './kompletr.animations';
           kompletr.props.pointer++;
         } 
 
-        // todo trigger something ?
         kompletr.viewEngine.focus(kompletr.props.pointer, 'remove');
         kompletr.viewEngine.focus(kompletr.props.pointer, 'add');
       },
@@ -140,16 +141,10 @@ import { fadeIn, fadeOut } from './kompletr.animations';
        * 
        * @returns {Void}
        */
-      select: function (idx = 0) {
-        // TODO as a view part ?
-        
+      select: function (idx = 0) {  
         kompletr.dom.input.value = typeof kompletr.props.data[idx] === 'object' ? kompletr.props.data[idx][kompletr.options.propToMapAsValue] : kompletr.props.data[idx];
-        
-        // TODO more clean -> give details ? -> put in same handler listener dans selectDone
-        kompletr.callbacks.onSelect(kompletr.props.data[idx]); 
-        
+        kompletr.callbacks.onSelect(kompletr.props.data[idx]);
         EventManager.trigger(EventManager.event.selectDone);
-  
       },
     },
 
@@ -175,9 +170,9 @@ import { fadeIn, fadeOut } from './kompletr.animations';
       /**
        * @description 'body.click' && kompletr.select.done listeners
        */
-      onHide: (e) => {
+      onSelectDone: (e) => {
         fadeOut(kompletr.dom.result);
-        EventManager.trigger('navigationDone');
+        EventManager.trigger(EventManager.event.navigationDone);
       },
 
       /**
@@ -189,9 +184,10 @@ import { fadeIn, fadeOut } from './kompletr.animations';
 
       /**
        * @description CustomEvent 'kompletr.request.done' listener
+       * 
+       * @todo Check something else to determine if we filter or not -> currently just the presence of onKeyup callback
        */
-      onRequestDone: async (e) => {
-
+      onDataDone: async (e) => {
         kompletr.props.data = e.detail.data;
 
         let data = kompletr.props.data.map((record, idx) => ({ idx, data: record }) ); 
@@ -206,18 +202,13 @@ import { fadeIn, fadeOut } from './kompletr.animations';
           });
         }
 
-        // With CB, the utility is to prevent some HTTP calls, and to retrieve data in small set as well
-        // Without CB, the utility is to retrieve data in a small lot
-
-        // TODO -> data doit retourner Promise<Array>, de même que le callback onKeyup
-
-        if (kompletr.cache.isActive() && await kompletr.cache.isValid(kompletr.dom.input.value) === false) {
+        const cacheIsActiveAndNotValid = kompletr.cache.isActive() && await kompletr.cache.isValid(kompletr.dom.input.value) === false;
+        if (cacheIsActiveAndNotValid) {
           kompletr.cache.set({ string: kompletr.dom.input.value, data: e.detail.data });
         }
 
-        // TODO do the render done, and plug the show result on it or ?
         kompletr.viewEngine.showResults(data.slice(0, kompletr.options.maxResults), kompletr.options, function() {
-          EventManager.trigger('renderDone')
+          EventManager.trigger(EventManager.event.renderDone);
         });
       },
 
@@ -316,7 +307,7 @@ import { fadeIn, fadeOut } from './kompletr.animations';
           kompletr.callbacks = Object.assign(kompletr.callbacks, { onKeyup, onSelect, onError });
         }
 
-        kompletr.cache = new Cache(EventManager, options.cache);
+        kompletr.cache = new Cache(options.cache);
 
         // 3. Build DOM
 
@@ -326,15 +317,14 @@ import { fadeIn, fadeOut } from './kompletr.animations';
 
         // 4. Listeners
 
-        kompletr.dom.body.addEventListener('click', kompletr.listeners.onHide);
+        kompletr.dom.body.addEventListener('click', kompletr.listeners.onSelectDone);
         kompletr.dom.input.addEventListener('keyup', kompletr.listeners.onKeyup);
 
-        document.addEventListener('kompletr.select.done', kompletr.listeners.onHide);
+        document.addEventListener('kompletr.select.done', kompletr.listeners.onSelectDone);
         document.addEventListener('kompletr.navigation.done', kompletr.listeners.onNavigationDone);        
-        document.addEventListener('kompletr.request.done', kompletr.listeners.onRequestDone);
+        document.addEventListener('kompletr.data.done', kompletr.listeners.onDataDone);
         document.addEventListener('kompletr.render.done', kompletr.listeners.onRenderDone);
         document.addEventListener('kompletr.error', kompletr.listeners.onError);
-
       } catch(e) {
         console.error(e);
       }

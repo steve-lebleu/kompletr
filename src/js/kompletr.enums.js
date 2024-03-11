@@ -3,7 +3,7 @@
  */
 const animation = Object.freeze({
   fadeIn: 'fadeIn',
-  slideUp: 'slideUp'
+  slideUp: 'slideUp',
 });
 
 /**
@@ -11,7 +11,8 @@ const animation = Object.freeze({
  */
 const origin = Object.freeze({
   cache: 'cache',
-  local: 'local'
+  callback: 'callback',
+  local: 'local',
 });
 
 export { animation, origin }

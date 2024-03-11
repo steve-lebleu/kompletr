@@ -1,29 +1,12 @@
-const path = require('path');
-const terser = require('terser');
+import path from 'path';
+import * as url from 'url';
 
-const WebpackConcatPlugin = require('webpack-concat-files-plugin');
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-module.exports = {
+export default {
   entry: './src/js/index.js',
-  mode: 'development',
-  plugins: [
-    new WebpackConcatPlugin({
-      bundles: [
-        {
-          src: [
-            './src/js/vanilla/kompleter.js',
-          ],
-          dest: './dist/js/kompleter.min.js',
-          transforms: {
-            after: async (code) => {
-              const minifiedCode = await terser.minify(code);
-              return minifiedCode.code;
-            },
-          },
-        },
-      ],
-    }),
-  ],
+  devtool: "source-map",
+  mode: "development",
   module: {
     rules: [
       {
@@ -38,7 +21,7 @@ module.exports = {
   },
   devServer: {
     client: {
-      logging: 'info',
+      logging: 'log',
       overlay: true,
     },
     static: {
@@ -48,6 +31,6 @@ module.exports = {
     port: 9000,
     historyApiFallback: true,
     liveReload: true,
-    watchFiles: path.join(__dirname, './dist')
+    watchFiles: path.join(__dirname, './dist'),
   },
 };

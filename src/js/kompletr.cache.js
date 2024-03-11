@@ -1,21 +1,24 @@
-import { origin } from './kompletr.enums';
+import { EventManager } from "./kompletr.events.js";
 
- /**
-   * @description Kompletr caching mechanism implementation.
-   * 
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Cache
-   * @see https://web.dev/articles/cache-api-quick-guide
-   * 
-   * @todo: Full review / validation of the Cache feature
-   */
+/**
+ * @description Kompletr simple caching mechanism implementation.
+ * 
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Cache
+ * @see https://web.dev/articles/cache-api-quick-guide
+ */
 export class Cache {
 
+  /**
+   * @description Cache name value
+   */
   _name = null;
 
+  /**
+   * @description Cache timelife duration
+   */
   _duration = null;
   
-  constructor(eventManager, duration = 0, name = 'kompletr.cache') {
-    this._eventManager = eventManager;
+  constructor(duration = 0, name = 'kompletr.cache') {
     this._name = name;
     this._duration = duration;
   }
@@ -24,22 +27,23 @@ export class Cache {
    * @description Retrieve the data stored in cache and dispatch event with
    * 
    * @param {String} string Input value of the current request as string
+   * @param {Function} done Callback function
    * 
    * @emits CustomEvent 'kompltetr.request.done' { from, data }
    * @emits CustomEvent 'kompltetr.error' { error }
    * 
    * @returns {Void}
    */
-  emit(string) {
+  get(string, done) {
     window.caches.open(this._name)
       .then(cache => {
         cache.match(string)
           .then(async (data) => {
-            this._eventManager.trigger('requestDone', { from: origin.cache, data: await data.json() });
+            done(await data.json());
           });
       })
       .catch(e => {
-        this._eventManager.trigger(this._eventManager.event.error, e);
+        EventManager.trigger(EventManager.event.error, e);
       });
   }
 
@@ -92,7 +96,7 @@ export class Cache {
         cache.put(`/${string}`, new Response(JSON.stringify(data), { headers }));
       })
       .catch(e => {
-        this._eventManager.trigger(this._eventManager.event.error, e);
+        EventManager.trigger(EventManager.event.error, e);
       });
   }
 };

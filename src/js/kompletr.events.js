@@ -9,7 +9,7 @@ export class EventManager {
     error: 'error',
     navigationDone: 'navigationDone',
     renderDone: 'renderDone',
-    requestDone: 'requestDone',
+    dataDone: 'dataDone',
     resultDone: 'resultDone',
     selectDone: 'selectDone'
   })
@@ -49,7 +49,7 @@ export class EventManager {
    * 
    * @returns {CustomEvent}
    */
-  static renderDone = (detail = { }) => new CustomEvent('kompletr.render.done', {
+  static renderDone = (detail = {}) => new CustomEvent('kompletr.render.done', {
     detail,
     bubble: true,
     cancelable: false,
@@ -63,7 +63,7 @@ export class EventManager {
    * 
    * @returns {CustomEvent}
    */
-  static requestDone = (detail = { from: '', data: null }) => new CustomEvent('kompletr.request.done', {
+  static dataDone = (detail = { from: '', data: null }) => new CustomEvent('kompletr.data.done', {
     detail,
     bubble: true,
     cancelable: false,

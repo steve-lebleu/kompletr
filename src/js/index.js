@@ -1,1 +1,1 @@
-import kompletr from "./kompleter"
+import kompletr from "./kompletr.js"

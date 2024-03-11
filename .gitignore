@@ -14,7 +14,7 @@ tests/report
 # Retrieved by bower
 src/vendors/*
 
-# Do not push dist
+# Do not push dist, build and local api
 dist/
-
+build/
 api/

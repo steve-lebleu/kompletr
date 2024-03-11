@@ -1,15 +1,15 @@
 /**
- * @description Test
+ * @description Dedicated class to manage rendering tasks. ViewEngine is a little bit too much as name, but it's something like that.
  */
 export class ViewEngine {
 
+  /**
+   * @description DOM instance
+   */
   _dom = null;
 
-  _eventManager = null;
-
-  constructor(dom, eventManager) {
+  constructor(dom) {
     this._dom = dom;
-    this._eventManager = eventManager;
   }
 
   /**
@@ -46,6 +46,8 @@ export class ViewEngine {
    * @emits CustomEvent 'kompletr.view.result.done'
    * 
    * @returns {Void}
+   * 
+   * @todo Try better than the done callback
    */
   showResults(data, options, done) {
     let html = '';
@@ -76,6 +78,6 @@ export class ViewEngine {
 
     this._dom.result.innerHTML = html;
 
-    done(); // TODO do better 
+    done();
   }
 }

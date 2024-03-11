@@ -1,4 +1,4 @@
-import { build } from './kompletr.utils';
+import { build } from './kompletr.utils.js';
 
 /**
  * @description
