@@ -5,9 +5,9 @@ import { Properties } from './kompletr.properties.js';
 import { DOM } from './kompletr.dom.js';
 import { ViewEngine } from './kompletr.view-engine.js';
 import { EventManager } from './kompletr.events.js';
+import { Animation } from './kompletr.animations.js';
 
-import { animation, origin } from './kompletr.enums.js';
-import { fadeIn, fadeOut } from './kompletr.animations.js';
+import { origin } from './kompletr.enums.js';
 
 ((window) => {
   if (window.kompletr) {
@@ -18,6 +18,7 @@ import { fadeIn, fadeOut } from './kompletr.animations.js';
    * @summary Kømpletr.js is a library providing features dedicated to autocomplete fields.
    * 
    * @author Steve Lebleu <ping@steve-lebleu.dev>
+   * 
    * @see https://github.com/steve-lebleu/kompletr
    */
   const kompletr = {
@@ -86,10 +87,11 @@ import { fadeIn, fadeOut } from './kompletr.animations.js';
        * 
        * @returns {Void}
        * 
-       * @todo opotions.data should returns Promise<Array>, and same for the onKeyup callback
+       * @todo opotions.data could returns Promise<Array>, and same for the onKeyup callback
        */
       hydrate: async function(value) {
         try {
+          // FIXME: We pass here after the first
           if (kompletr.cache.isActive() && await kompletr.cache.isValid(value)) {
             kompletr.cache.get(value, (data) => {
               EventManager.trigger(EventManager.event.dataDone, { from: origin.cache, data });  
@@ -163,15 +165,20 @@ import { fadeIn, fadeOut } from './kompletr.animations.js';
        */
       onError: (e) => {
         console.error(`[kompletr] An error has occured -> ${e.detail.stack}`);
-        fadeIn(kompletr.dom.result);
+        Animation.fadeIn(kompletr.dom.result);
         kompletr.callbacks.onError && kompletr.callbacks.onError(e.detail);
       },
 
       /**
        * @description 'body.click' && kompletr.select.done listeners
+       * 
+       * @todo Find better name
        */
       onSelectDone: (e) => {
-        fadeOut(kompletr.dom.result);
+        if (e.srcElement === kompletr.dom.input) {
+          return true;
+        }
+        Animation.animateBack(kompletr.dom.result, kompletr.options.animationType, kompletr.options.animationDuration);
         EventManager.trigger(EventManager.event.navigationDone);
       },
 
@@ -243,7 +250,7 @@ import { fadeIn, fadeOut } from './kompletr.animations.js';
        * @description CustomEvent 'kompletr.render.done' listener
        */
       onRenderDone: () => {
-        fadeIn(kompletr.dom.result);
+        Animation[kompletr.options.animationType](kompletr.dom.result, kompletr.options.animationDuration);
         if(typeof kompletr.dom.result.children !== 'undefined') {
           const numberOfResults = kompletr.dom.result.children.length;
           if(numberOfResults) {
@@ -279,14 +286,15 @@ import { fadeIn, fadeOut } from './kompletr.animations.js';
      * @description kompletr entry point.
      * 
      * @param {String|HTMLInputElement} input HTMLInputElement
+     * @param {Array} data Initial data set
      * @param {Object} options Main options and configuration parameters
-     * @param {Array} dataSet Set of data to use if consummer take ownership on the data
-     * @param {Object} callbacks Callback functions { onKeyup, onSelect, onError }
+     * @param {Function} onKeyup Callback function called when the event onkeyup occurs on the input element
+     * @param {Function} onSelect Callback function called when a value is selected
+     * @param {Function} onError
      * 
      * @returns {Void}
      */
     init: function({ input, data, options, onKeyup, onSelect, onError }) {
-
       try {
 
         // 1. Validate
@@ -295,7 +303,7 @@ import { fadeIn, fadeOut } from './kompletr.animations.js';
 
         // 2. Assign 
 
-        if(data) { // TODO data should be a Promise<Array>
+        if(data) {
           kompletr.props = new Properties({ data });
         }
 
@@ -312,7 +320,6 @@ import { fadeIn, fadeOut } from './kompletr.animations.js';
         // 3. Build DOM
 
         kompletr.dom = new DOM(input, options);
-
         kompletr.viewEngine = new ViewEngine(kompletr.dom);
 
         // 4. Listeners

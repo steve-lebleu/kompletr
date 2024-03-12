@@ -29,7 +29,8 @@ export class DOM {
     this._body = document.getElementsByTagName('body')[0];
     
     this._input = input instanceof HTMLInputElement ? input : document.getElementById(input);
-
+    this._input.setAttribute('class', `${this._input.getAttribute('class')} input--search`);
+    
     this._result = build('div', [ { id: 'kpl-result' }, { class: 'form--search__result' } ]);
 
     this._input.parentElement.setAttribute('class', `${this._input.parentElement.getAttribute('class')} kompletr ${options.theme}`);

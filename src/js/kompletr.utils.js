@@ -14,18 +14,4 @@ const build = (element, attributes = []) => {
  return htmlElement;
 };
 
-/**
-* @description Get a simple uuid generated from given string
-* 
-* @param {String} string The string to convert in uuid
-* 
-* @returns {String} The generate uuid value
-*/
-const uuid = (string) => {
- return string.split('')
-   .map(v => v.charCodeAt(0))
-   .reduce((a, v) => a + ((a<<7) + (a<<3)) ^ v)
-   .toString(16);
-};
-
-export { build, uuid }
+export { build }

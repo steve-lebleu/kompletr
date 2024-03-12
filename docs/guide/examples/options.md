@@ -1,0 +1,7 @@
+# Options
+
+## animations
+
+## startQueryingFromChar
+
+## prefix

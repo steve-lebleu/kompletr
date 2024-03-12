@@ -3,7 +3,7 @@
  */
 const animation = Object.freeze({
   fadeIn: 'fadeIn',
-  slideUp: 'slideUp',
+  slideDown: 'slideDown',
 });
 
 /**

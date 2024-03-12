@@ -22,18 +22,4 @@ describe('Utils functions', () => {
       expect(element.getAttribute('class')).toBe('test-class');
     });
   });
-
-  describe('::uuid', () => {
-    test('should return a unique identifier for a given string', () => {
-      const id1 = uuid('test');
-      const id2 = uuid('test');
-      const id3 = uuid('different');
-
-      // The generated id should be the same for the same input
-      expect(id1).toBe(id2);
-
-      // Different input should (in most cases) result in a different id
-      expect(id1).not.toBe(id3);
-    });
-  });
 });

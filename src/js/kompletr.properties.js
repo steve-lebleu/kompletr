@@ -23,6 +23,7 @@ export class Properties {
   }
 
   set data(value) {
+    console.log('prop.data', value)
     if (!Array.isArray(value)) {
       throw new Error(`data must be an array (${value.toString()} given)`);
     }

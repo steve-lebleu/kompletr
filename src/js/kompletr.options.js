@@ -2,7 +2,7 @@
  * @description Kompletr options definition.
  */
 export class Options {
-  _animationType = null
+  _animationType = 'fadeIn'
   
   _animationDuration = 500
 
@@ -26,7 +26,7 @@ export class Options {
    * @description Type of animation between valid types
    */
   get animationType() {
-    return this._type;
+    return this._animationType;
   }
 
   set animationType(value) {
@@ -34,7 +34,7 @@ export class Options {
     if (!valid.includes(value)) {
       throw new Error(`animation.type should be one of ${valid}`);
     }
-    this._type = value;
+    this._animationType = value;
   }
 
   /**
@@ -149,9 +149,9 @@ export class Options {
   }
 
   constructor(options) {
-    this._theme = options?.theme;
-    this._animationType = options?.animationType;
-    this._animationDuration = options?.animationDuration;
+    this._theme = options?.theme || this._theme;
+    this._animationType = options?.animationType || this._animationType;
+    this._animationDuration = options?.animationDuration || this._animationDuration;
     this._multiple = options?.multiple;
     this._fieldsToDisplay = options?.fieldsToDisplay;
     this._maxResults = options?.maxResults;

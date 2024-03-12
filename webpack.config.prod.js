@@ -1,5 +1,6 @@
 import path from 'path';
 import * as url from 'url';
+import DashboardPlugin from "webpack-dashboard/plugin/index.js";
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -15,6 +16,9 @@ export default {
       type: "module",
     },
   },
+  plugins: [
+    new DashboardPlugin()
+  ],
   devtool: "source-map",
   mode: "production",
 };

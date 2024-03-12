@@ -90,9 +90,9 @@ export class Cache {
   set({ string, data }) {
     window.caches.open(this._name)
       .then(cache => {
-        const headers = new Headers()
-          .set('Content-Type', 'application/json')
-          .set('Cache-Control', `max-age=${this._duration}`);
+        const headers = new Headers();
+        headers.set('Content-Type', 'application/json');
+        headers.set('Cache-Control', `max-age=${this._duration}`);
         cache.put(`/${string}`, new Response(JSON.stringify(data), { headers }));
       })
       .catch(e => {
