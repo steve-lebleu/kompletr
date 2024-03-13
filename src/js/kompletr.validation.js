@@ -15,7 +15,7 @@ export class Validation {
    * @returns {Boolean}
    */
   static input(input) {
-    if (input && input instanceof HTMLInputElement === false && !document.getElementById(input)) {
+    if (input instanceof HTMLInputElement === false && !document.getElementById(input)) {
       throw new Error(`input should be an HTMLInputElement instance or a valid id identifier. None of boths given, ${input} received.`);
     }
     return true;

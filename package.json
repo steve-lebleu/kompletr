@@ -53,8 +53,8 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --browser chrome ./cypress",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./test/**.spec.js",
-    "wp:build": "webpack-dashboard -- webpack --mode production --config ./webpack.config.prod.js",
-    "wp:dev": "webpack-dashboard -- webpack serve --hot --mode development --config ./webpack.config.js",
+    "dev": "webpack-dashboard -- webpack serve --hot --mode development --config ./webpack.config.js",
+    "prod": "webpack-dashboard -- webpack --mode production --config ./webpack.config.prod.js",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"

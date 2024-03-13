@@ -15,4 +15,20 @@ const origin = Object.freeze({
   local: 'local',
 });
 
-export { animation, origin }
+/**
+ * @description Search expression values
+ */
+const searchExpression = Object.freeze({
+  prefix: 'prefix',
+  expression: 'expression',
+});
+
+/**
+ * @description Theme values
+ */
+const theme = Object.freeze({
+  light: 'light',
+  dark: 'dark',
+});
+
+export { animation, origin, searchExpression, theme }

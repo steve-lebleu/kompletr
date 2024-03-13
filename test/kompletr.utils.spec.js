@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import { build, uuid } from '../src/js/kompletr.utils.js';
+import { build } from '../src/js/kompletr.utils.js';
 
 describe('Utils functions', () => {
   describe('::build', () => {

@@ -1,25 +1,72 @@
+import { animation, searchExpression, theme } from './kompletr.enums.js';
+
 /**
- * @description Kompletr options definition.
+ * @description Represents the options for the Kompleter library.
  */
 export class Options {
-  _animationType = 'fadeIn'
+  /**
+   * The type of animation for the element.
+   * @type {string}
+   */
+  _animationType = animation.fadeIn
   
+  /**
+   * The duration of the animation in milliseconds.
+   * @type {number}
+   */
   _animationDuration = 500
 
+  /**
+   * Indicates whether multiple selections are allowed.
+   * @type {boolean}
+   * @private
+   */
   _multiple = false
   
-  _theme = 'light'
+  /**
+   * The theme for the kompletr options.
+   * @type {string}
+   */
+  _theme = theme.light
 
+  /**
+   * Array containing the fields to be displayed.
+   * @type {Array}
+   * @private
+   */
   _fieldsToDisplay = []
 
+  /**
+   * The maximum number of results to display.
+   * @type {number}
+   */
   _maxResults = 10
 
+  /**
+   * The character index from which querying should start.
+   * @type {number}
+   */
   _startQueriyngFromChar = 2
 
+  /**
+   * Represents the value of a property to be mapped.
+   * @type {string}
+   * @private
+   */
   _propToMapAsValue = ''
 
-  _filterOn = 'prefix'
+  /**
+   * The filter option used for filtering data.
+   * Possible values are 'prefix', 'expression'.
+   * @type {string}
+   */
+  _filterOn = searchExpression.prefix
 
+  /**
+   * Represents the cache value.
+   * @type {number}
+   * @private
+   */
   _cache = 0
 
   /**
@@ -30,9 +77,9 @@ export class Options {
   }
 
   set animationType(value) {
-    const valid = Object.keys(kompletr.enums.animation);
+    const valid = Object.keys(animation);
     if (!valid.includes(value)) {
-      throw new Error(`animation.type should be one of ${valid}`);
+      throw new Error(`animation.type should be one of ${valid.toString()}`);
     }
     this._animationType = value;
   }
@@ -41,14 +88,14 @@ export class Options {
    * @description Duration of some animation in ms. Default 500
    */
   get animationDuration() {
-    return this._duration;
+    return this._animationDuration;
   }
 
   set animationDuration(value) {
     if (isNaN(parseInt(value, 10))) {
       throw new Error(`animation.duration should be an integer`);
     }
-    this._duration = value;
+    this._animationDuration = value;
   }
 
   /**
@@ -70,8 +117,9 @@ export class Options {
   }
 
   set theme(value) {
-    if (!['light', 'dark'].includes(value)) {
-      throw new Error(`theme should be one of ['light', 'dark'], ${value} given`);
+    const valid = Object.keys(theme);
+    if (!valid.includes(value)) {
+      throw new Error(`theme should be one of ${valid.toString()}, ${value} given`);
     }
     this._theme = value;
   }
@@ -128,8 +176,9 @@ export class Options {
   }
 
   set filterOn(value) {
-    if (!['prefix', 'expression'].includes(value)) {
-      throw new Error(`filterOn should be one of ['prefix', 'expression'], ${value} given`);
+    const valid = Object.keys(searchExpression);
+    if (!valid.includes(value)) {
+      throw new Error(`filterOn should be one of ${valid.toString()}, ${value} given`);
     }
     this._filterOn = value;
   }
@@ -149,15 +198,19 @@ export class Options {
   }
 
   constructor(options) {
+    if (options === undefined) return;
+    if (typeof options !== 'object') {
+      throw new Error('options should be an object');
+    };
     this._theme = options?.theme || this._theme;
     this._animationType = options?.animationType || this._animationType;
     this._animationDuration = options?.animationDuration || this._animationDuration;
-    this._multiple = options?.multiple;
-    this._fieldsToDisplay = options?.fieldsToDisplay;
-    this._maxResults = options?.maxResults;
-    this._startQueriyngFromChar = options?.startQueriyngFromChar;
-    this._propToMapAsValue = options?.propToMapAsValue;
-    this._filterOn = options?.filterOn;
-    this._cache = options?.cache;
+    this._multiple = options?.multiple || this._multiple;
+    this._fieldsToDisplay = options?.fieldsToDisplay || this._fieldsToDisplay;
+    this._maxResults = options?.maxResults || this._maxResults;
+    this._startQueriyngFromChar = options?.startQueriyngFromChar || this._startQueriyngFromChar;
+    this._propToMapAsValue = options?.propToMapAsValue || this._propToMapAsValue;
+    this._filterOn = options?.filterOn || this._filterOn;
+    this._cache = options?.cache || this._cache;
   }
 }
