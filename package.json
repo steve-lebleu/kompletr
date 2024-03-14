@@ -51,7 +51,7 @@
     "build:css": "node-sass ./src/sass/kompleter.scss ./dist/css/kompleter.min.css --output-style compressed",
     "build:js": "webpack",
     "ci:api": "node ./cypress-api/index.js",
-    "ci:dev": "webpack serve --hot --mode development --config ./webpack.config.js",
+    "ci:dev": "webpack serve --config ./webpack.config.js",
     "ci:test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./test/**.spec.js -- --coverage",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --browser chrome ./cypress",
