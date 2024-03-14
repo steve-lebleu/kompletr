@@ -132,6 +132,8 @@ export class DOM {
       throw new Error('action should be one of ["add", "remove]: ' + action + ' given.');
     }
 
+  
+
     switch (action) {
       case 'add':
         this.focused = this.result.children[pointer];
@@ -180,6 +182,7 @@ export class DOM {
     }
 
     this.result.innerHTML = html;
-    this._broadcaster.trigger(event.domDone); // TODO here or in the handlers ?
+
+    this._broadcaster.trigger(event.domDone, this.result); // TODO: to be validated
   }
 }

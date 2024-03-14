@@ -34,8 +34,8 @@ describe('Animation', () => {
     }, 500);
   });
 
-  it.skip('slideDown changes the style of the element', () => {
-    Animation.slideDown(element);
+  it('slideDown changes the style of the element', () => {
+    Animation.slideDown(document.createElement('div'));
     setTimeout(() => {
       expect(element.style.height).not.toBe('0px');
       expect(element.style.display).toBe('block');

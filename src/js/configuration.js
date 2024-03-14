@@ -46,7 +46,7 @@ export class Configuration {
    * The character index from which querying should start.
    * @type {number}
    */
-  _startQueriyngFromChar = 2
+  _startQueryingFromChar = 2
 
   /**
    * Represents the value of a property to be mapped.
@@ -149,12 +149,12 @@ export class Configuration {
   /**
    * @description Input minimal value length before to fire research
    */
-  get startQueriyngFromChar() {
-    return this._startQueriyngFromChar;
+  get startQueryingFromChar() {
+    return this._startQueryingFromChar;
   }
 
-  set startQueriyngFromChar(value) {
-    this._startQueriyngFromChar = value;
+  set startQueryingFromChar(value) {
+    this._startQueryingFromChar = value;
   }
 
   /**
@@ -202,15 +202,15 @@ export class Configuration {
     if (typeof options !== 'object') {
       throw new Error('options should be an object');
     };
-    this._theme = options?.theme || this._theme;
-    this._animationType = options?.animationType || this._animationType;
-    this._animationDuration = options?.animationDuration || this._animationDuration;
-    this._multiple = options?.multiple || this._multiple;
-    this._fieldsToDisplay = options?.fieldsToDisplay || this._fieldsToDisplay;
-    this._maxResults = options?.maxResults || this._maxResults;
-    this._startQueriyngFromChar = options?.startQueriyngFromChar || this._startQueriyngFromChar;
-    this._propToMapAsValue = options?.propToMapAsValue || this._propToMapAsValue;
-    this._filterOn = options?.filterOn || this._filterOn;
-    this._cache = options?.cache || this._cache;
+    this.theme = options?.theme || this._theme;
+    this.animationType = options?.animationType || this._animationType;
+    this.animationDuration = options?.animationDuration || this._animationDuration;
+    this.multiple = options?.multiple || this._multiple;
+    this.fieldsToDisplay = options?.fieldsToDisplay || this._fieldsToDisplay;
+    this.maxResults = options?.maxResults || this._maxResults;
+    this.startQueryingFromChar = options?.startQueryingFromChar || this._startQueryingFromChar;
+    this.propToMapAsValue = options?.propToMapAsValue || this._propToMapAsValue;
+    this.filterOn = options?.filterOn || this._filterOn;
+    this.cache = options?.cache || this._cache;
   }
 }

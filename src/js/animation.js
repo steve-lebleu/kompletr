@@ -17,9 +17,9 @@ export class Animation {
    * 
    * @todo Manage duration
    */
-  static fadeIn(element, display, duration = 500) {
+  static fadeIn(element, duration = 500) {
     element.style.opacity = 0;
-    element.style.display = display || 'block';
+    element.style.display = 'block';
     (function fade(){
       let value = parseFloat(element.style.opacity);
       if (!((value += .1) > 1)) {

@@ -1,6 +1,6 @@
 
 import { Animation } from './animation.js';
-import { event, origin } from './enums.js';
+import { event, origin, searchExpression } from './enums.js';
 
 /**
  * @summary Kømpletr.js is a library providing features dedicated to autocomplete fields.
@@ -10,6 +10,9 @@ import { event, origin } from './enums.js';
  * @see https://github.com/steve-lebleu/kompletr
  */
 export default class Kompletr {
+  /**
+   * 
+   */
   broadcaster = null;
 
   /**
@@ -45,8 +48,11 @@ export default class Kompletr {
       this.dom = dom;
       this.cache = cache;
 
+      // animation parameters = this.result, this.configuration.animationDuration
+
       this.broadcaster.subscribe(event.error, this.error);
       this.broadcaster.subscribe(event.dataDone, this.showResults);
+      this.broadcaster.subscribe(event.domDone, Animation[this.configuration.animationType]);
       this.broadcaster.subscribe(event.domDone, this.bindResults);
       this.broadcaster.subscribe(event.selectDone, this.closeTheShop);
 
@@ -57,7 +63,7 @@ export default class Kompletr {
         this.callbacks = Object.assign(this.callbacks, { onKeyup, onSelect, onError });
       }
     } catch(e) {
-      broadcaster.trigger(event.error, e);
+      broadcaster ? broadcaster.trigger(event.error, e) : console.error(`[kompletr] An error has occured -> ${e.stack}`);
     }
   }
 
@@ -79,6 +85,16 @@ export default class Kompletr {
     this.callbacks.onError && this.callbacks.onError(e);
   }
 
+  filter = (data, pattern) => {
+    return data.filter((record) => {
+      const value = typeof record.data === 'string' ? record.data : record.data[this.configuration.propToMapAsValue];
+      if (this.configuration.filterOn === searchExpression.prefix) {
+        return value.toLowerCase().lastIndexOf(pattern.toLowerCase(), 0) === 0;
+      }
+      return value.toLowerCase().lastIndexOf(pattern.toLowerCase()) !== -1;
+    });
+  }
+
   /**
    * @description CustomEvent 'this.request.done' listener
    * 
@@ -87,16 +103,10 @@ export default class Kompletr {
   showResults = async ({ from, data }) => {
     this.props.data = data;
 
-    data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check if we can avoid this step
+    data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check if we can avoid this shit
 
     if (!this.callbacks.onKeyup) {
-      data = data.filter((record) => {
-        const value = typeof record.data === 'string' ? record.data : record.data[this.configuration.propToMapAsValue];
-        if (this.configuration.filterOn === 'prefix') {
-          return value.toLowerCase().lastIndexOf(this.dom.input.value.toLowerCase(), 0) === 0;
-        }
-        return value.toLowerCase().lastIndexOf(this.dom.input.value.toLowerCase()) !== -1;
-      });
+      data = this.filter(data, this.dom.input.value);
     }
 
     if (this.cache && from !== origin.cache) {
@@ -110,7 +120,6 @@ export default class Kompletr {
    * @description CustomEvent 'kompletr.dom.done' listener
    */
   bindResults = () => {    
-    Animation[this.configuration.animationType](this.dom.result, this.configuration.animationDuration); // TODO this is not really bindResult
     if(this.dom.result?.children?.length) {
       for(let i = 0; i < this.dom.result.children.length; i++) {
         ((i) => {
@@ -127,7 +136,7 @@ export default class Kompletr {
    * @description 'input.keyup' listener
    */
   suggest = (e) => {
-    if (this.dom.input.value.length < this.configuration.startQueriyngFromChar) {
+    if (this.dom.input.value.length < this.configuration.startQueryingFromChar) {
       return;
     }
     
@@ -202,7 +211,7 @@ export default class Kompletr {
       this.props.pointer++;
     } 
 
-    this.dom.focus(this.props.pointer, 'remove');
+    this.dom.focus(this.props.pointer, 'remove'); // TODO: check if we can do better like in one step
     this.dom.focus(this.props.pointer, 'add');
   }
 
@@ -217,7 +226,7 @@ export default class Kompletr {
    */
   select = (idx = 0) => {  
     this.dom.input.value = typeof this.props.data[idx] === 'object' ? this.props.data[idx][this.configuration.propToMapAsValue] : this.props.data[idx];
-    this.callbacks.onSelect(this.props.data[idx]);
+    this.callbacks.onSelect && this.callbacks.onSelect(this.props.data[idx]);
     this.broadcaster.trigger(event.selectDone);
   }
 };
