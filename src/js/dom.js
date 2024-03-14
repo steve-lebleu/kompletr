@@ -132,8 +132,6 @@ export class DOM {
       throw new Error('action should be one of ["add", "remove]: ' + action + ' given.');
     }
 
-  
-
     switch (action) {
       case 'add':
         this.focused = this.result.children[pointer];
