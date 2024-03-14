@@ -53,7 +53,7 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./coverage/lcov.info
+          path-to-lcov: ./build/code-coverage/lcov.info
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest

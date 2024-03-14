@@ -22,7 +22,7 @@ export default {
   // coverageProvider: 'v8',
   collectCoverage: true,
   coverageDirectory: 'build/code-coverage',
-  coverageReporters: ['cobertura', 'text'],
+  coverageReporters: ['text', 'lcov'],
   collectCoverageFrom: [
     'src/**/*.js'
   ],
