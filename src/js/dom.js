@@ -1,9 +1,24 @@
 import { event } from './enums.js';
 
-/**
- * @description
- */
 export class DOM {
+  /**
+   * @description Identifiers for the DOM elements
+   */
+  _identifiers = {
+    results: 'kpl-result',
+  };
+
+  /**
+   * @description Classes for the DOM elements
+   */
+  _classes = {
+    main: 'kompletr',
+    input: 'input--search',
+    results: 'form--search__result',
+    result: 'item--result',
+    data: 'item--data',
+    focus: 'focus',
+  };
 
   /**
    * @description Body tag
@@ -28,8 +43,8 @@ export class DOM {
   }
 
   set input(value) {
-    if (input instanceof HTMLInputElement === false) {
-      throw new Error(`input should be an HTMLInputElement instance: ${input} given.`);
+    if (value instanceof HTMLInputElement === false) {
+      throw new Error(`input should be an HTMLInputElement instance: ${value} given.`);
     }
     this._input = value;
   }
@@ -60,23 +75,33 @@ export class DOM {
     this._result = value;
   }
   
+  /**
+   * @description Broadcaster instance
+   */
   _broadcaster = null;
 
-  // TODO: do better with hardcoded theme and classes
-  // TODO: do bindings out of the constructor
+  /**
+   * Represents a Kompletr DOM container.
+   * 
+   * @param {string|HTMLInputElement} input - The input element or its ID.
+   * @param {object} broadcaster - The broadcaster object.
+   * @param {object} [options] - The options for the DOM object.
+   * @param {string} [options.theme='light'] - The theme for the DOM object.
+   * 
+   * @returns {void}
+   */
   constructor(input, broadcaster, options = { theme: 'light' }) {
-    this._body = document.getElementsByTagName('body')[0];
-    
-    this._input = input instanceof HTMLInputElement ? input : document.getElementById(input);
-    this._input.setAttribute('class', `${this._input.getAttribute('class')} input--search`);
-    
-    this._result = this.build('div', [ { id: 'kpl-result' }, { class: 'form--search__result' } ]);
-
-    this._input.parentElement.setAttribute('class', `${this._input.parentElement.getAttribute('class')} kompletr ${options.theme}`);
-    this._input.parentElement.appendChild(this._result);
-
-
     this._broadcaster = broadcaster;
+
+    this.body = document.getElementsByTagName('body')[0];
+    
+    this.input = input instanceof HTMLInputElement ? input : document.getElementById(input);
+    this.input.setAttribute('class', `${this._input.getAttribute('class')} ${this._classes.input}`);
+    
+    this.result = this.build('div', [ { id: this._identifiers.results }, { class: this._classes.results } ]);
+
+    this.input.parentElement.setAttribute('class', `${this._input.parentElement.getAttribute('class')} ${this._classes.main} ${options.theme}`);
+    this.input.parentElement.appendChild(this._result);
   }
 
   /**
@@ -110,13 +135,13 @@ export class DOM {
     switch (action) {
       case 'add':
         this.focused = this.result.children[pointer];
-        this.result.children[pointer].className += ' focus';
+        this.result.children[pointer].className += ` ${this._classes.focus}`;
         break;
       case 'remove':
         this.focused = null;
         Array.from(this.result.children).forEach(result => {
           ((result) => {
-            result.className = 'item--result';
+            result.className = this._classes.result;
           })(result)
         });
         break;
@@ -134,15 +159,15 @@ export class DOM {
     if(data && data.length) {
       html = data
         .reduce((html, current) => {
-          html += `<div id="${current.idx}" class="item--result">`;
+          html += `<div id="${current.idx}" class="${this._classes.result}">`;
           switch (typeof current.data) {
             case 'string':
-              html += `<span class="item--data">${current.data}</span>`;
+              html += `<span class="${this._classes.data}">${current.data}</span>`;
               break;
             case 'object':
               let properties = Array.isArray(fieldsToDisplay) && fieldsToDisplay.length ? fieldsToDisplay: Object.keys(current.data);
               for(let j = 0; j < properties.length; j++) {
-                html += `<span class="item--data">${current.data[properties[j]]}</span>`;
+                html += `<span class="${this._classes.data}">${current.data[properties[j]]}</span>`;
               }
               break;
           }
@@ -151,7 +176,7 @@ export class DOM {
         }, '');
       
     } else {
-      html = '<div class="item--result">Not found</div>';
+      html = `<div class="${this._classes.result}">Not found</div>`;
     }
 
     this.result.innerHTML = html;

@@ -1,11 +1,10 @@
-import { Options } from '../src/js/options.js';
+import { Configuration } from '../src/js/configuration.js';
 
-describe('Options', () => {
-  let options;
+describe('Configuration', () => {
+  let configuration;
 
   beforeEach(() => {
-    
-    options = new Options({
+    configuration = new Configuration({
       theme: 'light',
       animationType: 'fadeIn',
       animationDuration: 500,
@@ -20,45 +19,45 @@ describe('Options', () => {
   });
 
   it('defines getters and setters for all properties', () => {
-    expect(options.theme).toBeDefined();
-    expect(options.animationType).toBeDefined();
-    expect(options.animationDuration).toBeDefined();
-    expect(options.multiple).toBeDefined();
-    expect(options.fieldsToDisplay).toBeDefined();
-    expect(options.maxResults).toBeDefined();
-    expect(options.startQueriyngFromChar).toBeDefined();
-    expect(options.propToMapAsValue).toBeDefined();
-    expect(options.filterOn).toBeDefined();
-    expect(options.cache).toBeDefined();
+    expect(configuration.theme).toBeDefined();
+    expect(configuration.animationType).toBeDefined();
+    expect(configuration.animationDuration).toBeDefined();
+    expect(configuration.multiple).toBeDefined();
+    expect(configuration.fieldsToDisplay).toBeDefined();
+    expect(configuration.maxResults).toBeDefined();
+    expect(configuration.startQueriyngFromChar).toBeDefined();
+    expect(configuration.propToMapAsValue).toBeDefined();
+    expect(configuration.filterOn).toBeDefined();
+    expect(configuration.cache).toBeDefined();
   });
 
   it('throws error when setting invalid animationType', () => {
     expect(() => {
-      options.animationType = 'invalid';
+      configuration.animationType = 'invalid';
     }).toThrowError(new Error('animation.type should be one of fadeIn,slideDown'));
   });
 
   it('throws error when setting non-integer animationDuration', () => {
     expect(() => {
-      options.animationDuration = 'not a number';
+      configuration.animationDuration = 'not a number';
     }).toThrowError(new Error('animation.duration should be an integer'));
   });
 
   it('throws error when setting invalid theme', () => {
     expect(() => {
-      options.theme = 'invalid';
+      configuration.theme = 'invalid';
     }).toThrowError(new Error('theme should be one of light,dark, invalid given'));
   });
 
   it('throws error when setting invalid filterOn', () => {
     expect(() => {
-      options.filterOn = 'invalid';
+      configuration.filterOn = 'invalid';
     }).toThrowError(new Error('filterOn should be one of prefix,expression, invalid given'));
   });
 
   it('throws error when setting non-integer cache', () => {
     expect(() => {
-      options.cache = 'not a number';
+      configuration.cache = 'not a number';
     }).toThrowError(new Error('cache should be an integer'));
   });
 });

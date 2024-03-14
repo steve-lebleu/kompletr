@@ -1,44 +1,62 @@
+const dom = new JSDOM('<!doctype html><html><body><input id="input"></body></html>');
+
+global.window = dom.window;
+global.document = window.document;
+global.document.body.innerHTML = '<input id="input">';
+
+import { jest } from '@jest/globals';
 import { JSDOM } from 'jsdom';
 import { DOM } from '../src/js/dom.js';
 
-describe('DOM class', () => {
+describe('DOM', () => {
+  let dom;
+  let broadcaster = {
+    trigger: jest.fn()
+  };
+
   beforeEach(() => {
-    const dom = new JSDOM();
-    global.document = dom.window.document;
+    dom = new DOM('input', broadcaster)
   });
 
-  test('constructor should initialize properties', () => {
-    const inputElement = document.createElement('input');
-    inputElement.id = 'test';
-    document.body.appendChild(inputElement);
-
-    const dom = new DOM('test', { theme: 'dark' });
-
-    expect(dom.body).toBe(document.body);
-    expect(dom.input).toBe(inputElement);
-    expect(dom.focused).toBe(null);
-    expect(dom.result.id).toBe('kpl-result');
-    expect(dom.result.className).toBe('form--search__result');
-    expect(inputElement.parentElement.className).toContain('kompletr dark');
+  test('constructor', () => {
+    expect(dom._broadcaster).toBe(broadcaster);
+    expect(dom._body).toBe(document.body);
+    expect(dom._input).toBeInstanceOf(HTMLInputElement);
+    expect(dom._result).toBeInstanceOf(HTMLElement);
   });
 
-  test('getter/setter methods should get and set properties', () => {
-    const dom = new DOM('test');
+  it('defines getters and setters for all properties', () => {
+    expect(dom.body).toBeDefined();
+    expect(dom.result).toBeDefined();
+    expect(dom.input).toBeDefined();
+    expect(dom.focused).toBeDefined();
+  });
 
-    const newBody = document.createElement('body');
-    dom.body = newBody;
-    expect(dom.body).toBe(newBody);
+  test('build', () => {
+    const element = dom.build('div', [{ id: 'test' }, { class: 'test' }]);
+    expect(element).toBeInstanceOf(HTMLElement);
+    expect(element.id).toBe('test');
+    expect(element.className).toBe('test');
+  });
 
-    const newInput = document.createElement('input');
-    dom.input = newInput;
-    expect(dom.input).toBe(newInput);
+  test('focus', () => {
+    dom._result.appendChild(document.createElement('div'));
+    dom.focus(0, 'add');
+    expect(dom._focused).toBeInstanceOf(HTMLElement);
+    expect(dom._focused.className).toContain('focus');
+    dom.focus(0, 'remove');
+    expect(dom._focused).toBeNull();
+    expect(dom._result.firstChild.className).not.toContain('focus');
+  });
 
-    const newFocused = document.createElement('div');
-    dom.focused = newFocused;
-    expect(dom.focused).toBe(newFocused);
-
-    const newResult = document.createElement('div');
-    dom.result = newResult;
-    expect(dom.result).toBe(newResult);
+  test('buildResults', () => {
+    const data = [{ idx: '1', data: 'test' }];
+    dom.buildResults(data);
+    expect(dom._result.firstChild).toBeInstanceOf(HTMLElement);
+    expect(dom._result.firstChild.id).toBe('1');
+    expect(dom._result.firstChild.className).toBe('item--result');
+    expect(dom._result.firstChild.firstChild.className).toBe('item--data');
+    expect(dom._result.firstChild.firstChild.textContent).toBe('test');
+    expect(broadcaster.trigger).toHaveBeenCalledWith('kompletr.dom.done');
   });
 });

@@ -1,11 +1,13 @@
-import { describe, jest } from '@jest/globals';
+import { jest } from '@jest/globals';
 import { Cache } from '../src/js/cache.js';
 
 describe('Cache', () => {
   let cache;
-
   beforeEach(() => {
-    cache = new Cache(1000, 'test.cache');
+    const mockBroadcaster = {
+      trigger: jest.fn(),
+    };
+    cache = new Cache(mockBroadcaster, 1000, 'test.cache');
     window = Object.create(window);
     window.caches = {};
     window.caches.open = jest.fn().mockResolvedValue({
@@ -54,3 +56,4 @@ describe('Cache', () => {
     });
   });
 });
+

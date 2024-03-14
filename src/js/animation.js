@@ -93,7 +93,6 @@ export class Animation {
    */
   static slideDown(element, duration = 500) {
     element.style.removeProperty('display');
-    console.log(element)
     let display = window.getComputedStyle(element).display;
     if (display === 'none') display = 'block';
     element.style.display = display;
