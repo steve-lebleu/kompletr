@@ -79,11 +79,11 @@ jobs:
         with:
           name: build-files
           path: dist
-      - name: Run local servers
-        run: npm run ci:api & npm run ci:dev
+      - name: Run local API
+        run: npm run ci:api
         env:
           CI: true
       - name: Run E2E tests
-        run: npm run cypress:run
+        run: npm run ci:dev && npm run cypress:run
         env:
           CI: true
