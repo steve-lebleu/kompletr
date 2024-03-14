@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import { Animation } from '../src/js/kompletr.animation.js';
+import { Animation } from '../src/js/animation.js';
 
 describe('Animation', () => {
   let dom;

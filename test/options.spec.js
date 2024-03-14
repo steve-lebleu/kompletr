@@ -1,4 +1,4 @@
-import { Options } from '../src/js/kompletr.options.js';
+import { Options } from '../src/js/options.js';
 
 describe('Options', () => {
   let options;

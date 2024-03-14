@@ -1,39 +1,39 @@
-import { animation } from "./kompletr.enums.js";
+import { animation } from "./enums.js";
 
 /**
- * @descrption Animations functions.
+ * Represents an Animation class that provides various animation effects.
  */
 export class Animation {
   constructor() {}
 
   /**
-   * @description Apply a fadeIn animation effect
+   * Apply a fadeIn animation effect to the target HTML element.
    * 
-   * @param {HTMLElement} element Target HTML element
-   * @param {String} display CSS3 display property value
-   * @param {Number} duration Duration of the animation in ms
+   * @param {HTMLElement} element - The target HTML element.
+   * @param {String} display - The CSS3 display property value.
+   * @param {Number} duration - The duration of the animation in milliseconds.
    * 
    * @returns {Void}
    * 
    * @todo Manage duration
    */
-  static fadeIn(element, display = 'block', duration = 500) {
+  static fadeIn(element, display, duration = 500) {
     element.style.opacity = 0;
-    element.style.display = display;
+    element.style.display = display || 'block';
     (function fade(){
       let value = parseFloat(element.style.opacity);
       if (!((value += .1) > 1)) {
         element.style.opacity = value;
         requestAnimationFrame(fade);
       }
-    })()
+    })();
   };
 
   /**
-   * @description Apply a fadeOut animation effect
+   * Apply a fadeOut animation effect to the target HTML element.
    * 
-   * @param {HTMLElement} element Target HTML element
-   * @param {Number} duration Duration of the animation in ms. Default 500ms
+   * @param {HTMLElement} element - The target HTML element.
+   * @param {Number} duration - The duration of the animation in milliseconds.
    * 
    * @returns {Void}
    * 
@@ -51,10 +51,10 @@ export class Animation {
   };
 
   /**
-   * @description Apply a slideUp animation effect
+   * Apply a slideUp animation effect to the target HTML element.
    * 
-   * @param {HTMLElement} element Target HTML element
-   * @param {Number} duration Duration of the animation in ms. Default 500ms
+   * @param {HTMLElement} element - The target HTML element.
+   * @param {Number} duration - The duration of the animation in milliseconds.
    * 
    * @returns {Void}
    */
@@ -84,10 +84,10 @@ export class Animation {
   };
 
   /**
-   * @description Apply a slideDown animation effect
+   * Apply a slideDown animation effect to the target HTML element.
    * 
-   * @param {HTMLElement} element Target HTML element
-   * @param {Number} duration Duration of the animation in ms. Default 500ms
+   * @param {HTMLElement} element - The target HTML element.
+   * @param {Number} duration - The duration of the animation in milliseconds.
    * 
    * @returns {Void}
    */
@@ -122,13 +122,13 @@ export class Animation {
   };
 
   /**
-   * @description This function applies the opposite animation to a given element.
+   * Apply the opposite animation effect to a given element.
    * 
    * @param {HTMLElement} element - The element to animate.
    * @param {string} [type=animation.fadeIn] - The animation to apply. By default, it's 'fadeIn'.
    * @param {number} [duration=500] - The duration of the animation in milliseconds. By default, it's 500.
    * 
-   * @return {Object} Returns the result of the Animation function with the opposite animation, the element and the duration as parameters.
+   * @return {Object} Returns the result of the Animation function with the opposite animation, the element, and the duration as parameters.
    */
   static animateBack(element, type = animation.fadeIn , duration = 500) {
     const animations = {

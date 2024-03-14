@@ -1,4 +1,4 @@
-import { EventManager } from "./kompletr.events.js";
+import { event } from "./enums.js";
 
 /**
  * @description Kompletr simple caching mechanism implementation.
@@ -18,7 +18,16 @@ export class Cache {
    */
   _duration = null;
   
-  constructor(duration = 0, name = 'kompletr.cache') {
+  /**
+   * @description Broadcaster instance
+   */
+  _braodcaster = null;
+  
+  constructor(broadcaster, duration = 0, name = 'kompletr.cache') {
+    if (!window.caches) {
+      return false;
+    }
+    this._broadcaster = broadcaster;
     this._name = name;
     this._duration = duration;
   }
@@ -43,39 +52,8 @@ export class Cache {
           });
       })
       .catch(e => {
-        EventManager.trigger(EventManager.event.error, e);
+        this._broadcaster.trigger(event.error, e);
       });
-  }
-
-  /**
-   * @description Indicate if the cache is active or not
-   * 
-   * @returns {Boolean} Cache is active or not
-   */
-  isActive() {
-    return this._duration !== 0;
-  }
-
-  /**
-   * @description Check the cache validity regarding the current request and the cache timelife
-   * 
-   * @param {String} string The current request value
-   *
-   * @returns {Promise<Boolean>} 
-   */
-  async isValid(string) {
-    const cache = await window.caches.open(this._name);
-    
-    const response = await cache.match(`/${string}`);
-    if (!response) {
-      return false;
-    }
-
-    const createdAt = await response.text();
-    if (parseInt(createdAt + this._duration, 10) <= Date.now()) {
-      return false;   
-    }
-    return true;
   }
 
   /**
@@ -96,7 +74,27 @@ export class Cache {
         cache.put(`/${string}`, new Response(JSON.stringify(data), { headers }));
       })
       .catch(e => {
-        EventManager.trigger(EventManager.event.error, e);
+        this._broadcaster.trigger(event.error, e);
       });
+  }
+
+  /**
+   * @description Check the cache validity regarding the current request and the cache timelife
+   * 
+   * @param {String} string The current request value
+   *
+   * @returns {Promise<Boolean>}
+   */
+  async isValid(string) {
+    try {
+      const cache = await window.caches.open(this._name);
+      const response = await cache.match(`/${string}`);
+      if (!response) {
+        return false;
+      }
+      return true;
+    } catch(e) {
+      this._broadcaster.trigger(event.error, e);
+    }
   }
 };

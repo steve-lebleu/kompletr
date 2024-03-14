@@ -5,7 +5,7 @@ import DashboardPlugin from "webpack-dashboard/plugin/index.js";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export default {
-  entry: './src/js/kompletr.js',
+  entry: './src/js/index.js',
   experiments: {
     outputModule: true,
   },

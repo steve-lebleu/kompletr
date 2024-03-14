@@ -1,4 +1,4 @@
-import { Properties } from '../src/js/kompletr.properties.js';
+import { Properties } from '../src/js/properties.js';
 
 describe('Properties', () => {
   let properties;

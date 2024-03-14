@@ -1,5 +1,5 @@
 import { describe, jest } from '@jest/globals';
-import { Cache } from '../src/js/kompletr.cache.js';
+import { Cache } from '../src/js/cache.js';
 
 describe('Cache', () => {
   let cache;
@@ -20,11 +20,6 @@ describe('Cache', () => {
   it('should defines get method', () => {
     expect(cache.get).toBeDefined();
     expect(typeof cache.get).toBe('function');
-  });
-
-  it('should defines isActive method', () => {
-    expect(cache.isActive).toBeDefined();
-    expect(typeof cache.isActive).toBe('function');
   });
 
   it('should defines isValid method', () => {
@@ -50,12 +45,6 @@ describe('Cache', () => {
     it('should puts data into the cache', () => {
       cache.set({ string: 'test', data: 'test data' });
       expect(window.caches.open).toHaveBeenCalled();
-    });
-  });
-
-  describe('::isActive', () => {
-    it('should returns true if duration is not 0', () => {
-      expect(cache.isActive()).toBe(true);
     });
   });
 

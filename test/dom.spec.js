@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import { DOM } from '../src/js/kompletr.dom.js';
+import { DOM } from '../src/js/dom.js';
 
 describe('DOM class', () => {
   beforeEach(() => {

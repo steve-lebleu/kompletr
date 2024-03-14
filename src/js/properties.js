@@ -8,16 +8,6 @@ export class Properties {
    */
   _data = null
 
-  /**
-   * @description Position of the pointer inside the suggestions
-   */
-  _pointer = null
-
-  /**
-   * @description Previous input value
-   */
-  _previousValue = null
-
   get data() {
     return this._data;
   }
@@ -28,6 +18,11 @@ export class Properties {
     }
     this._data = value;
   }
+
+  /**
+   * @description Position of the pointer inside the suggestions
+   */
+  _pointer = null
 
   get pointer() {
     return this._pointer;
@@ -40,6 +35,11 @@ export class Properties {
     this._pointer = value;
   }
 
+  /**
+   * @description Previous input value
+   */
+  _previousValue = null
+
   get previousValue() {
     return this._previousValue;
   }
@@ -48,7 +48,7 @@ export class Properties {
     this._previousValue = value;
   }
 
-  constructor(props) {
-    this._data = props.data;
+  constructor(data = []) {
+    this._data = data;
   }
 }

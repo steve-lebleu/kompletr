@@ -1,9 +1,9 @@
-import { animation, searchExpression, theme } from './kompletr.enums.js';
+import { animation, searchExpression, theme } from './enums.js';
 
 /**
- * @description Represents the options for the Kompleter library.
+ * @description Represents the configuration for the Kompleter library.
  */
-export class Options {
+export class Configuration {
   /**
    * The type of animation for the element.
    * @type {string}
