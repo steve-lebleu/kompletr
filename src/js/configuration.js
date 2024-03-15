@@ -8,66 +8,66 @@ export class Configuration {
    * The type of animation for the element.
    * @type {string}
    */
-  _animationType = animation.fadeIn
+  _animationType = animation.fadeIn;
   
   /**
    * The duration of the animation in milliseconds.
    * @type {number}
    */
-  _animationDuration = 500
+  _animationDuration = 500;
 
   /**
    * Indicates whether multiple selections are allowed.
    * @type {boolean}
    * @private
    */
-  _multiple = false
+  _multiple = false;
   
   /**
    * The theme for the kompletr options.
    * @type {string}
    */
-  _theme = theme.light
+  _theme = theme.light;
 
   /**
    * Array containing the fields to be displayed.
    * @type {Array}
    * @private
    */
-  _fieldsToDisplay = []
+  _fieldsToDisplay = [];
 
   /**
    * The maximum number of results to display.
    * @type {number}
    */
-  _maxResults = 10
+  _maxResults = 10;
 
   /**
    * The character index from which querying should start.
    * @type {number}
    */
-  _startQueryingFromChar = 2
+  _startQueryingFromChar = 2;
 
   /**
    * Represents the value of a property to be mapped.
    * @type {string}
    * @private
    */
-  _propToMapAsValue = ''
+  _propToMapAsValue = '';
 
   /**
    * The filter option used for filtering data.
    * Possible values are 'prefix', 'expression'.
    * @type {string}
    */
-  _filterOn = searchExpression.prefix
+  _filterOn = searchExpression.prefix;
 
   /**
    * Represents the cache value.
    * @type {number}
    * @private
    */
-  _cache = 0
+  _cache = 0;
 
   /**
    * @description Type of animation between valid types
@@ -93,7 +93,7 @@ export class Configuration {
 
   set animationDuration(value) {
     if (isNaN(parseInt(value, 10))) {
-      throw new Error(`animation.duration should be an integer`);
+      throw new Error('animation.duration should be an integer');
     }
     this._animationDuration = value;
   }
@@ -192,7 +192,7 @@ export class Configuration {
 
   set cache(value) {
     if (isNaN(parseInt(value, 10))) {
-      throw new Error(`cache should be an integer`);
+      throw new Error('cache should be an integer');
     }
     this._cache = value;
   }
@@ -201,7 +201,7 @@ export class Configuration {
     if (options === undefined) return;
     if (typeof options !== 'object') {
       throw new Error('options should be an object');
-    };
+    }
     this.theme = options?.theme || this._theme;
     this.animationType = options?.animationType || this._animationType;
     this.animationDuration = options?.animationDuration || this._animationDuration;

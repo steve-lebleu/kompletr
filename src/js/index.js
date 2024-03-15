@@ -1,8 +1,8 @@
-import Kompletr from "./kompletr.js"
+import Kompletr from './kompletr.js';
 
 import { Configuration } from './configuration.js';
 import { Cache } from './cache.js';
-import { Broadcaster } from "./broadcaster.js";
+import { Broadcaster } from './broadcaster.js';
 import { Properties } from './properties.js';
 import { DOM } from './dom.js';
 

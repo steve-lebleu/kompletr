@@ -1,4 +1,4 @@
-import { event } from "./enums.js";
+import { event } from './enums.js';
 
 /**
  * @description Kompletr simple caching mechanism implementation.
@@ -97,4 +97,4 @@ export class Cache {
       this._broadcaster.trigger(event.error, e);
     }
   }
-};
+}

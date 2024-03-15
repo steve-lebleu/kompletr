@@ -1,4 +1,4 @@
-import { animation } from "./enums.js";
+import { animation } from './enums.js';
 
 /**
  * Represents an Animation class that provides various animation effects.
@@ -10,14 +10,12 @@ export class Animation {
    * Apply a fadeIn animation effect to the target HTML element.
    * 
    * @param {HTMLElement} element - The target HTML element.
-   * @param {String} display - The CSS3 display property value.
-   * @param {Number} duration - The duration of the animation in milliseconds.
    * 
    * @returns {Void}
    * 
    * @todo Manage duration
    */
-  static fadeIn(element, duration = 500) {
+  static fadeIn(element) {
     element.style.opacity = 0;
     element.style.display = 'block';
     (function fade(){
@@ -27,19 +25,18 @@ export class Animation {
         requestAnimationFrame(fade);
       }
     })();
-  };
+  }
 
   /**
    * Apply a fadeOut animation effect to the target HTML element.
    * 
    * @param {HTMLElement} element - The target HTML element.
-   * @param {Number} duration - The duration of the animation in milliseconds.
    * 
    * @returns {Void}
    * 
    * @todo Manage duration
    */
-  static fadeOut(element, duration = 500) {
+  static fadeOut(element) {
     element.style.opacity = 1;
     (function fade() {
       if ((element.style.opacity -= .1) < 0) {
@@ -48,7 +45,7 @@ export class Animation {
         requestAnimationFrame(fade);
       }
     })();
-  };
+  }
 
   /**
    * Apply a slideUp animation effect to the target HTML element.
@@ -81,7 +78,7 @@ export class Animation {
       element.style.removeProperty('transition-duration');
       element.style.removeProperty('transition-property');
     }, duration);
-  };
+  }
 
   /**
    * Apply a slideDown animation effect to the target HTML element.
@@ -105,7 +102,7 @@ export class Animation {
     element.style.marginBottom = 0;
     element.offsetHeight;
     element.style.boxSizing = 'border-box';
-    element.style.transitionProperty = "height, margin, padding";
+    element.style.transitionProperty = 'height, margin, padding';
     element.style.transitionDuration = duration + 'ms';
     element.style.height = height + 'px';
     element.style.removeProperty('padding-top');
@@ -118,7 +115,7 @@ export class Animation {
       element.style.removeProperty('transition-duration');
       element.style.removeProperty('transition-property');
     },duration);
-  };
+  }
 
   /**
    * Apply the opposite animation effect to a given element.
@@ -136,4 +133,4 @@ export class Animation {
     };
     return Animation[animations[type]](element, duration);
   }
-};
+}

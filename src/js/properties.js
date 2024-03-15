@@ -6,7 +6,7 @@ export class Properties {
   /**
    * @description Data storage
    */
-  _data = null
+  _data = null;
 
   get data() {
     return this._data;
@@ -22,7 +22,7 @@ export class Properties {
   /**
    * @description Position of the pointer inside the suggestions
    */
-  _pointer = null
+  _pointer = null;
 
   get pointer() {
     return this._pointer;
@@ -38,7 +38,7 @@ export class Properties {
   /**
    * @description Previous input value
    */
-  _previousValue = null
+  _previousValue = null;
 
   get previousValue() {
     return this._previousValue;

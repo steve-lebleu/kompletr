@@ -57,4 +57,4 @@ const theme = Object.freeze({
   dark: 'dark',
 });
 
-export { animation, event, origin, searchExpression, theme }
+export { animation, event, origin, searchExpression, theme };

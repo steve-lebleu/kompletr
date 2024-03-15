@@ -73,17 +73,17 @@ export default class Kompletr {
     }
     Animation.animateBack(this.dom.result, this.configuration.animationType, this.configuration.animationDuration);
     this.resetPointer();
-  }
+  };
 
   resetPointer = () => {
     this.props.pointer = -1;
-  }
+  };
 
   error = (e) => {
     console.error(`[kompletr] An error has occured -> ${e.stack}`);
     Animation.fadeIn(this.dom.result);
     this.callbacks.onError && this.callbacks.onError(e);
-  }
+  };
 
   filter = (data, pattern) => {
     return data.filter((record) => {
@@ -93,7 +93,7 @@ export default class Kompletr {
       }
       return value.toLowerCase().lastIndexOf(pattern.toLowerCase()) !== -1;
     });
-  }
+  };
 
   /**
    * @description CustomEvent 'this.request.done' listener
@@ -114,7 +114,7 @@ export default class Kompletr {
     }
 
     this.dom.buildResults(data.slice(0, this.configuration.maxResults), this.configuration.fieldsToDisplay);
-  }
+  };
 
   /**
    * @description CustomEvent 'kompletr.dom.done' listener
@@ -127,10 +127,10 @@ export default class Kompletr {
             this.dom.focused = this.dom.result.children[i];
             this.select(this.dom.focused.id);
           });
-        })(i)
+        })(i);
       }
     }
-  }
+  };
 
   /**
    * @description 'input.keyup' listener
@@ -143,21 +143,21 @@ export default class Kompletr {
     const keyCode = e.keyCode;
 
     switch (keyCode) {
-      case 13:  // Enter
-        this.select(this.dom.focused.id);
-        break;
-      case 38: // Up
-      case 40: // Down
-        this.navigate(keyCode);
-        break;
-      default:
-        if (this.dom.input.value !== this.props.previousValue) {
-          this.hydrate(this.dom.input.value);
-        }
-        this.resetPointer();
-        break
+    case 13:  // Enter
+      this.select(this.dom.focused.id);
+      break;
+    case 38: // Up
+    case 40: // Down
+      this.navigate(keyCode);
+      break;
+    default:
+      if (this.dom.input.value !== this.props.previousValue) {
+        this.hydrate(this.dom.input.value);
+      }
+      this.resetPointer();
+      break;
     }
-  }
+  };
 
   /**
    * @description Manage the data hydration according to the current setup (cache, request or local data)
@@ -187,7 +187,7 @@ export default class Kompletr {
     } catch(e) {
       this.broadcaster.trigger(event.error, e);
     }
-  }
+  };
 
   /**
    * @description Apply visual navigation into the suggestions set
@@ -212,7 +212,7 @@ export default class Kompletr {
     } 
 
     this.dom.focus(this.props.pointer);
-  }
+  };
 
   /**
    * @description Select a suggested item as user choice
@@ -227,5 +227,5 @@ export default class Kompletr {
     this.dom.input.value = typeof this.props.data[idx] === 'object' ? this.props.data[idx][this.configuration.propToMapAsValue] : this.props.data[idx];
     this.callbacks.onSelect && this.callbacks.onSelect(this.props.data[idx]);
     this.broadcaster.trigger(event.selectDone);
-  }
-};
+  };
+}

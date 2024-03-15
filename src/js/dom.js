@@ -118,7 +118,7 @@ export class DOM {
       htmlElement.setAttribute(Object.keys(attribute)[0], Object.values(attribute)[0]);
     });
     return htmlElement;
-   };
+  }
 
   /**
    * @description Add / remove the focus on a HTMLElement
@@ -136,7 +136,7 @@ export class DOM {
     Array.from(this.result.children).forEach(result => {
       ((result) => {
         result.className = this._classes.result;
-      })(result)
+      })(result);
     });
 
     this.focused = this.result.children[pointer];
@@ -156,16 +156,16 @@ export class DOM {
         .reduce((html, current) => {
           html += `<div id="${current.idx}" class="${this._classes.result}">`;
           switch (typeof current.data) {
-            case 'string':
-              html += `<span class="${this._classes.data}">${current.data}</span>`;
-              break;
-            case 'object':
-              let properties = Array.isArray(fieldsToDisplay) && fieldsToDisplay.length ? fieldsToDisplay: Object.keys(current.data);
-              for(let j = 0; j < properties.length; j++) {
-                html += `<span class="${this._classes.data}">${current.data[properties[j]]}</span>`;
-              }
-              break;
-          }
+          case 'string':
+            html += `<span class="${this._classes.data}">${current.data}</span>`;
+            break;
+          case 'object': {
+            let properties = Array.isArray(fieldsToDisplay) && fieldsToDisplay.length ? fieldsToDisplay: Object.keys(current.data);
+            for(let j = 0; j < properties.length; j++) {
+              html += `<span class="${this._classes.data}">${current.data[properties[j]]}</span>`;
+            }
+            break;
+          }}
           html += '</div>';
           return html;
         }, '');

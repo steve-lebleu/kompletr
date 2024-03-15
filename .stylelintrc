@@ -1,21 +1,18 @@
 {
   "plugins": [
     "stylelint-prettier",
-    "stylelint-no-unsupported-browser-features"
+    "stylelint-no-unsupported-browser-features",
+    "stylelint-selector-bem-pattern"
   ],
   "extends": [
     "stylelint-config-standard",
-    "stylelint-config-sass-guidelines",
-    "stylelint-order",
-    "stylelint-a11y/recommended",
-    "stylelint-prettier/recommended"
+    "stylelint-config-sass-guidelines"
   ],
   "rules": {
-    "order/properties-alphabetical-order": true,
-    "no-descending-specificity": null,
-    "selector-class-pattern": [
-      "^aa(-(?:[A-Z][a-z]+Plugin))?-(?:[A-Z][a-z]+)+(?:--[a-z]+(?:[A-Z][a-z]+)?)?$"
-    ],
+    "plugin/selector-bem-pattern": {
+      "preset": "bem",
+      "implicitComponents": "*.css"
+    },
     "prettier/prettier": true,
     "max-nesting-depth": null,
     "rule-empty-line-before": [

@@ -64,6 +64,9 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint ./src/js/",
+    "lint:css": "stylelint ./src/sass/",
     "prod": "webpack --mode production --config ./webpack.config.prod.js"
   },
   "devDependencies": {
@@ -81,6 +84,12 @@
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
     "stylelint": "^16.2.1",
+    "stylelint-config-sass-guidelines": "^11.1.0",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-no-unsupported-browser-features": "^8.0.1",
+    "stylelint-order": "^6.0.4",
+    "stylelint-prettier": "^5.0.0",
+    "stylelint-selector-bem-pattern": "^4.0.0",
     "vitepress": "^1.0.0-rc.45",
     "vitepress-plugin-tabs": "^0.5.0",
     "webpack": "^5.89.0",
