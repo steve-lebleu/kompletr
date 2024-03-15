@@ -5,9 +5,9 @@ import DashboardPlugin from "webpack-dashboard/plugin/index.js";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export default {
-  entry: './src/js/index.js',
-  devtool: "source-map",
   mode: "development",
+  devtool: "source-map",
+  entry: './src/js/index.js',
   module: {
     rules: [
       {
@@ -25,12 +25,12 @@ export default {
       overlay: true,
     },
     static: {
-      directory: path.join(__dirname, './dist'),
+      directory: path.join(__dirname, './build'),
     },
     compress: true,
     port: 9000,
     historyApiFallback: true,
     liveReload: true,
-    watchFiles: path.join(__dirname, './dist'),
+    watchFiles: path.join(__dirname, './build'),
   },
 };
