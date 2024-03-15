@@ -14,10 +14,6 @@ export default {
         test: /\.html$/i,
         loader: "html-loader",
       },
-      {
-        test: /\.js$/i,
-        loader: "esbuild-loader",
-      },
     ],
   },
   plugins: [
