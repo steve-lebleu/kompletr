@@ -27,7 +27,7 @@ jobs:
         with:
           name: build-files
           path: |
-            dist
+            build
           retention-days: 3
   unit-tests:
     name: Unit Tests
@@ -72,13 +72,13 @@ jobs:
         run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - name: Install local Node.js dependencies
         run:  npm i
-      - name: Create dist directory
-        run: mkdir dist
+      - name: Create build directory
+        run: mkdir build
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: build-files
-          path: dist
+          path: build
       - name: Run E2E tests
         run: npm run ci:dev & npm run ci:e2e
         env:
