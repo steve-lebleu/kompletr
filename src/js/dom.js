@@ -127,25 +127,20 @@ export class DOM {
    *
    * @returns {Void}
    */
-  focus(pointer, action) {
-    if (!['add', 'remove'].includes(action)) {
-      throw new Error('action should be one of ["add", "remove]: ' + action + ' given.');
+  focus(pointer) {
+    if (isNaN(parseInt(pointer, 10)) || pointer < 0 || pointer > this.result.children.length - 1) {
+      throw new Error('pointer should be a valid integer in the result lenght range: ' + pointer + ' given.');
     }
 
-    switch (action) {
-      case 'add':
-        this.focused = this.result.children[pointer];
-        this.result.children[pointer].className += ` ${this._classes.focus}`;
-        break;
-      case 'remove':
-        this.focused = null;
-        Array.from(this.result.children).forEach(result => {
-          ((result) => {
-            result.className = this._classes.result;
-          })(result)
-        });
-        break;
-    }
+    this.focused = null;
+    Array.from(this.result.children).forEach(result => {
+      ((result) => {
+        result.className = this._classes.result;
+      })(result)
+    });
+
+    this.focused = this.result.children[pointer];
+    this.result.children[pointer].className += ` ${this._classes.focus}`;
   }
 
   /**

@@ -32,6 +32,14 @@ describe('DOM', () => {
       expect(dom.input).toBeDefined();
       expect(dom.focused).toBeDefined();
     });
+
+    it('should throws error when attempt to set input with something else than HTMLInputElement', () => {
+      try {
+        dom.input = 'test';
+      } catch(e) {
+        expect(e.message).toBe('input should be an HTMLInputElement instance: test given.');
+      }
+    });
   });
 
   describe('::build', () => {
@@ -46,17 +54,24 @@ describe('DOM', () => {
   describe('::focus', () => {
     it('should manage adding and removing focus', () => {
       dom.result.appendChild(document.createElement('div'));
-      dom.focus(0, 'add');
+      dom.result.appendChild(document.createElement('div'));
+      dom.result.appendChild(document.createElement('div'));
+      dom.focus(1);
       expect(dom.focused).toBeInstanceOf(HTMLElement);
       expect(dom.focused.className).toContain('focus');
-      dom.focus(0, 'remove');
-      expect(dom.focused).toBeNull();
-      expect(dom.result.firstChild.className).not.toContain('focus');
+    });
+
+    it('should throws error when the pointer is out of range', () => {
+      try {
+        dom.focus(-1);
+      } catch(e) {
+        expect(e.message).toBe('pointer should be a valid integer in the result lenght range: -1 given.');
+      }
     });
   });
 
   describe('::buildResults', () => {
-    it('should build well formed DOM with suggestions results', () => {
+    it('should build well formed DOM with suggestions results as strings', () => {
       const data = [{ idx: '1', data: 'test' }];
       dom.buildResults(data);
       expect(dom.result.firstChild).toBeInstanceOf(HTMLElement);
@@ -64,6 +79,23 @@ describe('DOM', () => {
       expect(dom.result.firstChild.className).toBe('item--result');
       expect(dom.result.firstChild.firstChild.className).toBe('item--data');
       expect(dom.result.firstChild.firstChild.textContent).toBe('test');
+      expect(broadcaster.trigger).toHaveBeenCalled();
+    });
+
+    it('should build well formed DOM with suggestions results as object', () => {
+      const data = [{ idx: '1', data: { prop: 'test'} }];
+      dom.buildResults(data, ['prop']);
+      expect(dom.result.firstChild).toBeInstanceOf(HTMLElement);
+      expect(dom.result.firstChild.id).toBe('1');
+      expect(dom.result.firstChild.className).toBe('item--result');
+      expect(dom.result.firstChild.firstChild.className).toBe('item--data');
+      expect(dom.result.firstChild.firstChild.textContent).toBe('test');
+      expect(broadcaster.trigger).toHaveBeenCalled();
+    });
+
+    it('should build with a not found when no result', () => {
+      dom.buildResults([]);
+      expect(dom.result.innerHTML).toContain('Not found');
       expect(broadcaster.trigger).toHaveBeenCalled();
     });
   });

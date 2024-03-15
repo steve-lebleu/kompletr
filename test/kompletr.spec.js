@@ -312,8 +312,7 @@ describe('Kompletr', () => {
       instance.props.pointer = 2;
       instance.dom.result = { children: [1, 2, 3, 4, 5] };
       instance.navigate(38);
-      expect(spy).toHaveBeenCalledWith(1, 'add');
-      expect(spy).toHaveBeenCalledWith(1, 'remove');
+      expect(spy).toHaveBeenCalledWith(1);
     });
   });
 

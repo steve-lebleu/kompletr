@@ -211,8 +211,7 @@ export default class Kompletr {
       this.props.pointer++;
     } 
 
-    this.dom.focus(this.props.pointer, 'remove'); // TODO: check if we can do better like in one step
-    this.dom.focus(this.props.pointer, 'add');
+    this.dom.focus(this.props.pointer);
   }
 
   /**

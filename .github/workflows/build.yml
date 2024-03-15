@@ -80,6 +80,6 @@ jobs:
           name: build-files
           path: dist
       - name: Run E2E tests
-        run: npm run ci:dev && npm run cypress:run
+        run: npm run ci:dev & npm run cypress:run
         env:
           CI: true
