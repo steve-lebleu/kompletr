@@ -83,3 +83,10 @@ jobs:
         run: npm run ci:dev & npm run ci:e2e
         env:
           CI: true
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files-e2e
+          path: |
+            build
+          retention-days: 3

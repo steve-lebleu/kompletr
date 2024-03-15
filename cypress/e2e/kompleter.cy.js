@@ -34,7 +34,7 @@ describe("Kompletr.js", function() {
     });
 
     it ("should return n results with a value length >= 2", function() {
-      cy.get('#auto-complete').click().type('Te').then(() => {
+      cy.get('#auto-complete').click().type('Ter').then(() => {
         cy.get('.item--result').its('length').should('be.gte', 0);
       });
     });
