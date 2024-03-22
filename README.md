@@ -1,4 +1,4 @@
-# Kømpletr - Vanilla JS auto-completion library
+# Kømpletr - Vanilla JS autocompletion library
 
 ![Github action workflow status](https://github.com/steve-lebleu/kompletr/actions/workflows/build.yml/badge.svg?branch=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/steve-lebleu/kompletr/badge)](https://www.codefactor.io/repository/github/steve-lebleu/kompletr)
@@ -9,7 +9,7 @@
 
 ## > Demo
 
-Demo: https://fabrik.konfer.be/kompletr/
+Demo: https://kompletr.konfer.be/demo/
 
 ## Installation
 
@@ -19,21 +19,15 @@ Demo: https://fabrik.konfer.be/kompletr/
 $ npm i kompletr --save
 ```
 
-### CDN
-
-```html
-<script src="kompletr.min.js"></script>
-```
-
 ### Direct download
 
-```html
-$ npm i kompletr --save
-```
+1. Download latest release archive
+2. Get JS files from ./dist/js/.js*
+3. Get CSS files from ./dist/css/.css*
 
 ## Getting started
 
-Insert Kømpletr styles in the head section of your page:
+Load Kømpletr styles:
 
 ``` html 
 <head>
@@ -43,7 +37,7 @@ Insert Kømpletr styles in the head section of your page:
 </head>
 ```
 
-Load kompletr.js:
+Load kompletr script:
 
 ``` html 
 <script src="kompletr.min.js"></script>
@@ -59,7 +53,8 @@ Invoke Kømpletr:
 
 ``` javascript
 const input = document.getElementById('autocomplete');
-input.kompletr({
+kompletr({
+  input,
   data: [],
   onSelect: (selected) => {
     console.log('There is the selected value', selected);

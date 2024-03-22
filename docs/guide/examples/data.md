@@ -7,14 +7,12 @@
   const input = document.getElementById('auto-complete');
   const result = await fetch('/your-api');
   const data = await result.json();
-  input.kompletr({
+  kompletr({
+    input,
     data,
     onSelect: (selected) => {
       console.log('Do something with this selected value: ', selected);
     },
-    onError: (error) => {
-      console.log('Do something at your sausage with this: ', error?.message);
-    }
   });
 </script>
 ```
@@ -24,7 +22,8 @@
 ```html
 <script>
   const input = document.getElementById('auto-complete');
-  input.kompletr({
+  kompletr({
+    input,
     data: [],
     onKeyup: async function (value, done) {
       const result = await fetch(`/your-api?q=${value}&limit=10&offset=0&...`);
@@ -34,9 +33,6 @@
     onSelect: (selected) => {
       console.log('Do something with this selected value: ', selected);
     },
-    onError: (error) => {
-      console.log('Do something at your sausage with this: ', error?.message);
-    }
   });
 </script>
 ```

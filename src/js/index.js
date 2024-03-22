@@ -24,12 +24,12 @@ const kompletr = function({ input, data, options, onKeyup, onSelect, onError }) 
   const configuration = new Configuration(options);
   const properties = new Properties(data);
 
-  const dom = new DOM(this || input, broadcaster, configuration); // FIXME: broken when this is not an input element (when kompleter is called from a different context)
+  const dom = new DOM(input, broadcaster, configuration);
   const cache = configuration.cache ? new Cache(broadcaster, configuration.cache) : null;
   
   new Kompletr({ configuration, properties, dom, cache, broadcaster, onKeyup, onSelect, onError });
 };
 
-window.HTMLInputElement.prototype.kompletr = kompletr;
+window.kompletr = kompletr;
 
-export default kompletr;
+export { kompletr };

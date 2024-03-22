@@ -7,7 +7,7 @@ global.document = window.document;
 global.document.body.innerHTML = '<div><input id="input"></div>';
 
 import { afterEach, expect, jest } from '@jest/globals';
-import kompletr from '../src/js/index.js';
+import { kompletr } from '../src/js/index.js';
 
 describe('kompletr', () => {
   let mockData;
@@ -31,9 +31,5 @@ describe('kompletr', () => {
   it('should initialize all components correctly', () => {
     kompletr({ input: 'input', data: mockData, options: mockOptions, ...mockCallbacks });
     expect(kompletr).toBeInstanceOf(Function);
-  });
-
-  it('should put kompletr as prototype of input element', () => {
-    expect(window.HTMLInputElement.prototype.kompletr).toBeDefined();
   });
 });

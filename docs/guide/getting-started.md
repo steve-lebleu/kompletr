@@ -49,7 +49,7 @@
 :::tabs
 == HTML
 ```html
-<script src="" type="module"></script>
+<script src="kompletr.min.js" type="module"></script>
 ```
 == CommonJS
 ```javascript
@@ -61,25 +61,40 @@ import { kompletr } from 'kompletr';
 ```
 :::
 
-### 2. Define input element
+### 2. Load styles
+
+:::tabs
+== HTML
+```html
+<link href="./kompletr.min.css" rel="stylesheet" type="text/css" />
+```
+== CommonJS
+```javascript
+const styles = require('./kompletr.min.css');
+```
+== ESM
+```javascript
+import styles from './kompletr.min.css';
+```
+:::
+
+### 3. Define input element
 
 ```html
 <input id="auto-complete" type="text" autocomplete="off" />
 ```
 
-### 3. Initialize Kompletr
+### 4. Initialize Kompletr
 
 ```html
 <script>
   const input = document.getElementById('auto-complete');
-  input.kompletr({
+  kompletr({
+    input,
     data: ['apple', 'banana', 'orange', 'mandarine'],
     onSelect: (selected) => {
       console.log('Current selected value: ', selected);
     },
-    onError: (error) => {
-      console.log('An error has occured: ', error);
-    }
   });
 </script>
 ```
