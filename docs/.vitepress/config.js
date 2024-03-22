@@ -38,14 +38,26 @@ export default defineConfig({
           text: 'References',
           collapsed: false,
           items: [
-            { text: 'Support', link: '/guide/support' },
-            { text: 'Browser support', link: '/guide/browser-support' },
-            { text: 'Contributions', link: '/guide/contributions' },
             { text: 'Release notes', link: '/guide/release-notes' },
+            { text: 'Contributions', link: '/guide/contributions' },
+            { text: 'Browser support', link: '/guide/browser-support' },
+            { text: 'Support', link: '/guide/support' },
           ]
         },
       ],
-      '/api': []
+      '/api': {
+        text: 'kompletr',
+        collapsed: false,
+        items: [
+          { text: 'kompletr', link: '/api/signature' },
+          { text: 'input', link: '/api/input' },
+          { text: 'data', link: '/api/data' },
+          { text: 'options', link: '/api/options' },
+          { text: 'onKeyup', link: '/api/onkeyup' },
+          { text: 'onSelect', link: '/api/onselect' },
+          { text: 'onError', link: '/api/onerror' },
+        ]
+      },
     },
 
     socialLinks: [
