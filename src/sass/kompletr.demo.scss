@@ -8,6 +8,12 @@ html {
   font-size: $font-size-base;
 }
 
+header {
+  p:first-child {
+    text-align: center;
+  }
+}
+
 .github-corner {
   position: fixed;
   right: 0;
@@ -21,6 +27,10 @@ html {
     color: #fff;
     fill: #333;
     fill: var(--theme-color, #333);
+  }
+  &:hover {
+    transform: scale(1.1);
+    cursor: pointer;
   }
 }
 
@@ -37,12 +47,12 @@ body {
 hgroup {
   margin: 0 auto 40px auto;
   text-align: center;
-}
 
-h1 {
-  margin: 3rem auto 0 auto;
-  font-family: $font-title;
-  font-size: 7rem;
+  img {
+    margin: 100px auto 20px auto;
+    display: block;
+    max-width: 500px;
+  }
 }
 
 a {

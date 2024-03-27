@@ -1212,6 +1212,9 @@ var __webpack_exports__ = {};
   !*** ./src/js/index.js ***!
   \*************************/
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   kompletr: function() { return /* binding */ kompletr; }
+/* harmony export */ });
 /* harmony import */ var _kompletr_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./kompletr.js */ "./src/js/kompletr.js");
 /* harmony import */ var _configuration_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./configuration.js */ "./src/js/configuration.js");
 /* harmony import */ var _cache_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cache.js */ "./src/js/cache.js");
@@ -1250,9 +1253,9 @@ const kompletr = function({ input, data, options, onKeyup, onSelect, onError }) 
   new _kompletr_js__WEBPACK_IMPORTED_MODULE_0__["default"]({ configuration, properties, dom, cache, broadcaster, onKeyup, onSelect, onError });
 };
 
-window.HTMLInputElement.prototype.kompletr = kompletr;
+window.kompletr = kompletr;
 
-/* harmony default export */ __webpack_exports__["default"] = (kompletr);
+
 }();
 /******/ })()
 ;

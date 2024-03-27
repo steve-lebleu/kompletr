@@ -23,6 +23,8 @@ jobs:
         run:  npm i
       - name: Build local project
         run:  npm run build
+      - name: Build production
+        run:  npm run prod
       - name: Lint
         run:  npm run lint:js
       - name: Upload artifact

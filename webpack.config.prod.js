@@ -5,7 +5,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export default [
   {
-    mode: "production",
+    mode: 'production',
     entry: './src/js/index.js',
     experiments: {
       outputModule: true,
@@ -14,12 +14,12 @@ export default [
       path: path.resolve(__dirname, 'dist/js'),
       filename: 'kompletr.min.js',
       library: {
-        type: "module",
+        type: 'module',
       },
     },
   },
   {
-    mode: "production",
+    mode: 'production',
     entry: './src/js/index.js',
     experiments: {
       outputModule: true,
@@ -28,7 +28,7 @@ export default [
       path: path.resolve(__dirname, 'demo/js'),
       filename: 'kompletr.min.js',
       library: {
-        type: "module",
+        type: 'module',
       },
     },
   }

@@ -1,18 +1,18 @@
 import path from 'path';
 import * as url from 'url';
-import DashboardPlugin from "webpack-dashboard/plugin/index.js";
+import DashboardPlugin from 'webpack-dashboard/plugin/index.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export default {
-  mode: "development",
-  devtool: "source-map",
+  mode: 'development',
+  devtool: 'source-map',
   entry: './src/js/index.js',
   module: {
     rules: [
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        loader: 'html-loader',
       },
     ],
   },
