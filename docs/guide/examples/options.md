@@ -1,6 +1,12 @@
+
+
 # Options
 
-## animations
+The *options* parameter is required as **Object** with following properties:
+
+## animationType and animationDuration
+
+Boths optionals.
 
 ```html
 <script>
@@ -20,6 +26,8 @@
 
 ## cache
 
+Optional.
+
 ```html
 <script>
   kompletr({
@@ -37,11 +45,20 @@
 
 ## fieldsToDisplay
 
+Required if *data* contains object values, to indicate which properties should be displayed into suggested item.
+
 ```html
 <script>
   kompletr({
     input: 'auto-complete',
-    data: ['orange', 'apple', 'kiwi'],
+    data: [
+      {
+        name: 'Belgium',
+        population: 10000000,
+        code: 'BE',
+        beer: true
+      }
+    ],
     options: {
       fieldsToDisplay: [
         'name',
@@ -57,6 +74,17 @@
 ```
     
 ## filterOn
+
+Optional.
+
+Can be used to determine the search method when you delegate the filtering to Kompletr (in other terms, when you pass data without refresh it on your own by using *onKeyup* callback).
+
+Accepted values:
+
+- *prefix*: the search is done from the begining of the term
+- *expression*: the search is done into the whole word
+
+Default: *prefix*
 
 ```html
 <script>
@@ -75,6 +103,12 @@
 
 ## maxResults
 
+Optional.
+
+Number of results to display.
+
+Default: 5
+
 ```html
 <script>
   kompletr({
@@ -91,6 +125,12 @@
 ```
 
 ## propToMapAsValue
+
+Optional.
+
+Number of results to display.
+
+Default: 10
 
 ```html
 <script>
@@ -109,6 +149,12 @@
 
 ## startQueryingFromChar
 
+Optional.
+
+Number of chars before to fire research.
+
+Default: 2
+
 ```html
 <script>
   kompletr({
@@ -125,6 +171,17 @@
 ```
 
 ## theme
+
+Optional.
+
+Theme style.
+
+Accepted values:
+
+- *light*
+- *dark*
+
+Default: *light*
 
 ```html
 <script>

@@ -98,4 +98,3 @@ import styles from './kompletr.min.css';
   });
 </script>
 ```
-:link: See [API section](./api.md) for more informations about available options.

@@ -1,5 +1,7 @@
 # Input
 
+The *input* parameter is required as **HTMLInputElement** or **selector**.
+
 ## Giving a selector
 
 ```html

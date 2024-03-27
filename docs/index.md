@@ -8,11 +8,11 @@ hero:
   tagline: 10kb of vanilla lightweight to add highly featured autocompletion on your pages.
   actions:
     - theme: brand
+      text: Demo
+      link: /demo
+    - theme: alt
       text: Getting started
       link: /guide
-    - theme: alt
-      text: API Documentation
-      link: /api
 
 features:
   - icon: ✨

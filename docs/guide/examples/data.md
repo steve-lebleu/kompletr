@@ -1,5 +1,9 @@
 # Data
 
+The *data* parameter is required as **Object[]** or **String[]**.
+
+It can be empty at initialization if you take the ownership on the querying by using the *onKeyup* callback to manage the data.
+
 ## Querying on initialization
 
 ```html

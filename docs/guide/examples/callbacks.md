@@ -1,6 +1,13 @@
 # Callbacks
 
+Three callbacks are exposed to give you more flexibility:
+
 ## onKeyup
+
+Fired after *onkeyup* event, with parameters:
+
+- *value*: current input value
+- *done*: callback function to call with refreshed data in parameter
 
 ```html
 <script>
@@ -22,6 +29,10 @@
 
 ## onSelect
 
+Fired when a suggestion is selected by a click or a keypress on Enter:
+
+- *selected*: current input value
+  
 ```html
 <script>
   const input = document.getElementById('auto-complete');
@@ -37,6 +48,10 @@
 
 ## onError
 
+Fired when an error is catched, with the error given in parameter:
+
+- *error*: current error
+  
 ```html
 <script>
   const input = document.getElementById('auto-complete');

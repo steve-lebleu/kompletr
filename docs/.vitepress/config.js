@@ -10,7 +10,6 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide' },
-      { text: 'API', link: '/api' },
       { text: 'Demo', link: '/demo' },
     ],
 
@@ -45,19 +44,6 @@ export default defineConfig({
           ]
         },
       ],
-      '/api': {
-        text: 'kompletr',
-        collapsed: false,
-        items: [
-          { text: 'kompletr', link: '/api/signature' },
-          { text: 'input', link: '/api/input' },
-          { text: 'data', link: '/api/data' },
-          { text: 'options', link: '/api/options' },
-          { text: 'onKeyup', link: '/api/onkeyup' },
-          { text: 'onSelect', link: '/api/onselect' },
-          { text: 'onError', link: '/api/onerror' },
-        ]
-      },
     },
 
     socialLinks: [
