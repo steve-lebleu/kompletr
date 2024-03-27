@@ -23,14 +23,41 @@ jobs:
         run:  npm i
       - name: Build local project
         run:  npm run build
+      - name: Lint
+        run:  npm run lint:js
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: |
-            dist
+            build
           retention-days: 3
-  test:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    env:
+      RUNNER: github
+      NODE_ENV: dev
+    steps:
+      - name: Github checkout
+        uses: actions/checkout@v4
+      - name: Setup node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.19.0'
+      - name: Install Node.js dependencies
+        run:  npm i
+      - name: Run unit tests
+        run: npm run ci:test
+        env:
+          CI: true
+      - name: Publish to coveralls.io
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./build/code-coverage/lcov.info
+  e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
     needs: [ build ]
@@ -48,21 +75,28 @@ jobs:
         run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - name: Install local Node.js dependencies
         run:  npm i
-      - name: Create dist directory
-        run: mkdir dist
+      - name: Create build directory
+        run: mkdir build
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: build-files
-          path: dist
+          path: build
       - name: Run E2E tests
-        run: npm run start & npm run cypress:run
+        run: npm run ci:dev & npm run ci:e2e
         env:
           CI: true
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files-e2e
+          path: |
+            build
+          retention-days: 3
   release-github:
     name: Release on Github
     runs-on: ubuntu-latest
-    needs: [ build, test ]
+    needs: [ unit-tests, e2e-tests ]
     steps:
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -84,7 +118,7 @@ jobs:
   release-npm:
     name: Release on NPM registry
     runs-on: ubuntu-latest
-    needs: [ build, test ]
+    needs: [ unit-tests, e2e-tests ]
     steps:
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -111,3 +145,61 @@ jobs:
         run: npm ci & npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.KONFER_NPM_TOKEN }}
+  deploy-demo:
+    name: Deploy demo website
+    runs-on: ubuntu-latest
+    needs: [ release-github, release-npm ]
+    steps:
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashfiles('**/package-lock.json') }}
+      - name: Github checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.19.0'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Build demo
+        run: npm run demo
+      - name: Copy files using SCP
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: demo
+          remote: ${{ vars.KONFER_SSH_TARGET }}
+          host: ${{ secrets.KONFER_SSH_HOST }}
+          username: ${{ secrets.KONFER_SSH_USER }}
+          password: ${{ secrets.KONFER_SSH_PWD }}
+  deploy-docs:
+    name: Deploy documentation website
+    runs-on: ubuntu-latest
+    needs: [ deploy-demo ]
+    steps:
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashfiles('**/package-lock.json') }}
+      - name: Github checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.19.0'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Build documentation
+        run: docs:build
+      - name: Copy files using SCP
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: docs
+          remote: "${{ vars.KONFER_SSH_TARGET }}/docs"
+          host: ${{ secrets.KONFER_SSH_HOST }}
+          username: ${{ secrets.KONFER_SSH_USER }}
+          password: ${{ secrets.KONFER_SSH_PWD }}
