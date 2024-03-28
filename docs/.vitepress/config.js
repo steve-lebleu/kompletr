@@ -2,12 +2,11 @@ import { defineConfig } from 'vitepress'
 import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
 
 // https://vitepress.dev/reference/site-config
+// https://vitepress.dev/reference/default-theme-config
 export default defineConfig({
   title: "Kømpletr",
   description: "JS autocomplete library",
   themeConfig: {
-    base: '/docs/',
-    // https://vitepress.dev/reference/default-theme-config
     logo: {
       light: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png',
       dark: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png'
@@ -16,7 +15,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide' },
-      { text: 'Demo', link: 'https://kompletr.konfer.be' },
+      { text: 'Demo', link: 'https://demo.kompletr.konfer.be' },
     ],
 
     sidebar: {
