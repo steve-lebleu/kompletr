@@ -1,6 +1,7 @@
 import path from 'path';
 import * as url from 'url';
 
+// eslint-disable-next-line compat/compat
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export default [
