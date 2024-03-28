@@ -166,6 +166,10 @@ jobs:
         with:
           node-version: '18.19.0'
           registry-url: 'https://registry.npmjs.org'
+      - name: Install global Node.js dependencies
+        run:  npm i node-sass -g
+      - name: Install local Node.js dependencies
+        run:  npm i
       - name: Build demo
         run: npm run demo
       - name: Deploy demo using SCP
