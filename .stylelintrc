@@ -1,0 +1,30 @@
+{
+  "plugins": [
+    "stylelint-prettier",
+    "stylelint-no-unsupported-browser-features",
+    "stylelint-selector-bem-pattern"
+  ],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-sass-guidelines"
+  ],
+  "rules": {
+    "plugin/selector-bem-pattern": {
+      "preset": "bem",
+      "implicitComponents": "*.css"
+    },
+    "prettier/prettier": true,
+    "max-nesting-depth": null,
+    "rule-empty-line-before": [
+      "always",
+      { "ignore": ["after-comment", "first-nested", "inside-block"] }
+    ],
+    "selector-max-compound-selectors": null,
+    "plugin/no-unsupported-browser-features": [
+      null,
+      {
+        "severity": "warning"
+      }
+    ]
+  }
+}

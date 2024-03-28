@@ -789,3 +789,19 @@ $base-font-size: 16px !default;
   background-image: -ms-linear-gradient(left, $startColor, $endColor);
   background-image: -o-linear-gradient(left, $startColor, $endColor);
 }
+
+///
+/// 
+/// 
+@mixin backdrop ($blur, $saturate, $opacity, $theme: 'light') {
+  backdrop-filter: blur($blur) saturate($saturate);
+  -webkit-backdrop-filter: blur($blur) saturate($saturate);
+  @if ($theme == 'light') {
+    background-color: rgba(255, 255, 255, $opacity);
+  } @else if ($theme == 'dark') {
+    background-color: rgba(51, 51, 51, $opacity);
+  } @else {
+    background-color: rgba(255, 255, 255, $opacity);
+  }
+  
+}

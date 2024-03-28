@@ -1,49 +1,37 @@
-const path = require('path');
-const terser = require('terser');
+import path from 'path';
+import * as url from 'url';
+import DashboardPlugin from 'webpack-dashboard/plugin/index.js';
 
-const WebpackConcatPlugin = require('webpack-concat-files-plugin');
+// eslint-disable-next-line compat/compat
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-module.exports = {
-  entry: './src/js/index.js',
+export default {
   mode: 'development',
-
-  plugins: [
-    new WebpackConcatPlugin({
-      bundles: [
-        {
-          src: [
-            './src/js/jquery.kompleter.js',
-          ],
-          dest: './dist/js/jquery.kompleter.min.js',
-          transforms: {
-            after: async (code) => {
-              const minifiedCode = await terser.minify(code);
-              return minifiedCode.code;
-            },
-          },
-        },
-      ],
-    }),
-  ],
+  devtool: 'source-map',
+  entry: './src/js/index.js',
   module: {
     rules: [
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        loader: 'html-loader',
       },
     ],
   },
+  plugins: [
+    new DashboardPlugin()
+  ],
   devServer: {
     client: {
-      logging: 'info',
+      logging: 'log',
       overlay: true,
     },
     static: {
-      directory: path.join(__dirname, './dist'),
+      directory: path.join(__dirname, './build'),
     },
     compress: true,
     port: 9000,
     historyApiFallback: true,
-    liveReload: true
+    liveReload: true,
+    watchFiles: path.join(__dirname, './build'),
   },
 };

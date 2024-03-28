@@ -1,0 +1,154 @@
+
+@import 'mixins';
+@import 'variables';
+
+////
+// Module code
+////
+/// 
+.kompletr {
+  &.form--search {
+    width: 30%;
+    position: relative;
+    margin: 0 auto;
+    @media (max-width: 480px) {
+      width: 90%;
+    }
+  }
+  
+  .input--search,
+  .item--result {
+    font-family: $font-base;
+    font-size: 100%;
+  }
+  
+  .input--search {
+    display: block;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 15px 10px;
+    width: 100%;
+    min-width: 240px;
+    max-width: 600px;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    border: none;
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+  
+  .form--search__result {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .item--result {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-left: none;
+    border-right: none;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover, &.focus {
+      cursor: pointer;
+      @include transition(0.2s ease-in-out);
+    }
+
+    & .item--data {
+      flex: 50%;
+
+      &:nth-child(even) {
+        text-align: right;
+      }
+
+      &:nth-child(0) {
+        font-weight: 600;
+      }
+
+      &:nth-child(n+2) {
+        font-weight: normal;
+      }
+    }
+  }
+
+  &.light {
+    .input--search {
+      color: $color-4;
+      background: $color-1;
+    }
+
+    ::placeholder {
+      color: $color-2;
+    }
+
+    .item--result {
+      color: $color-6;
+      border-bottom: 1px dashed $color-3;
+      @include backdrop(16px, 180%, 0.75);
+
+      &:hover, &.focus {
+        @include backdrop(26px, 120%, 0.50);
+        
+        & .item--data:nth-child(n+2) {
+          color: $color-6;
+        }
+      }
+
+      & .item--data {
+        &:nth-child(0) {
+          color: $color-6;
+        }
+  
+        &:nth-child(n+2) {
+          color: $color-4;
+        }
+      }
+    }
+  }
+
+  &.dark {
+    .input--search {
+      color: $color-1;
+      background: $color-6;
+    }
+
+    ::placeholder {
+      color: $color-2;
+    }
+
+    .item--result {
+      color: $color-1;
+      border-bottom: 1px dashed $color-4;
+      @include backdrop(16px, 180%, 0.75, 'dark');
+
+      &:hover, &.focus {
+        @include backdrop(26px, 120%, 0.50, 'dark');
+        
+        & .item--data:nth-child(n+2) {
+          color: $color-1;
+        }
+      }
+
+      & .item--data {
+        &:nth-child(0) {
+          color: $color-1;
+        }
+  
+        &:nth-child(n+2) {
+          color: $color-4;
+        }
+      }
+    }
+  }
+}
