@@ -185,7 +185,7 @@ jobs:
       - name: Deploy documentation using SCP
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: docs/.vuepress/dist
+          local: docs/.vitepress/dist
           remote: "${{ vars.KONFER_SSH_TARGET }}/docs"
           host: ${{ secrets.KONFER_SSH_HOST }}
           username: ${{ secrets.KONFER_SSH_USER }}
