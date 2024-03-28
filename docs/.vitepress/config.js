@@ -6,6 +6,7 @@ export default defineConfig({
   title: "Kømpletr",
   description: "JS autocomplete library",
   themeConfig: {
+    base: 'docs',
     // https://vitepress.dev/reference/default-theme-config
     logo: {
       light: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png',
