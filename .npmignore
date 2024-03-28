@@ -8,11 +8,17 @@
 # Node modules, can be retrieved by npm
 node_modules
 
-# Retrieved by bower
-src
-
 # E2E tests
 cypress
 
 # Github workflows
 .github
+
+# Build files
+build
+
+# Demo files
+demo
+
+# Docs files
+docs

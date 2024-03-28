@@ -11,6 +11,15 @@ html {
 header {
   p:first-child {
     text-align: center;
+
+    a {
+      color: #333;
+      text-decoration: none;
+      transition: all 0.4s ease-in-out;
+      &:hover {
+        color: #444;
+      }
+    }
   }
 }
 
@@ -49,9 +58,13 @@ hgroup {
   text-align: center;
 
   img {
-    margin: 100px auto 20px;
+    margin: 100px auto 0;
     display: block;
     max-width: 500px;
+  }
+
+  cite {
+    color: #444;
   }
 }
 

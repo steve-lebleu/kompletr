@@ -1,4 +1,4 @@
-# Kømpletr - Vanilla JS autocompletion library
+# Kømpletr - JS autocompletion
 
 ![Github action workflow status](https://github.com/steve-lebleu/kompletr/actions/workflows/build.yml/badge.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/steve-lebleu/kompletr/badge.svg?branch=master)](https://coveralls.io/github/steve-lebleu/kompletr?branch=master)
@@ -6,7 +6,7 @@
 ![GitHub Release](https://img.shields.io/github/v/release/steve-lebleu/kompletr?logo=Github)
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/steve-lebleu/kompletr/blob/master/LICENSE)
 
-*10kb of lightweight vanilla to add simple & efficient autocomplete.*
+*10kb of vanilla lightweight for a simple & efficient autocomplete*
 
 ## Installation
 
