@@ -181,11 +181,11 @@ jobs:
           username: ${{ secrets.KONFER_SSH_USER }}
           password: ${{ secrets.KONFER_SSH_PWD }}
       - name: Build documentation
-        run: docs:build
+        run: npm run docs:build
       - name: Deploy documentation using SCP
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: docs
+          local: docs/.vuepress/dist
           remote: "${{ vars.KONFER_SSH_TARGET }}/docs"
           host: ${{ secrets.KONFER_SSH_HOST }}
           username: ${{ secrets.KONFER_SSH_USER }}

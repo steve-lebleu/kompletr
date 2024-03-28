@@ -42,7 +42,6 @@ export default defineConfig({
           text: 'References',
           collapsed: false,
           items: [
-            { text: 'Release notes', link: '/guide/release-notes' },
             { text: 'Contributions', link: '/guide/contributions' },
             { text: 'Browser support', link: '/guide/browser-support' },
             { text: 'Support', link: '/guide/support' },
