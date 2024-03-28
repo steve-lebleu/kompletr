@@ -4,13 +4,18 @@ import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Kømpletr",
-  description: "A vanilla JS autocomplete library",
+  description: "JS autocomplete library",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: {
+      light: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png',
+      dark: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png'
+    },
+    siteTitle: false,
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide' },
-      { text: 'Demo', link: '/demo' },
+      { text: 'Demo', link: 'https://kompletr.konfer.be' },
     ],
 
     sidebar: {
@@ -48,13 +53,12 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/steve-lebleu/kompletr' },
-      { icon: 'npm', link: 'https://github.com/steve-lebleu/kompletr' },
-      { icon: 'slack', link: 'https://github.com/steve-lebleu/kompletr' },
+      { icon: 'npm', link: 'https://www.npmjs.com/package/kompletr' },
     ],
 
     footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You'
+      message: 'Released under the GPL License.',
+      copyright: 'Copyright © 2024-present Konfer'
     }
   },
   markdown: {

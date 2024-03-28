@@ -14,10 +14,12 @@ header {
 
     a {
       color: #333;
-      text-decoration: none;
+      text-decoration: underline;
+      font-size: 0.9rem;
       transition: all 0.4s ease-in-out;
       &:hover {
         color: #444;
+        text-decoration: none;
       }
     }
   }
