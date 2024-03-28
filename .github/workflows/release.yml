@@ -186,7 +186,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: docs/.vitepress/dist
-          remote: "${{ vars.KONFER_SSH_TARGET }}/docs"
+          remote: "${{ vars.KONFER_SSH_TARGET_DOC }}"
           host: ${{ secrets.KONFER_SSH_HOST }}
           username: ${{ secrets.KONFER_SSH_USER }}
           password: ${{ secrets.KONFER_SSH_PWD }}
