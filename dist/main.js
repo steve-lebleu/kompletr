@@ -705,10 +705,14 @@ class DOM {
    * @returns {Void}
    */
   focus(pointer) {
-    if (isNaN(parseInt(pointer, 10)) || pointer < 0 || pointer > this.result.children.length - 1) {
+    if (isNaN(parseInt(pointer, 10))) {
       throw new Error('pointer should be a valid integer in the result lenght range: ' + pointer + ' given.');
     }
 
+    if (pointer < 0 || pointer > this.result.children.length - 1) {
+      return false;
+    }
+    
     this.focused = null;
     Array.from(this.result.children).forEach(result => {
       ((result) => {

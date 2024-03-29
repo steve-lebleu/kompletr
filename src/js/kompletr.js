@@ -57,7 +57,7 @@ export default class Kompletr {
       this.broadcaster.subscribe(event.selectDone, this.closeTheShop);
 
       this.broadcaster.listen(this.dom.input, 'keyup', this.suggest);
-      this.broadcaster.listen(this.dom.body, 'click', this.closeTheShop); // TODO: validate this because it can be called many times if many kompletr instances
+      this.broadcaster.listen(this.dom.body, 'click', this.closeTheShop);
 
       if(onKeyup || onSelect || onError) {
         this.callbacks = Object.assign(this.callbacks, { onKeyup, onSelect, onError });
@@ -103,7 +103,7 @@ export default class Kompletr {
   showResults = async ({ from, data }) => {
     this.props.data = data;
 
-    data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check if we can avoid this shit
+    data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check to avoid this
 
     if (!this.callbacks.onKeyup) {
       data = this.filter(data, this.dom.input.value);
@@ -197,21 +197,29 @@ export default class Kompletr {
    * @returns {Void}
    */
   navigate = (keyCode) => {
-    if (keyCode != 38 && keyCode != 40) {
-      return false;
+    try {
+      if (keyCode != 38 && keyCode != 40) {
+        return false;
+      }
+  
+      if(this.props.pointer < -1 || this.props.pointer > this.dom.result.children.length - 1) {
+        return false;
+      }
+      
+      if ((keyCode === 38 && this.props.pointer === 0) || (keyCode === 40 && this.props.pointer === this.dom.result.children.length - 1)) {
+        return false;
+      }
+
+      if (keyCode === 38 && this.props.pointer >= -1) {
+        this.props.pointer--;
+      } else if (keyCode === 40 && this.props.pointer < this.dom.result.children.length - 1) {
+        this.props.pointer++;
+      } 
+  
+      this.dom.focus(this.props.pointer);
+    } catch(e) {
+      this.broadcaster.trigger(event.error, e);
     }
-
-    if(this.props.pointer < -1 || this.props.pointer > this.dom.result.children.length - 1) {
-      return false;
-    }
-
-    if (keyCode === 38 && this.props.pointer >= -1) {
-      this.props.pointer--;
-    } else if (keyCode === 40 && this.props.pointer < this.dom.result.children.length - 1) {
-      this.props.pointer++;
-    } 
-
-    this.dom.focus(this.props.pointer);
   };
 
   /**
@@ -223,9 +231,13 @@ export default class Kompletr {
    * 
    * @returns {Void}
    */
-  select = (idx = 0) => {  
-    this.dom.input.value = typeof this.props.data[idx] === 'object' ? this.props.data[idx][this.configuration.propToMapAsValue] : this.props.data[idx];
-    this.callbacks.onSelect && this.callbacks.onSelect(this.props.data[idx]);
-    this.broadcaster.trigger(event.selectDone);
+  select = (idx = 0) => {
+    try {
+      this.dom.input.value = typeof this.props.data[idx] === 'object' ? this.props.data[idx][this.configuration.propToMapAsValue] : this.props.data[idx];
+      this.callbacks.onSelect && this.callbacks.onSelect(this.props.data[idx]);
+      this.broadcaster.trigger(event.selectDone);
+    } catch(e) {
+      this.broadcaster.trigger(event.error, e);
+    }
   };
 }

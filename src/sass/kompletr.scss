@@ -57,7 +57,7 @@
     border-right: none;
 
     &:last-child {
-      border-bottom: none;
+      border-bottom: none !important;
     }
 
     &:hover, &.focus {

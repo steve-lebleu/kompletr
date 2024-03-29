@@ -4,9 +4,12 @@ import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
 // https://vitepress.dev/reference/site-config
 // https://vitepress.dev/reference/default-theme-config
 export default defineConfig({
-  title: "Kømpletr",
+  title: "Kømpletr - JS autocomplete library",
   description: "JS autocomplete library",
   themeConfig: {
+    head: [
+      ['link', { rel: 'icon', href: 'https://cdn.konfer.be/images/kompletr/favicon.ico' }],
+    ],
     logo: {
       light: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png',
       dark: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png'

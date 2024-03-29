@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  text: "JS autocomplete"
-  tagline: 10kb of vanilla lightweight for a simple & efficient autocomplete
+  text: "JS Autocompletion"
+  tagline: 10kb of vanilla lightweight for autocomplete
   image:
     light: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png'
     dark: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png'
@@ -19,7 +19,7 @@ features:
   - icon: ✨
     title: Light
     details: Less than 10kb of Vanilla
-  - icon: 🚀
+  - icon: 🐰
     title: Performant
     details: Faster than the white rabbit
   - icon: 🍃
