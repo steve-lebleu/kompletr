@@ -1,6 +1,6 @@
 {
   "name": "kompletr",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Vanilla autocomplete module",
   "main": "src/js/index.js",
   "type": "module",
