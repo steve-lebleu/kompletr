@@ -24,12 +24,12 @@
 :::tabs
 == jsdelivr
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/kompletr@2.0.10/dist/js/kompletr.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/kompletr@2.0.11/dist/js/kompletr.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/kompletr@2.0.9/dist/css/kompletr.min.js" rel="stylesheet" type="text/css" />
 ```
 == unpkg
 ```html
-<script type="module" src="https://unpkg.com/kompletr@2.0.10/dist/js/kompletr.min.js"></script>
+<script type="module" src="https://unpkg.com/kompletr@2.0.11/dist/js/kompletr.min.js"></script>
 <link href="https://unpkg.com/kompletr@2.0.9/dist/css/kompletr.min.js" rel="stylesheet" type="text/css" />
 ```
 :::

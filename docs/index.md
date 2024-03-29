@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: Demo
-      link: https://kompletr.konfer.be
+      link: https://demo.kompletr.konfer.be
     - theme: alt
       text: Getting started
       link: /guide
