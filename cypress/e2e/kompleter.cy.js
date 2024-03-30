@@ -35,7 +35,8 @@ describe("Kompletr.js", function() {
 
     it ("should return n results with a value length >= 2", function() {
       cy.get('#auto-complete').click().type('Ter').then(() => {
-        cy.get('.item--row').its('length').should('be.gte', 0);
+        cy.wait(1000);
+        cy.get('.item--row').its('length').should('be.gt', 0);
       });
     });
 
@@ -70,6 +71,7 @@ describe("Kompletr.js", function() {
         .type('Te');
       cy.get('body')
         .click('topRight');
+      cy.wait(1000);
       cy.get('#kompletr-results').should('not.visible');
     });
   });
