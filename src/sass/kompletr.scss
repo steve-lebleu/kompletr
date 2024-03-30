@@ -5,48 +5,15 @@
 ////
 // Module code
 ////
-/// 
-.kompletr {
-  &.form--search {
-    width: inherit;
-    position: relative;
-    margin: 0 auto;
-    @media (max-width: 480px) {
-      width: 90%;
-    }
-  }
-  
-  .input--search,
-  .item--result {
-    font-family: $font-base;
-    font-size: 100%;
-  }
-  
-  .input--search {
-    display: block;
-    box-sizing: border-box;
-    margin: 0 auto;
-    padding: 15px 10px;
-    width: 100%;
-    min-width: 240px;
-    max-width: 600px;
-    height: auto;
-    font-size: 1.2rem;
-    line-height: 1.5;
-    border: none;
-    &:focus {
-      border: none;
-      outline: none;
-    }
-  }
-  
-  .form--search__result {
+
+.kompletr {  
+  .container--search-results {
     position: absolute;
     margin: 0;
     width: 100%;
   }
-  
-  .item--result {
+
+  .item--row {
     box-sizing: border-box;
     width: 100%;
     padding: 15px;
@@ -55,6 +22,7 @@
     justify-content: space-between;
     border-left: none;
     border-right: none;
+    font-size: 100%;
 
     &:last-child {
       border-bottom: none !important;
@@ -65,7 +33,7 @@
       @include transition(0.2s ease-in-out);
     }
 
-    & .item--data {
+    & .item--property {
       flex: 50%;
 
       &:nth-child(even) {
@@ -83,20 +51,12 @@
   }
 
   &.light {
-    .input--search {
-      color: $color-4;
-      background: $color-1;
-    }
-
-    ::placeholder {
-      color: $color-2;
-    }
-
-    .item--result {
+    .item--row {
+      color: $color-8;
       border-bottom: 1px dashed $color-3;
       @include backdrop(16px, 180%, 0.80);
 
-      .item--data {
+      .item--property {
         &:nth-child(n+0) {
           color: $color-8;
         }
@@ -110,7 +70,7 @@
       &.focus {
         @include backdrop(26px, 120%, 0.40);
         
-        .item--data {
+        .item--property {
           &:nth-child(n+0),
           &:nth-child(n+2) {
             color: $color-8;
@@ -121,20 +81,12 @@
   }
 
   &.dark {
-    .input--search {
-      color: $color-1;
-      background: $color-8;
-    }
-
-    ::placeholder {
-      color: $color-2;
-    }
-
-    .item--result {
+    .item--row {
+      color: $color-3;
       border-bottom: 1px dashed $color-7;
       @include backdrop(16px, 180%, 0.80, 'dark');
 
-      .item--data {
+      .item--property {
         &:nth-child(n+0) {
           color: $color-3;
         }
@@ -148,7 +100,7 @@
       &.focus {
         @include backdrop(26px, 120%, 0.40, 'dark');
         
-        .item--data {
+        .item--property {
           &:nth-child(n+0),
           &:nth-child(n+2) {
             color: $color-1;

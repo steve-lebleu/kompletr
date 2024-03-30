@@ -47,8 +47,9 @@
   ],
   "license": "ISC",
   "scripts": {
-    "build": "mkdir -p build && cp src/index.html build/ & cp test/fixtures/data.json build/ & npm run build:css && npm run build:js",
-    "build:css": "node-sass ./src/sass/kompletr.demo.scss ./build/css/kompletr.demo.min.css --output-style compressed",
+    "build": "mkdir -p build && cp src/index.html build/ & cp test/fixtures/data.json build/ & npm run build:css & npm run build:css-demo && npm run build:js",
+    "build:css": "node-sass ./src/sass/kompletr.scss ./build/css/kompletr.min.css --output-style compressed",
+    "build:css-demo": "node-sass ./src/sass/kompletr.demo.scss ./build/css/kompletr.demo.min.css --output-style compressed",
     "build:js": "webpack",
     "ci:dev": "webpack serve",
     "ci:e2e": "cypress run --browser chrome ./cypress",

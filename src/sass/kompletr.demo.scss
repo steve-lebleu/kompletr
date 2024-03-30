@@ -66,166 +66,47 @@ footer {
   font-size: 0.9em;
 }
 
-////
-// Module code
-////
+.form--search {
+  width: 400px;
+  max-width: 400px;
+  position: relative;
+  margin: 0 auto;
 
-.kompletr {
+  -webkit-box-shadow:0px 0px 105px 45px rgba(44,193,251,0.9);
+  -moz-box-shadow: 0px 0px 105px 45px rgba(44,193,251,0.9);
+  box-shadow: 0px 0px 105px 45px rgba(44,193,251,0.9);
 
-  &.form--search {
-    width: 400px;
-    max-width: 400px;
-    position: relative;
-    margin: 0 auto;
-
-    -webkit-box-shadow:0px 0px 105px 45px rgba(44,193,251,0.9);
-    -moz-box-shadow: 0px 0px 105px 45px rgba(44,193,251,0.9);
-    box-shadow: 0px 0px 105px 45px rgba(44,193,251,0.9);
-
-    @media (max-width: 480px) {
-      width: 90%;
-    }
+  @media (max-width: 480px) {
+    width: 90%;
   }
-  
-  .input--search,
-  .item--result {
-    font-family: $font-base;
-    font-size: 100%;
+}
+
+.input--search {
+  font-family: $font-base;
+  font-size: 100%;
+}
+
+.input--search {
+  display: block;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 15px 10px;
+  width: 100%;
+  min-width: 240px;
+  max-width: 600px;
+  height: auto;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  border-radius: 0;
+  color: $color-1;
+  background: $color-8;
+  border: none;
+  outline: none;
+  &:focus {
+    outline: none;
   }
-  
-  .input--search {
-    display: block;
-    box-sizing: border-box;
-    margin: 0 auto;
-    padding: 15px 10px;
-    width: 100%;
-    min-width: 240px;
-    max-width: 600px;
-    height: auto;
-    font-size: 1.2rem;
-    line-height: 1.5;
-    border: none;
-    &:focus {
-      border: none;
-      outline: none;
-    }
-  }
-  
-  .form--search__result {
-    position: absolute;
-    margin: 0;
-    width: 100%;
-  }
-  
-  .item--result {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 15px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    border-left: none;
-    border-right: none;
+}
 
-    &:last-child {
-      border-bottom: none !important;
-    }
-
-    &:hover, &.focus {
-      cursor: pointer;
-      @include transition(0.2s ease-in-out);
-    }
-
-    & .item--data {
-      flex: 50%;
-
-      &:nth-child(even) {
-        text-align: right;
-      }
-
-      &:nth-child(n+0) {
-        font-weight: 600;
-      }
-
-      &:nth-child(n+2) {
-        font-weight: normal;
-      }
-    }
-  }
-
-  &.light {
-    .input--search {
-      color: $color-4;
-      background: $color-1;
-    }
-
-    ::placeholder {
-      color: $color-2;
-    }
-
-    .item--result {
-      border-bottom: 1px dashed $color-3;
-      @include backdrop(16px, 180%, 0.80);
-
-      .item--data {
-        &:nth-child(n+0) {
-          color: $color-8;
-        }
-  
-        &:nth-child(n+2) {
-          color: $color-4;
-        }
-      }
-
-      &:hover,
-      &.focus {
-        @include backdrop(26px, 120%, 0.40);
-        
-        .item--data {
-          &:nth-child(n+0),
-          &:nth-child(n+2) {
-            color: $color-8;
-          }
-        }
-      }
-    }
-  }
-
-  &.dark {
-    .input--search {
-      color: $color-1;
-      background: $color-8;
-    }
-
-    ::placeholder {
-      color: $color-2;
-    }
-
-    .item--result {
-      border-bottom: 1px dashed $color-7;
-      @include backdrop(16px, 180%, 0.80, 'dark');
-
-      .item--data {
-        &:nth-child(n+0) {
-          color: $color-3;
-        }
-  
-        &:nth-child(n+2) {
-          color: $color-5;
-        }
-      }
-
-      &:hover,
-      &.focus {
-        @include backdrop(26px, 120%, 0.40, 'dark');
-        
-        .item--data {
-          &:nth-child(n+0),
-          &:nth-child(n+2) {
-            color: $color-1;
-          }
-        }
-      }
-    }
-  }
+::placeholder {
+  color: $color-2;
 }

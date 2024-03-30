@@ -5,7 +5,8 @@ export class DOM {
    * @description Identifiers for the DOM elements
    */
   _identifiers = {
-    results: 'kpl-result',
+    wrapper: 'kompletr-wrapper',
+    results: 'kompletr-results',
   };
 
   /**
@@ -13,10 +14,9 @@ export class DOM {
    */
   _classes = {
     main: 'kompletr',
-    input: 'input--search',
-    results: 'form--search__result',
-    result: 'item--result',
-    data: 'item--data',
+    results: 'container--search-results',
+    result: 'item--row',
+    data: 'item--property',
     focus: 'focus',
   };
 
@@ -95,13 +95,17 @@ export class DOM {
 
     this.body = document.getElementsByTagName('body')[0];
     
-    this.input = input instanceof HTMLInputElement ? input : document.getElementById(input); // TODO: if the input is in the DOM, don't set class here but directly in the HTML
-    this.input.setAttribute('class', `${this._input.getAttribute('class')} ${this._classes.input}`);
+    this.input = input instanceof HTMLInputElement ? input : document.getElementById(input); 
     
     this.result = this.build('div', [ { id: this._identifiers.results }, { class: this._classes.results } ]);
 
-    this.input.parentElement.setAttribute('class', `${this._input.parentElement.getAttribute('class')} ${this._classes.main} ${options.theme}`);
-    this.input.parentElement.appendChild(this._result);
+    this.wrapper = this.build('div', [ { id: this._identifiers.wrapper }, { class: this._classes.results } ]);
+    this.wrapper.setAttribute('class', `${this._input.parentElement.getAttribute('class')} ${this._classes.main} ${options.theme}`);
+
+    this.input.parentNode.insertBefore(this.wrapper, this.input);
+
+    this.wrapper.appendChild(this.input);
+    this.wrapper.appendChild(this.result);
   }
 
   /**
@@ -176,6 +180,6 @@ export class DOM {
 
     this.result.innerHTML = html;
 
-    this._broadcaster.trigger(event.domDone, this.result); // TODO: to be validated
+    this._broadcaster.trigger(event.domDone, this.result);
   }
 }
