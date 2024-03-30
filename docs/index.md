@@ -4,7 +4,7 @@ layout: home
 
 hero:
   text: "JS Autocompletion"
-  tagline: 10kb of vanilla lightweight for autocomplete
+  tagline: 10kb of vanilla lightweight for a simple & efficient autocomplete
   image:
     light: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png'
     dark: 'https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png'
@@ -29,7 +29,7 @@ features:
     title: Accessible
     details: ARIA and WAG
   - icon: ⚡
-    title: Highly featured
+    title: Well featured
     details: Options and so on
   - icon: 🤘
     title: Compatible
