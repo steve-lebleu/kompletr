@@ -55,7 +55,7 @@ describe('Kompletr', () => {
     };
 
     instance = new Kompletr({
-      configuration: {},
+      configuration: { cache: 3600 },
       properties: {},
       dom: mockDom,
       cache: mockCache,

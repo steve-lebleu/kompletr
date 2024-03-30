@@ -103,7 +103,6 @@ export default class Kompletr {
 
     data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check to avoid this
 
-    // TODO: really when data comes from the cache ?
     if (!this.callbacks.onKeyup) {
       data = this.filter(data, this.dom.input.value);
     }

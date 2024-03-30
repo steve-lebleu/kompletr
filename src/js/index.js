@@ -19,18 +19,22 @@ import { DOM } from './dom.js';
  * @returns {void}
  */
 const kompletr = function({ input, data, options, onKeyup, onSelect, onError }) {
-  const [broadcaster, configuration, properties] = [
-    new Broadcaster(),
-    new Configuration(options),
-    new Properties(data),
-  ];
-
-  const [dom, cache] = [
-    new DOM(input, broadcaster, configuration),
-    configuration.cache ? new Cache(broadcaster, configuration.cache) : null,
-  ];
- 
-  new Kompletr({ configuration, properties, dom, cache, broadcaster, onKeyup, onSelect, onError });
+  try {
+    const [broadcaster, configuration, properties] = [
+      new Broadcaster(),
+      new Configuration(options),
+      new Properties(data),
+    ];
+  
+    const [dom, cache] = [
+      new DOM(input, broadcaster, configuration),
+      configuration.cache ? new Cache(broadcaster, configuration.cache) : null,
+    ];
+   
+    new Kompletr({ configuration, properties, dom, cache, broadcaster, onKeyup, onSelect, onError });
+  } catch(e) {
+    console.error(`[kompletr] An error has occured -> ${e.stack}`);
+  }
 };
 
 window.kompletr = kompletr;
