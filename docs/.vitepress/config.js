@@ -28,7 +28,8 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Installation', link: '/guide/getting-started#installation' },
-            { text: 'Usage', link: '/guide/getting-started#usage' }
+            { text: 'Usage', link: '/guide/getting-started#usage' },
+            { text: 'Styling', link: '/guide/getting-started#styling' }
           ]
         },
         {
