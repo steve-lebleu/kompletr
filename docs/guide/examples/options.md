@@ -4,26 +4,6 @@
 
 The *options* parameter is required as **Object** with following properties:
 
-## animationType and animationDuration
-
-Boths optionals.
-
-```html
-<script>
-  kompletr({
-    input: 'auto-complete',
-    data: ['orange', 'apple', 'kiwi'],
-    options: {
-      animationType: 'slideDown', // fadeIn|slideDown - Default: fadeIn
-      animationDuration: 700, // Default: 500
-    },
-    onSelect: (selected) => {
-      console.log('Do something with this selected value: ', selected);
-    },
-  });
-</script>
-```
-
 ## cache
 
 Optional.

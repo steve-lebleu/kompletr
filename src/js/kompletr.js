@@ -48,11 +48,9 @@ export default class Kompletr {
       this.dom = dom;
       this.cache = cache;
 
-      // animation parameters = this.result, this.configuration.animationDuration
-
       this.broadcaster.subscribe(event.error, this.error);
       this.broadcaster.subscribe(event.dataDone, this.showResults);
-      this.broadcaster.subscribe(event.domDone, Animation[this.configuration.animationType]);
+      this.broadcaster.subscribe(event.domDone, Animation.fadeIn.bind(null, this.dom.result));
       this.broadcaster.subscribe(event.domDone, this.bindResults);
       this.broadcaster.subscribe(event.selectDone, this.closeTheShop);
 
@@ -71,7 +69,7 @@ export default class Kompletr {
     if (e.srcElement === this.dom.input) {
       return true;
     }
-    Animation.animateBack(this.dom.result, this.configuration.animationType, this.configuration.animationDuration);
+    Animation.fadeOut(this.dom.result);
     this.resetPointer();
   };
 
@@ -81,7 +79,7 @@ export default class Kompletr {
 
   error = (e) => {
     console.error(`[kompletr] An error has occured -> ${e.stack}`);
-    Animation.fadeIn(this.dom.result);
+    Animation.fadeOut(this.dom.result);
     this.callbacks.onError && this.callbacks.onError(e);
   };
 
@@ -105,6 +103,7 @@ export default class Kompletr {
 
     data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check to avoid this
 
+    // TODO: really when data comes from the cache ?
     if (!this.callbacks.onKeyup) {
       data = this.filter(data, this.dom.input.value);
     }
@@ -137,18 +136,16 @@ export default class Kompletr {
    */
   suggest = (e) => {
     if (this.dom.input.value.length < this.configuration.startQueryingFromChar) {
-      return;
+      return Animation.fadeOut(this.dom.result);
     }
     
-    const keyCode = e.keyCode;
-
-    switch (keyCode) {
+    switch (e.keyCode) {
     case 13:  // Enter
       this.select(this.dom.focused.id);
       break;
     case 38: // Up
     case 40: // Down
-      this.navigate(keyCode);
+      this.navigate(e.keyCode);
       break;
     default:
       if (this.dom.input.value !== this.props.previousValue) {

@@ -672,7 +672,7 @@ class DOM {
 
     this.body = document.getElementsByTagName('body')[0];
     
-    this.input = input instanceof HTMLInputElement ? input : document.getElementById(input);
+    this.input = input instanceof HTMLInputElement ? input : document.getElementById(input); // TODO: if the input is in the DOM, don't set class here but directly in the HTML
     this.input.setAttribute('class', `${this._input.getAttribute('class')} ${this._classes.input}`);
     
     this.result = this.build('div', [ { id: this._identifiers.results }, { class: this._classes.results } ]);
@@ -705,14 +705,10 @@ class DOM {
    * @returns {Void}
    */
   focus(pointer) {
-    if (isNaN(parseInt(pointer, 10))) {
+    if (isNaN(parseInt(pointer, 10)) || pointer < 0 || pointer > this.result.children.length - 1) {
       throw new Error('pointer should be a valid integer in the result lenght range: ' + pointer + ' given.');
     }
 
-    if (pointer < 0 || pointer > this.result.children.length - 1) {
-      return false;
-    }
-    
     this.focused = null;
     Array.from(this.result.children).forEach(result => {
       ((result) => {
@@ -902,8 +898,6 @@ class Kompletr {
       this.dom = dom;
       this.cache = cache;
 
-      // animation parameters = this.result, this.configuration.animationDuration
-
       this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.error, this.error);
       this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.dataDone, this.showResults);
       this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.domDone, _animation_js__WEBPACK_IMPORTED_MODULE_0__.Animation[this.configuration.animationType]);
@@ -911,7 +905,7 @@ class Kompletr {
       this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.selectDone, this.closeTheShop);
 
       this.broadcaster.listen(this.dom.input, 'keyup', this.suggest);
-      this.broadcaster.listen(this.dom.body, 'click', this.closeTheShop); // TODO: validate this because it can be called many times if many kompletr instances
+      this.broadcaster.listen(this.dom.body, 'click', this.closeTheShop);
 
       if(onKeyup || onSelect || onError) {
         this.callbacks = Object.assign(this.callbacks, { onKeyup, onSelect, onError });
@@ -957,8 +951,9 @@ class Kompletr {
   showResults = async ({ from, data }) => {
     this.props.data = data;
 
-    data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check if we can avoid this shit
+    data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check to avoid this
 
+    // TODO: really when data comes from the cache ?
     if (!this.callbacks.onKeyup) {
       data = this.filter(data, this.dom.input.value);
     }
@@ -1051,21 +1046,29 @@ class Kompletr {
    * @returns {Void}
    */
   navigate = (keyCode) => {
-    if (keyCode != 38 && keyCode != 40) {
-      return false;
+    try {
+      if (keyCode != 38 && keyCode != 40) {
+        return false;
+      }
+  
+      if(this.props.pointer < -1 || this.props.pointer > this.dom.result.children.length - 1) {
+        return false;
+      }
+      
+      if ((keyCode === 38 && this.props.pointer === 0) || (keyCode === 40 && this.props.pointer === this.dom.result.children.length - 1)) {
+        return false;
+      }
+
+      if (keyCode === 38 && this.props.pointer >= -1) {
+        this.props.pointer--;
+      } else if (keyCode === 40 && this.props.pointer < this.dom.result.children.length - 1) {
+        this.props.pointer++;
+      } 
+  
+      this.dom.focus(this.props.pointer);
+    } catch(e) {
+      this.broadcaster.trigger(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.error, e);
     }
-
-    if(this.props.pointer < -1 || this.props.pointer > this.dom.result.children.length - 1) {
-      return false;
-    }
-
-    if (keyCode === 38 && this.props.pointer >= -1) {
-      this.props.pointer--;
-    } else if (keyCode === 40 && this.props.pointer < this.dom.result.children.length - 1) {
-      this.props.pointer++;
-    } 
-
-    this.dom.focus(this.props.pointer);
   };
 
   /**
@@ -1077,10 +1080,14 @@ class Kompletr {
    * 
    * @returns {Void}
    */
-  select = (idx = 0) => {  
-    this.dom.input.value = typeof this.props.data[idx] === 'object' ? this.props.data[idx][this.configuration.propToMapAsValue] : this.props.data[idx];
-    this.callbacks.onSelect && this.callbacks.onSelect(this.props.data[idx]);
-    this.broadcaster.trigger(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.selectDone);
+  select = (idx = 0) => {
+    try {
+      this.dom.input.value = typeof this.props.data[idx] === 'object' ? this.props.data[idx][this.configuration.propToMapAsValue] : this.props.data[idx];
+      this.callbacks.onSelect && this.callbacks.onSelect(this.props.data[idx]);
+      this.broadcaster.trigger(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.selectDone);
+    } catch(e) {
+      this.broadcaster.trigger(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.error, e);
+    }
   };
 }
 

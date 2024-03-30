@@ -1,16 +1,4 @@
 /**
- * Enum representing different animation types.
- * 
- * @enum {string}
- * @readonly
- */
-const animation = Object.freeze({
-  fadeIn: 'fadeIn',
-  slideDown: 'slideDown',
-});
-
-
-/**
  * Enum representing different custom events.
  * 
  * @enum {string}
@@ -57,4 +45,4 @@ const theme = Object.freeze({
   dark: 'dark',
 });
 
-export { animation, event, origin, searchExpression, theme };
+export { event, origin, searchExpression, theme };

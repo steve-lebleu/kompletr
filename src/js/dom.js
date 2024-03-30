@@ -95,7 +95,7 @@ export class DOM {
 
     this.body = document.getElementsByTagName('body')[0];
     
-    this.input = input instanceof HTMLInputElement ? input : document.getElementById(input);
+    this.input = input instanceof HTMLInputElement ? input : document.getElementById(input); // TODO: if the input is in the DOM, don't set class here but directly in the HTML
     this.input.setAttribute('class', `${this._input.getAttribute('class')} ${this._classes.input}`);
     
     this.result = this.build('div', [ { id: this._identifiers.results }, { class: this._classes.results } ]);

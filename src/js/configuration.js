@@ -1,21 +1,9 @@
-import { animation, searchExpression, theme } from './enums.js';
+import { searchExpression, theme } from './enums.js';
 
 /**
  * @description Represents the configuration for the Kompleter library.
  */
 export class Configuration {
-  /**
-   * The type of animation for the element.
-   * @type {string}
-   */
-  _animationType = animation.fadeIn;
-  
-  /**
-   * The duration of the animation in milliseconds.
-   * @type {number}
-   */
-  _animationDuration = 500;
-
   /**
    * Indicates whether multiple selections are allowed.
    * @type {boolean}
@@ -68,35 +56,6 @@ export class Configuration {
    * @private
    */
   _cache = 0;
-
-  /**
-   * @description Type of animation between valid types
-   */
-  get animationType() {
-    return this._animationType;
-  }
-
-  set animationType(value) {
-    const valid = Object.keys(animation);
-    if (!valid.includes(value)) {
-      throw new Error(`animation.type should be one of ${valid.toString()}`);
-    }
-    this._animationType = value;
-  }
-
-  /**
-   * @description Duration of some animation in ms. Default 500
-   */
-  get animationDuration() {
-    return this._animationDuration;
-  }
-
-  set animationDuration(value) {
-    if (isNaN(parseInt(value, 10))) {
-      throw new Error('animation.duration should be an integer');
-    }
-    this._animationDuration = value;
-  }
 
   /**
    * @description Enable / disable multiple choices
@@ -203,8 +162,6 @@ export class Configuration {
       throw new Error('options should be an object');
     }
     this.theme = options?.theme || this._theme;
-    this.animationType = options?.animationType || this._animationType;
-    this.animationDuration = options?.animationDuration || this._animationDuration;
     this.multiple = options?.multiple || this._multiple;
     this.fieldsToDisplay = options?.fieldsToDisplay || this._fieldsToDisplay;
     this.maxResults = options?.maxResults || this._maxResults;
