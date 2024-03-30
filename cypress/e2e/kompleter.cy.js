@@ -16,7 +16,7 @@ describe("Kompletr.js", function() {
     });
 
     it("should be initialized with #result element into DOM", function() {
-      expect(cy.get('#kpl-result')).to.not.be.undefined;
+      expect(cy.get('#kompletr-results')).to.not.be.undefined;
     });
 
   });
@@ -29,33 +29,33 @@ describe("Kompletr.js", function() {
 
     it ("should return 0 results with a value length < 2", function() {
       cy.get('#auto-complete').click().type('a').then(() => {
-        cy.get('.item--result').should('not.exist');
+        cy.get('.item--row').should('not.exist');
       });
     });
 
     it ("should return n results with a value length >= 2", function() {
       cy.get('#auto-complete').click().type('Ter').then(() => {
-        cy.get('.item--result').its('length').should('be.gte', 0);
+        cy.get('.item--row').its('length').should('be.gte', 0);
       });
     });
 
-    xit ("should complete input when Enter key is pressed", function() {
+    it ("should complete input when Enter key is pressed", function() {
       cy.get('#auto-complete')
         .click()
         .type('Te')
+        .type('{downarrow}')
         .type('{enter}')
         .invoke('val')
         .then((value) => {
-          console.log('value', value)
           expect(value).to.equals('Teresina');
         })
     });
 
-    xit ("should complete input when click is done on a suggestion", function() {
+    it ("should complete input when click is done on a suggestion", function() {
       cy.get('#auto-complete')
         .click()
         .type('Te');
-      cy.get('.item--result:first-child')
+      cy.get('.item--row:first-child')
         .click();
       cy.get('#auto-complete')
         .invoke('val')
@@ -64,21 +64,13 @@ describe("Kompletr.js", function() {
         })
     });
 
-    xit ("should close suggestions when click is done out of the list", function() {
+    it ("should close suggestions when click is done out of the list", function() {
       cy.get('#auto-complete')
         .click()
         .type('Te');
       cy.get('body')
-        .click();
-      cy.get('.item--result').should('not.exist');
-    });
-
-    xit ("should navigate between suggestions using keyboard", function() {
-      cy.get('#auto-complete')
-        .click()
-        .type('Te');
-      cy.get('.item--result:first-child')
-        .click();
+        .click('topRight');
+      cy.get('#kompletr-results').should('not.visible');
     });
   });
 });

@@ -76,8 +76,8 @@ describe('DOM', () => {
       dom.buildResults(data);
       expect(dom.result.firstChild).toBeInstanceOf(HTMLElement);
       expect(dom.result.firstChild.id).toBe('1');
-      expect(dom.result.firstChild.className).toBe('item--result');
-      expect(dom.result.firstChild.firstChild.className).toBe('item--data');
+      expect(dom.result.firstChild.className).toBe('item--row');
+      expect(dom.result.firstChild.firstChild.className).toBe('item--property');
       expect(dom.result.firstChild.firstChild.textContent).toBe('test');
       expect(broadcaster.trigger).toHaveBeenCalled();
     });
@@ -87,8 +87,8 @@ describe('DOM', () => {
       dom.buildResults(data, ['prop']);
       expect(dom.result.firstChild).toBeInstanceOf(HTMLElement);
       expect(dom.result.firstChild.id).toBe('1');
-      expect(dom.result.firstChild.className).toBe('item--result');
-      expect(dom.result.firstChild.firstChild.className).toBe('item--data');
+      expect(dom.result.firstChild.className).toBe('item--row');
+      expect(dom.result.firstChild.firstChild.className).toBe('item--property');
       expect(dom.result.firstChild.firstChild.textContent).toBe('test');
       expect(broadcaster.trigger).toHaveBeenCalled();
     });
