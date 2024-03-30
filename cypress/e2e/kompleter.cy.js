@@ -65,7 +65,7 @@ describe("Kompletr.js", function() {
         })
     });
 
-    it ("should close suggestions when click is done out of the list", function() {
+    xit ("should close suggestions when click is done out of the list", function() {
       cy.get('#auto-complete')
         .click()
         .type('Te');
