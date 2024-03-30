@@ -19,14 +19,17 @@ import { DOM } from './dom.js';
  * @returns {void}
  */
 const kompletr = function({ input, data, options, onKeyup, onSelect, onError }) {
-  const broadcaster = new Broadcaster();
+  const [broadcaster, configuration, properties] = [
+    new Broadcaster(),
+    new Configuration(options),
+    new Properties(data),
+  ];
 
-  const configuration = new Configuration(options);
-  const properties = new Properties(data);
-
-  const dom = new DOM(input, broadcaster, configuration);
-  const cache = configuration.cache ? new Cache(broadcaster, configuration.cache) : null;
-  
+  const [dom, cache] = [
+    new DOM(input, broadcaster, configuration),
+    configuration.cache ? new Cache(broadcaster, configuration.cache) : null,
+  ];
+ 
   new Kompletr({ configuration, properties, dom, cache, broadcaster, onKeyup, onSelect, onError });
 };
 

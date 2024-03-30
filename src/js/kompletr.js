@@ -108,7 +108,7 @@ export default class Kompletr {
       data = this.filter(data, this.dom.input.value);
     }
 
-    if (this.cache && from !== origin.cache) {
+    if (this.configuration.cache && from !== origin.cache) {
       this.cache.set({ string: this.dom.input.value, data });
     }
 
@@ -170,7 +170,7 @@ export default class Kompletr {
    */
   hydrate = async (value) => {
     try {
-      if (this.cache && await this.cache.isValid(value)) {
+      if (this.configuration.cache && await this.cache.isValid(value)) {
         this.cache.get(value, (data) => {
           this.broadcaster.trigger(event.dataDone, { from: origin.cache, data: data });  
         });
