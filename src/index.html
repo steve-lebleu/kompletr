@@ -95,8 +95,20 @@
               done(d);
             },*/
             onSelect: (selected) => {
-              console.log('cb.onSelect', selected);
-            },
+                Toastify({
+                  text: `Hey, I'm your callback there is something for you ${selected.Name} 👀`,
+                  duration: 5000,
+                  newWindow: true,
+                  close: false,
+                  gravity: "bottom", // `top` or `bottom`
+                  position: "center", // `left`, `center` or `right`
+                  stopOnFocus: true, // Prevents dismissing of toast on hover
+                  style: {
+                    background: "#4cb56b",
+                    color: '#fff'
+                  },
+                }).showToast();
+              },
             onError: (error) => {
               console.log('cb.onError ', error);
             },

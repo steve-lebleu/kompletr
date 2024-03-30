@@ -12,9 +12,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Animation: function() { return /* binding */ Animation; }
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./enums.js */ "./src/js/enums.js");
-
-
 /**
  * Represents an Animation class that provides various animation effects.
  */
@@ -60,93 +57,6 @@ class Animation {
         requestAnimationFrame(fade);
       }
     })();
-  }
-
-  /**
-   * Apply a slideUp animation effect to the target HTML element.
-   * 
-   * @param {HTMLElement} element - The target HTML element.
-   * @param {Number} duration - The duration of the animation in milliseconds.
-   * 
-   * @returns {Void}
-   */
-  static slideUp(element, duration = 500) {
-    element.style.transitionProperty = 'height, margin, padding';
-    element.style.transitionDuration = duration + 'ms';
-    element.style.boxSizing = 'border-box';
-    element.style.height = element.offsetHeight + 'px';
-    element.offsetHeight;
-    element.style.overflow = 'hidden';
-    element.style.height = 0;
-    element.style.paddingTop = 0;
-    element.style.paddingBottom = 0;
-    element.style.marginTop = 0;
-    element.style.marginBottom = 0;
-    window.setTimeout( () => {
-      element.style.display = 'none';
-      element.style.removeProperty('height');
-      element.style.removeProperty('padding-top');
-      element.style.removeProperty('padding-bottom');
-      element.style.removeProperty('margin-top');
-      element.style.removeProperty('margin-bottom');
-      element.style.removeProperty('overflow');
-      element.style.removeProperty('transition-duration');
-      element.style.removeProperty('transition-property');
-    }, duration);
-  }
-
-  /**
-   * Apply a slideDown animation effect to the target HTML element.
-   * 
-   * @param {HTMLElement} element - The target HTML element.
-   * @param {Number} duration - The duration of the animation in milliseconds.
-   * 
-   * @returns {Void}
-   */
-  static slideDown(element, duration = 500) {
-    element.style.removeProperty('display');
-    let display = window.getComputedStyle(element).display;
-    if (display === 'none') display = 'block';
-    element.style.display = display;
-    let height = element.offsetHeight;
-    element.style.overflow = 'hidden';
-    element.style.height = 0;
-    element.style.paddingTop = 0;
-    element.style.paddingBottom = 0;
-    element.style.marginTop = 0;
-    element.style.marginBottom = 0;
-    element.offsetHeight;
-    element.style.boxSizing = 'border-box';
-    element.style.transitionProperty = 'height, margin, padding';
-    element.style.transitionDuration = duration + 'ms';
-    element.style.height = height + 'px';
-    element.style.removeProperty('padding-top');
-    element.style.removeProperty('padding-bottom');
-    element.style.removeProperty('margin-top');
-    element.style.removeProperty('margin-bottom');
-    window.setTimeout( () => {
-      element.style.removeProperty('height');
-      element.style.removeProperty('overflow');
-      element.style.removeProperty('transition-duration');
-      element.style.removeProperty('transition-property');
-    },duration);
-  }
-
-  /**
-   * Apply the opposite animation effect to a given element.
-   * 
-   * @param {HTMLElement} element - The element to animate.
-   * @param {string} [type=animation.fadeIn] - The animation to apply. By default, it's 'fadeIn'.
-   * @param {number} [duration=500] - The duration of the animation in milliseconds. By default, it's 500.
-   * 
-   * @return {Object} Returns the result of the Animation function with the opposite animation, the element, and the duration as parameters.
-   */
-  static animateBack(element, type = _enums_js__WEBPACK_IMPORTED_MODULE_0__.animation.fadeIn , duration = 500) {
-    const animations = {
-      fadeIn: 'fadeOut',
-      slideDown: 'slideUp'
-    };
-    return Animation[animations[type]](element, duration);
   }
 }
 
@@ -352,18 +262,6 @@ __webpack_require__.r(__webpack_exports__);
  */
 class Configuration {
   /**
-   * The type of animation for the element.
-   * @type {string}
-   */
-  _animationType = _enums_js__WEBPACK_IMPORTED_MODULE_0__.animation.fadeIn;
-  
-  /**
-   * The duration of the animation in milliseconds.
-   * @type {number}
-   */
-  _animationDuration = 500;
-
-  /**
    * Indicates whether multiple selections are allowed.
    * @type {boolean}
    * @private
@@ -415,35 +313,6 @@ class Configuration {
    * @private
    */
   _cache = 0;
-
-  /**
-   * @description Type of animation between valid types
-   */
-  get animationType() {
-    return this._animationType;
-  }
-
-  set animationType(value) {
-    const valid = Object.keys(_enums_js__WEBPACK_IMPORTED_MODULE_0__.animation);
-    if (!valid.includes(value)) {
-      throw new Error(`animation.type should be one of ${valid.toString()}`);
-    }
-    this._animationType = value;
-  }
-
-  /**
-   * @description Duration of some animation in ms. Default 500
-   */
-  get animationDuration() {
-    return this._animationDuration;
-  }
-
-  set animationDuration(value) {
-    if (isNaN(parseInt(value, 10))) {
-      throw new Error('animation.duration should be an integer');
-    }
-    this._animationDuration = value;
-  }
 
   /**
    * @description Enable / disable multiple choices
@@ -550,8 +419,6 @@ class Configuration {
       throw new Error('options should be an object');
     }
     this.theme = options?.theme || this._theme;
-    this.animationType = options?.animationType || this._animationType;
-    this.animationDuration = options?.animationDuration || this._animationDuration;
     this.multiple = options?.multiple || this._multiple;
     this.fieldsToDisplay = options?.fieldsToDisplay || this._fieldsToDisplay;
     this.maxResults = options?.maxResults || this._maxResults;
@@ -767,24 +634,11 @@ class DOM {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   animation: function() { return /* binding */ animation; },
 /* harmony export */   event: function() { return /* binding */ event; },
 /* harmony export */   origin: function() { return /* binding */ origin; },
 /* harmony export */   searchExpression: function() { return /* binding */ searchExpression; },
 /* harmony export */   theme: function() { return /* binding */ theme; }
 /* harmony export */ });
-/**
- * Enum representing different animation types.
- * 
- * @enum {string}
- * @readonly
- */
-const animation = Object.freeze({
-  fadeIn: 'fadeIn',
-  slideDown: 'slideDown',
-});
-
-
 /**
  * Enum representing different custom events.
  * 
@@ -900,7 +754,7 @@ class Kompletr {
 
       this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.error, this.error);
       this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.dataDone, this.showResults);
-      this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.domDone, _animation_js__WEBPACK_IMPORTED_MODULE_0__.Animation[this.configuration.animationType]);
+      this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.domDone, _animation_js__WEBPACK_IMPORTED_MODULE_0__.Animation.fadeIn.bind(null, this.dom.result));
       this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.domDone, this.bindResults);
       this.broadcaster.subscribe(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.selectDone, this.closeTheShop);
 
@@ -919,7 +773,7 @@ class Kompletr {
     if (e.srcElement === this.dom.input) {
       return true;
     }
-    _animation_js__WEBPACK_IMPORTED_MODULE_0__.Animation.animateBack(this.dom.result, this.configuration.animationType, this.configuration.animationDuration);
+    _animation_js__WEBPACK_IMPORTED_MODULE_0__.Animation.fadeOut(this.dom.result);
     this.resetPointer();
   };
 
@@ -929,7 +783,7 @@ class Kompletr {
 
   error = (e) => {
     console.error(`[kompletr] An error has occured -> ${e.stack}`);
-    _animation_js__WEBPACK_IMPORTED_MODULE_0__.Animation.fadeIn(this.dom.result);
+    _animation_js__WEBPACK_IMPORTED_MODULE_0__.Animation.fadeOut(this.dom.result);
     this.callbacks.onError && this.callbacks.onError(e);
   };
 
@@ -953,12 +807,11 @@ class Kompletr {
 
     data = this.props.data.map((record, idx) => ({ idx, data: record }) ); // TODO: Check to avoid this
 
-    // TODO: really when data comes from the cache ?
     if (!this.callbacks.onKeyup) {
       data = this.filter(data, this.dom.input.value);
     }
 
-    if (this.cache && from !== _enums_js__WEBPACK_IMPORTED_MODULE_1__.origin.cache) {
+    if (this.configuration.cache && from !== _enums_js__WEBPACK_IMPORTED_MODULE_1__.origin.cache) {
       this.cache.set({ string: this.dom.input.value, data });
     }
 
@@ -986,18 +839,16 @@ class Kompletr {
    */
   suggest = (e) => {
     if (this.dom.input.value.length < this.configuration.startQueryingFromChar) {
-      return;
+      return _animation_js__WEBPACK_IMPORTED_MODULE_0__.Animation.fadeOut(this.dom.result);
     }
     
-    const keyCode = e.keyCode;
-
-    switch (keyCode) {
+    switch (e.keyCode) {
     case 13:  // Enter
       this.select(this.dom.focused.id);
       break;
     case 38: // Up
     case 40: // Down
-      this.navigate(keyCode);
+      this.navigate(e.keyCode);
       break;
     default:
       if (this.dom.input.value !== this.props.previousValue) {
@@ -1022,7 +873,7 @@ class Kompletr {
    */
   hydrate = async (value) => {
     try {
-      if (this.cache && await this.cache.isValid(value)) {
+      if (this.configuration.cache && await this.cache.isValid(value)) {
         this.cache.get(value, (data) => {
           this.broadcaster.trigger(_enums_js__WEBPACK_IMPORTED_MODULE_1__.event.dataDone, { from: _enums_js__WEBPACK_IMPORTED_MODULE_1__.origin.cache, data: data });  
         });
@@ -1253,15 +1104,22 @@ __webpack_require__.r(__webpack_exports__);
  * @returns {void}
  */
 const kompletr = function({ input, data, options, onKeyup, onSelect, onError }) {
-  const broadcaster = new _broadcaster_js__WEBPACK_IMPORTED_MODULE_3__.Broadcaster();
-
-  const configuration = new _configuration_js__WEBPACK_IMPORTED_MODULE_1__.Configuration(options);
-  const properties = new _properties_js__WEBPACK_IMPORTED_MODULE_4__.Properties(data);
-
-  const dom = new _dom_js__WEBPACK_IMPORTED_MODULE_5__.DOM(input, broadcaster, configuration);
-  const cache = configuration.cache ? new _cache_js__WEBPACK_IMPORTED_MODULE_2__.Cache(broadcaster, configuration.cache) : null;
+  try {
+    const [broadcaster, configuration, properties] = [
+      new _broadcaster_js__WEBPACK_IMPORTED_MODULE_3__.Broadcaster(),
+      new _configuration_js__WEBPACK_IMPORTED_MODULE_1__.Configuration(options),
+      new _properties_js__WEBPACK_IMPORTED_MODULE_4__.Properties(data),
+    ];
   
-  new _kompletr_js__WEBPACK_IMPORTED_MODULE_0__["default"]({ configuration, properties, dom, cache, broadcaster, onKeyup, onSelect, onError });
+    const [dom, cache] = [
+      new _dom_js__WEBPACK_IMPORTED_MODULE_5__.DOM(input, broadcaster, configuration),
+      configuration.cache ? new _cache_js__WEBPACK_IMPORTED_MODULE_2__.Cache(broadcaster, configuration.cache) : null,
+    ];
+   
+    new _kompletr_js__WEBPACK_IMPORTED_MODULE_0__["default"]({ configuration, properties, dom, cache, broadcaster, onKeyup, onSelect, onError });
+  } catch(e) {
+    console.error(`[kompletr] An error has occured -> ${e.stack}`);
+  }
 };
 
 window.kompletr = kompletr;

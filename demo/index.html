@@ -12,7 +12,6 @@
     <![endif]-->
 
     <link href='https://fonts.googleapis.com/css?family=Lato|Open+Sans|Montserrat' rel='stylesheet' type='text/css' />
-    <link href="css/kompletr.demo.min.css" rel="stylesheet" type="text/css" media="screen" />
 
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -25,7 +24,11 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
+    <link href="css/kompletr.demo.min.css" rel="stylesheet" type="text/css" media="screen" />
     <script type="module" src="./js/kompletr.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   </head>
   
   <body>
@@ -106,7 +109,19 @@
                 done(d);
               },*/
               onSelect: (selected) => {
-                console.log('cb.onSelect', selected);
+                Toastify({
+                  text: `Hey, I'm your callback! There is something for you 👀 : "${selected.Name}"`,
+                  duration: 5000,
+                  newWindow: true,
+                  close: false,
+                  gravity: "bottom", // `top` or `bottom`
+                  position: "center", // `left`, `center` or `right`
+                  stopOnFocus: true, // Prevents dismissing of toast on hover
+                  style: {
+                    background: "#4cb56b",
+                    color: '#fff'
+                  },
+                }).showToast();
               },
               onError: (error) => {
                 console.log('cb.onError ', error);
