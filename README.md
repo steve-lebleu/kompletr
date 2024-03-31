@@ -1,8 +1,5 @@
 # JS autocompletion library - Kømpletr
 
-<img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only" alt="Kompletr logo dark" />
-<img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only" alt="Kompletr logo light" />
-
 [![Logo Kømpletr light](https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only)](https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only)
 [![Logo Kømpletr dark](https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only)](https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only)
 
