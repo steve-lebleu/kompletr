@@ -51,13 +51,16 @@
         id="auto-complete"
         class="input--search"
         autocomplete="off"
-        placeholder="Enter a city name ..."
+        placeholder="Enter a city name..."
         value="" />
     </div>
+    
     <footer>
       <p>
         © 2017 Konfer
-        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Kømpletr.js</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.<br>Permissions beyond the scope of this license may be available at <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.konfer.be" rel="cc:morePermissions">https://www.konfer.be</a>.
+        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Kømpletr.js</span> is licensed under a <a rel="license" href="https://www.gnu.org/licenses/gpl-3.0.html">Gnu General Public License 3.0</a>.
+        <br>
+        Permissions beyond the scope of this license may be available at <a href="https://www.konfer.be">https://www.konfer.be</a>.
       </p>
     </footer>
 
@@ -84,34 +87,21 @@
               input,
               data,
               options: {
-                /*animation: {
-                  type: 'slideDown',
-                  duration: 1000
-                },*/
                 theme: 'dark',  
                 fieldsToDisplay: [
                   'Name',
                   'CountryCode',
                   'Population'
                 ],
-                maxResults: 5,
+                maxResults: 4,
                 propToMapAsValue: 'Name',
                 startQueriyngFromChar: 2,
                 filterOn: 'prefix',
                 // cache: 50000
               },
-              /*onKeyup: async function (value, done) {
-                console.log('cb.onKeyup ', value);
-                console.log('I\'m doing scrappy stuffs with the data!');
-                const result = await fetch(`http://localhost:3000/api?q=${value}`, headers);
-                const d = await result.json();
-                console.log('DATA', d)
-                // data = ['string', 'string', 'string'];
-                done(d);
-              },*/
               onSelect: (selected) => {
                 Toastify({
-                  text: `Hey, I'm your callback! There is something for you 👀 : "${selected.Name}"`,
+                  text: `Hey oh "${selected.Name}" 👀`,
                   duration: 5000,
                   newWindow: true,
                   close: false,

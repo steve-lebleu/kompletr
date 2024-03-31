@@ -48,9 +48,9 @@
   <footer>
     <p>
       © 2017 Konfer
-      <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Kømpletr.js</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Kømpletr.js</span> is licensed under a <a rel="license" href="https://www.gnu.org/licenses/gpl-3.0.html">Gnu General Public License 3.0</a>.
       <br>
-      Permissions beyond the scope of this license may be available at <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.konfer.be" rel="cc:morePermissions">https://www.konfer.be</a>.
+      Permissions beyond the scope of this license may be available at <a href="https://www.konfer.be">https://www.konfer.be</a>.
     </p>
   </footer>
 
@@ -99,19 +99,7 @@
               done(d);
             },*/
             onSelect: (selected) => {
-              Toastify({
-                text: `Hey, I'm your callback there is something for you ${selected.Name} 👀`,
-                duration: 5000,
-                newWindow: true,
-                close: false,
-                gravity: "bottom", // `top` or `bottom`
-                position: "center", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                  background: "#4cb56b",
-                  color: '#fff'
-                },
-              }).showToast();
+              console.log('cb.onSelect ', selected);
             },
             onError: (error) => {
               console.log('cb.onError ', error);

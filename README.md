@@ -1,12 +1,27 @@
-# Kømpletr - JS autocompletion
+# JS autocompletion library - Kømpletr
 
-![Github action workflow status](https://github.com/steve-lebleu/kompletr/actions/workflows/build.yml/badge.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/steve-lebleu/kompletr/badge.svg?branch=master)](https://coveralls.io/github/steve-lebleu/kompletr?branch=master)
-[![CodeFactor](https://www.codefactor.io/repository/github/steve-lebleu/kompletr/badge)](https://www.codefactor.io/repository/github/steve-lebleu/kompletr)
-![GitHub Release](https://img.shields.io/github/v/release/steve-lebleu/kompletr?logo=Github)
-[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/steve-lebleu/kompletr/blob/master/LICENSE)
+<img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only" alt="Kompletr logo dark" />
+<img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-lightdark-mode-only" alt="Kompletr logo light" />
 
 *10kb of vanilla lightweight for a simple & efficient autocomplete*
+
+![Github action workflow status](https://github.com/steve-lebleu/kompletr/actions/workflows/build.yml/badge.svg?branch=master)
+![GitHub Release](https://img.shields.io/github/v/release/steve-lebleu/kompletr?logo=Github)
+[![CodeFactor](https://www.codefactor.io/repository/github/steve-lebleu/kompletr/badge)](https://www.codefactor.io/repository/github/steve-lebleu/kompletr)
+[![Coverage Status](https://coveralls.io/repos/github/steve-lebleu/kompletr/badge.svg?branch=master)](https://coveralls.io/github/steve-lebleu/kompletr?branch=master)
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/steve-lebleu/kompletr/blob/master/LICENSE)
+[![JsDelivr Statistics](https://data.jsdelivr.com/v1/package/npm/kompletr/badge)](https://data.jsdelivr.com/v1/package/npm/kompletr/badge)
+
+## Features
+
+- :white_check_mark: Sync / async querying
+- :white_check_mark: Cache management
+- :white_check_mark: Keyboard navigation
+- :white_check_mark: Flexible research (begining, whole word or ... on your own)
+- :white_check_mark: Flexible suggestions display (1, 2, 3, ... fields)
+- :white_check_mark: Support string or object values
+- :white_check_mark: No dependencies
+- :white_check_mark: 10kb fully included
 
 ## Installation
 
@@ -24,34 +39,26 @@ $ npm i kompletr --save
 
 ## Getting started
 
-Load Kømpletr styles:
+Load Kømpletr assets:
 
 ``` html 
-<head>
 ...
 <link href="kompletr.min.css" rel="stylesheet" type="text/css" />
+<script src="kompletr.min.js" type="module"></script>
 ...
-</head>
 ```
 
-Load kompletr script:
+Define input element:
 
 ``` html 
-<script src="kompletr.min.js"></script>
-```
-
-Define an input element:
-
-``` html 
-<input type="text" id="auto-complete" class="input--search" autocomplete="off" placeholder="Whatever you want..." />
+<input type="text" id="auto-complete" autocomplete="off" placeholder="Whatever you want..." />
 ```
  
 Invoke Kømpletr:
 
 ``` javascript
-const input = document.getElementById('autocomplete');
 kompletr({
-  input,
+  input: 'auto-complete',
   data: [],
   onSelect: (selected) => {
     console.log('There is the selected value', selected);
@@ -61,10 +68,6 @@ kompletr({
 
 ## Options
 
-Following options are available:
-
-* **animationType**: string, style of animation ('fadeIn','slideDown'). Default fadeIn
-* **animationDuration**: int, speed of the animation. Default 500ms
 * **fieldsToDisplay**: string[], properties to display in the suggestion field when suggestions are Objects
 * **mapPropertyAsValue**: string, property to map as input value when the suggestions are Objects
 * **filterOn**: string, check expression from beginning of the value or on the whole word. Default 'prefix'
@@ -73,3 +76,7 @@ Following options are available:
 * **onKeyup**: function(value), callback fired each time the user press a keyboard touch
 * **onSelect**: function(selected), callback fired after selection of on result item
 * **onError**: function(error), callback fired when an error occurs
+
+## Licence
+
+[GPL](https://www.gnu.org/licenses/gpl-3.0.html)
