@@ -3,6 +3,9 @@
 <img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only" alt="Kompletr logo dark" />
 <img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only" alt="Kompletr logo light" />
 
+[![Logo Kømpletr light](https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only)](https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only)
+[![Logo Kømpletr dark](https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only)](https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only)
+
 *10kb of vanilla lightweight for a simple & efficient autocomplete*
 
 ![Github action workflow status](https://github.com/steve-lebleu/kompletr/actions/workflows/build.yml/badge.svg?branch=master)
