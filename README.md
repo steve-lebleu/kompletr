@@ -1,7 +1,7 @@
 # JS autocompletion library - Kømpletr
 
 <img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only" alt="Kompletr logo dark" />
-<img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-lightdark-mode-only" alt="Kompletr logo light" />
+<img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only" alt="Kompletr logo light" />
 
 *10kb of vanilla lightweight for a simple & efficient autocomplete*
 
