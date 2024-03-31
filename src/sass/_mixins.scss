@@ -769,12 +769,12 @@ $base-font-size: 16px !default;
 ///
 @mixin gradient ($startColor: #eee, $endColor: white) {
   background-color: $startColor;
-  background: -webkit-gradient(linear,left top,left bottom,color-stop(0,$startColor),color-stop(100%,$endColor));
-  background: -webkit-linear-gradient(top, $startColor 0, $endColor 100%);
-  background: -moz-linear-gradient(top, $startColor 0, $endColor 100%);
-  background: -ms-linear-gradient(top, $startColor 0, $endColor 100%);
-  background: -o-linear-gradient(top, $startColor 0, $endColor 100%);
-  background: linear-gradient(to bottom,$startColor 0,$endColor 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,$startColor),color-stop(100%,$endColor));
+  background-image: -webkit-linear-gradient(top, $startColor 0, $endColor 100%);
+  background-image: -moz-linear-gradient(top, $startColor 0, $endColor 100%);
+  background-image: -ms-linear-gradient(top, $startColor 0, $endColor 100%);
+  background-image: -o-linear-gradient(top, $startColor 0, $endColor 100%);
+  background-image: linear-gradient(to bottom,$startColor 0,$endColor 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{startColor}', endColorstr='@{endColor}', GradientType=0 );
 }
 
@@ -788,4 +788,19 @@ $base-font-size: 16px !default;
   background-image: -moz-linear-gradient(left, $startColor, $endColor);
   background-image: -ms-linear-gradient(left, $startColor, $endColor);
   background-image: -o-linear-gradient(left, $startColor, $endColor);
+}
+
+///
+/// 
+/// 
+@mixin backdrop ($blur, $saturate, $opacity, $theme: 'light') {
+  backdrop-filter: blur($blur) saturate($saturate);
+  -webkit-backdrop-filter: blur($blur) saturate($saturate);
+  @if ($theme == 'light') {
+    background-color: rgba(255, 255, 255, $opacity);
+  } @else if ($theme == 'dark') {
+    background-color: rgba(51, 51, 51, $opacity);
+  } @else {
+    background-color: rgba(255, 255, 255, $opacity);
+  }
 }

@@ -1,67 +1,82 @@
-# Kompleter - jQuery auto-completion plugin
+# JS autocompletion library - Kømpletr
 
-![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/konfer-be/kompleter)
-[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/konfer-be/kompleter/blob/master/LICENSE)
+[![Logo Kømpletr light](https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only)](https://cdn.konfer.be/images/kompletr/logo-kompletr-dark.png#gh-light-mode-only)
+[![Logo Kømpletr dark](https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only)](https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png#gh-dark-mode-only)
 
-Self-completion plugin developed with HTML 5, CSS 3, JavaScript and jQuery. Demo here https://demo.konfer.be/kompleter/
-        
-## Why ?
+*10kb of vanilla lightweight for a simple & efficient autocomplete*
 
-For the fun, principaly. And to deliver a functional and simple plugin that meets simple need. If you need to display results from an HXR call, this can help.
+![Github action workflow status](https://github.com/steve-lebleu/kompletr/actions/workflows/build.yml/badge.svg?branch=master)
+![GitHub Release](https://img.shields.io/github/v/release/steve-lebleu/kompletr?logo=Github)
+[![CodeFactor](https://www.codefactor.io/repository/github/steve-lebleu/kompletr/badge)](https://www.codefactor.io/repository/github/steve-lebleu/kompletr)
+[![Coverage Status](https://coveralls.io/repos/github/steve-lebleu/kompletr/badge.svg?branch=master)](https://coveralls.io/github/steve-lebleu/kompletr?branch=master)
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/steve-lebleu/kompletr/blob/master/LICENSE)
+[![JsDelivr Statistics](https://data.jsdelivr.com/v1/package/npm/kompletr/badge)](https://data.jsdelivr.com/v1/package/npm/kompletr/badge)
+
+## Features
+
+- :white_check_mark: Sync / async querying
+- :white_check_mark: Cache management
+- :white_check_mark: Keyboard navigation
+- :white_check_mark: Flexible research (begining, whole word or ... on your own)
+- :white_check_mark: Flexible suggestions display (1, 2, 3, ... fields)
+- :white_check_mark: Support string or object values
+- :white_check_mark: No dependencies
+- :white_check_mark: 10kb fully included
 
 ## Installation
 
-``` bash 
-$ npm i kompleter --save
+### Package manager
+
+```bash 
+$ npm i kompletr --save
 ```
 
-## How to use ?
+### Direct download
 
-Retrieve kompleter styles in the head section of your page:
+1. Download latest release archive
+2. Get JS files from ./dist/js/.js*
+3. Get CSS files from ./dist/css/.css*
+
+## Getting started
+
+Load Kømpletr assets:
 
 ``` html 
-<head>
 ...
-<link href="path_to_kompleter_css" rel="stylesheet" type="text/css" />
+<link href="kompletr.min.css" rel="stylesheet" type="text/css" />
+<script src="kompletr.min.js" type="module"></script>
 ...
-</head>
 ```
 
-Retrieve jQuery and kompleter :
+Define input element:
 
 ``` html 
-<script src="directory_of_your_jquery/jquery.js"></script>
-<script src="directory_of_your_kompleter/jquery.kompleter.js"></script>
-```
-
-Into your HTML code, place the following code, with your data attributes values where :
-
-* **data-url:** path to the data provider, which can be an action of controller or a JSON file. The data format returned must be JSON.</li>
-* **data-filter-on:** the property name of JSON object on which apply filter at keyup.
-* **data-fields:** fields of JSON object to display, separated by a coma.
-
-``` html 
-<input type="text" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." data-url="" data-filter-on="" data-fields="" />
+<input type="text" id="auto-complete" autocomplete="off" placeholder="Whatever you want..." />
 ```
  
-Invoke the plugin :
+Invoke Kømpletr:
 
 ``` javascript
-$('#auto-complete').kompleter({});
+kompletr({
+  input: 'auto-complete',
+  data: [],
+  onSelect: (selected) => {
+    console.log('There is the selected value', selected);
+  }
+});
 ```
 
 ## Options
 
-Following options are available :
-
-* **animation**: string, style of animation ('fade','slide','none')
-* **animationSpeed**: int, speed of the animation
-* **begin**: boolean, check expression from beginning of the value if true, on the whole word if false
-* **onChar**: int, number of chars completed in input before kompleter firing
+* **fieldsToDisplay**: string[], properties to display in the suggestion field when suggestions are Objects
+* **mapPropertyAsValue**: string, property to map as input value when the suggestions are Objects
+* **filterOn**: string, check expression from beginning of the value or on the whole word. Default 'prefix'
+* **startQueryingFromChar**: int, number of chars completed in input before kompletr fire search
 * **maxResults**: int, number of max results to display
-* **beforeDisplay**: function(e, dataset), function, callback fired before display of result set
-* **afterDisplay**: function(e, dataset), function, callback fired after display of result set
-* **beforeFocus**: function(e, element), function, callback fired before focus on result item
-* **afterFocus**: function(e, element), callback fired after focus on result item
-* **beforeComplete**: function(e, dataset, element), callback fired before insertion of result
-* **afterComplete**: function(e, dataset, element), callback fired after insertion of result
+* **onKeyup**: function(value), callback fired each time the user press a keyboard touch
+* **onSelect**: function(selected), callback fired after selection of on result item
+* **onError**: function(error), callback fired when an error occurs
+
+## Licence
+
+[GPL](https://www.gnu.org/licenses/gpl-3.0.html)

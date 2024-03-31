@@ -1,0 +1,112 @@
+
+@import 'mixins';
+@import 'variables';
+
+////
+// Module code
+////
+
+.kompletr {  
+  .container--search-results {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+  }
+
+  .item--row {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-left: none;
+    border-right: none;
+    font-size: 100%;
+
+    &:last-child {
+      border-bottom: none !important;
+    }
+
+    &:hover, &.focus {
+      cursor: pointer;
+      @include transition(0.2s ease-in-out);
+    }
+
+    & .item--property {
+      flex: 50%;
+
+      &:nth-child(even) {
+        text-align: right;
+      }
+
+      &:nth-child(n+0) {
+        font-weight: 600;
+      }
+
+      &:nth-child(n+2) {
+        font-weight: normal;
+      }
+    }
+  }
+
+  &.light {
+    .item--row {
+      color: $color-8;
+      border-bottom: 1px dashed $color-3;
+      @include backdrop(16px, 180%, 0.80);
+
+      .item--property {
+        &:nth-child(n+0) {
+          color: $color-8;
+        }
+  
+        &:nth-child(n+2) {
+          color: $color-4;
+        }
+      }
+
+      &:hover,
+      &.focus {
+        @include backdrop(26px, 120%, 0.40);
+        
+        .item--property {
+          &:nth-child(n+0),
+          &:nth-child(n+2) {
+            color: $color-8;
+          }
+        }
+      }
+    }
+  }
+
+  &.dark {
+    .item--row {
+      color: $color-3;
+      border-bottom: 1px dashed $color-7;
+      @include backdrop(16px, 180%, 0.80, 'dark');
+
+      .item--property {
+        &:nth-child(n+0) {
+          color: $color-3;
+        }
+  
+        &:nth-child(n+2) {
+          color: $color-5;
+        }
+      }
+
+      &:hover,
+      &.focus {
+        @include backdrop(26px, 120%, 0.40, 'dark');
+        
+        .item--property {
+          &:nth-child(n+0),
+          &:nth-child(n+2) {
+            color: $color-1;
+          }
+        }
+      }
+    }
+  }
+}

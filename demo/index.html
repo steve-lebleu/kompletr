@@ -1,265 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-<head lang="en">
-
-    <title>jQuery auto-complete plugin - Kompleter.js</title>
+  <head>
+    <title>Kømpletr - JS autocomplete</title>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--[if IE]>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <![endif]-->
 
     <link href='https://fonts.googleapis.com/css?family=Lato|Open+Sans|Montserrat' rel='stylesheet' type='text/css' />
-    <link href="css/demo.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="css/kompleter.css" rel="stylesheet" type="text/css" media="screen" />
-
-    <script>
-        if(window.location.hostname === 'demo.konfer.be')
-        {
-            var _rollbarConfig = {
-                accessToken: "37d47405852a42ab95cc4d842667990b",
-                captureUncaught: true,
-                captureUnhandledRejections: true,
-                payload: {
-                    environment: "production"
-                }
-            };
-            // Rollbar Snippet
-            !function(r){function e(n){if(o[n])return o[n].exports;var t=o[n]={exports:{},id:n,loaded:!1};return r[n].call(t.exports,t,t.exports,e),t.loaded=!0,t.exports}var o={};return e.m=r,e.c=o,e.p="",e(0)}([function(r,e,o){"use strict";var n=o(1),t=o(4);_rollbarConfig=_rollbarConfig||{},_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||"https://cdnjs.cloudflare.com/ajax/libs/rollbar.js/2.4.6/rollbar.min.js",_rollbarConfig.async=void 0===_rollbarConfig.async||_rollbarConfig.async;var a=n.setupShim(window,_rollbarConfig),l=t(_rollbarConfig);window.rollbar=n.Rollbar,a.loadFull(window,document,!_rollbarConfig.async,_rollbarConfig,l)},function(r,e,o){"use strict";function n(r){return function(){try{return r.apply(this,arguments)}catch(r){try{console.error("[Rollbar]: Internal error",r)}catch(r){}}}}function t(r,e){this.options=r,this._rollbarOldOnError=null;var o=s++;this.shimId=function(){return o},"undefined"!=typeof window&&window._rollbarShims&&(window._rollbarShims[o]={handler:e,messages:[]})}function a(r,e){if(r){var o=e.globalAlias||"Rollbar";if("object"==typeof r[o])return r[o];r._rollbarShims={},r._rollbarWrappedError=null;var t=new p(e);return n(function(){e.captureUncaught&&(t._rollbarOldOnError=r.onerror,i.captureUncaughtExceptions(r,t,!0),i.wrapGlobals(r,t,!0)),e.captureUnhandledRejections&&i.captureUnhandledRejections(r,t,!0);var n=e.autoInstrument;return e.enabled!==!1&&(void 0===n||n===!0||"object"==typeof n&&n.network)&&r.addEventListener&&(r.addEventListener("load",t.captureLoad.bind(t)),r.addEventListener("DOMContentLoaded",t.captureDomContentLoaded.bind(t))),r[o]=t,t})()}}function l(r){return n(function(){var e=this,o=Array.prototype.slice.call(arguments,0),n={shim:e,method:r,args:o,ts:new Date};window._rollbarShims[this.shimId()].messages.push(n)})}var i=o(2),s=0,d=o(3),c=function(r,e){return new t(r,e)},p=d.bind(null,c);t.prototype.loadFull=function(r,e,o,t,a){var l=function(){var e;if(void 0===r._rollbarDidLoad){e=new Error("rollbar.js did not load");for(var o,n,t,l,i=0;o=r._rollbarShims[i++];)for(o=o.messages||[];n=o.shift();)for(t=n.args||[],i=0;i<t.length;++i)if(l=t[i],"function"==typeof l){l(e);break}}"function"==typeof a&&a(e)},i=!1,s=e.createElement("script"),d=e.getElementsByTagName("script")[0],c=d.parentNode;s.crossOrigin="",s.src=t.rollbarJsUrl,o||(s.async=!0),s.onload=s.onreadystatechange=n(function(){if(!(i||this.readyState&&"loaded"!==this.readyState&&"complete"!==this.readyState)){s.onload=s.onreadystatechange=null;try{c.removeChild(s)}catch(r){}i=!0,l()}}),c.insertBefore(s,d)},t.prototype.wrap=function(r,e,o){try{var n;if(n="function"==typeof e?e:function(){return e||{}},"function"!=typeof r)return r;if(r._isWrap)return r;if(!r._rollbar_wrapped&&(r._rollbar_wrapped=function(){o&&"function"==typeof o&&o.apply(this,arguments);try{return r.apply(this,arguments)}catch(o){var e=o;throw e&&("string"==typeof e&&(e=new String(e)),e._rollbarContext=n()||{},e._rollbarContext._wrappedSource=r.toString(),window._rollbarWrappedError=e),e}},r._rollbar_wrapped._isWrap=!0,r.hasOwnProperty))for(var t in r)r.hasOwnProperty(t)&&(r._rollbar_wrapped[t]=r[t]);return r._rollbar_wrapped}catch(e){return r}};for(var u="log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleUnhandledRejection,captureEvent,captureDomContentLoaded,captureLoad".split(","),f=0;f<u.length;++f)t.prototype[u[f]]=l(u[f]);r.exports={setupShim:a,Rollbar:p}},function(r,e){"use strict";function o(r,e,o){if(r){var t;"function"==typeof e._rollbarOldOnError?t=e._rollbarOldOnError:r.onerror&&!r.onerror.belongsToShim&&(t=r.onerror,e._rollbarOldOnError=t);var a=function(){var o=Array.prototype.slice.call(arguments,0);n(r,e,t,o)};a.belongsToShim=o,r.onerror=a}}function n(r,e,o,n){r._rollbarWrappedError&&(n[4]||(n[4]=r._rollbarWrappedError),n[5]||(n[5]=r._rollbarWrappedError._rollbarContext),r._rollbarWrappedError=null),e.handleUncaughtException.apply(e,n),o&&o.apply(r,n)}function t(r,e,o){if(r){"function"==typeof r._rollbarURH&&r._rollbarURH.belongsToShim&&r.removeEventListener("unhandledrejection",r._rollbarURH);var n=function(r){var o,n,t;try{o=r.reason}catch(r){o=void 0}try{n=r.promise}catch(r){n="[unhandledrejection] error getting `promise` from event"}try{t=r.detail,!o&&t&&(o=t.reason,n=t.promise)}catch(r){t="[unhandledrejection] error getting `detail` from event"}o||(o="[unhandledrejection] error getting `reason` from event"),e&&e.handleUnhandledRejection&&e.handleUnhandledRejection(o,n)};n.belongsToShim=o,r._rollbarURH=n,r.addEventListener("unhandledrejection",n)}}function a(r,e,o){if(r){var n,t,a="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(n=0;n<a.length;++n)t=a[n],r[t]&&r[t].prototype&&l(e,r[t].prototype,o)}}function l(r,e,o){if(e.hasOwnProperty&&e.hasOwnProperty("addEventListener")){for(var n=e.addEventListener;n._rollbarOldAdd&&n.belongsToShim;)n=n._rollbarOldAdd;var t=function(e,o,t){n.call(this,e,r.wrap(o),t)};t._rollbarOldAdd=n,t.belongsToShim=o,e.addEventListener=t;for(var a=e.removeEventListener;a._rollbarOldRemove&&a.belongsToShim;)a=a._rollbarOldRemove;var l=function(r,e,o){a.call(this,r,e&&e._rollbar_wrapped||e,o)};l._rollbarOldRemove=a,l.belongsToShim=o,e.removeEventListener=l}}r.exports={captureUncaughtExceptions:o,captureUnhandledRejections:t,wrapGlobals:a}},function(r,e){"use strict";function o(r,e){this.impl=r(e,this),this.options=e,n(o.prototype)}function n(r){for(var e=function(r){return function(){var e=Array.prototype.slice.call(arguments,0);if(this.impl[r])return this.impl[r].apply(this.impl,e)}},o="log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleUnhandledRejection,_createItem,wrap,loadFull,shimId,captureEvent,captureDomContentLoaded,captureLoad".split(","),n=0;n<o.length;n++)r[o[n]]=e(o[n])}o.prototype._swapAndProcessMessages=function(r,e){this.impl=r(this.options);for(var o,n,t;o=e.shift();)n=o.method,t=o.args,this[n]&&"function"==typeof this[n]&&("captureDomContentLoaded"===n||"captureLoad"===n?this[n].apply(this,[t[0],o.ts]):this[n].apply(this,t));return this},r.exports=o},function(r,e){"use strict";r.exports=function(r){return function(e){if(!e&&!window._rollbarInitialized){r=r||{};for(var o,n,t=r.globalAlias||"Rollbar",a=window.rollbar,l=function(r){return new a(r)},i=0;o=window._rollbarShims[i++];)n||(n=o.handler),o.handler._swapAndProcessMessages(l,o.messages);window[t]=n,window._rollbarInitialized=!0}}}}]);
-            // End Rollbar Snippet
-        }
-    </script>
 
     <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
 
-    <link class="codestyle" rel="stylesheet" href="css/highlight/railscasts.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.konfer.be/images/kompletr/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.konfer.be/images/kompletr/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.konfer.be/images/kompletr/favicon-16x16.png">
+    <link rel="manifest" href="https://cdn.konfer.be/images/kompletr/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
+    <link href="css/kompletr.demo.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="css/kompletr.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <script type="module" src="./js/kompletr.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </head>
+  
+  <body>
+    <header>
+      <a href="https://github.com/steve-lebleu/kompletr" rel="noopener" target="_blank" class="github-corner" aria-label="View source on Github">
+        <svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg>
+      </a>
+    </header>
+    
+    <hgroup>
+      <img src="https://cdn.konfer.be/images/kompletr/logo-kompletr-light.png" alt="Logo Kømpletr" />
+      <cite>10kb of vanilla lightweight for a simple & efficient autocomplete</cite>
+    </hgroup>
+    
+    <div class="form--search">
+      <input
+        type="text"
+        name="auto-complete"
+        id="auto-complete"
+        class="input--search"
+        autocomplete="off"
+        placeholder="Enter a city name..."
+        value="" />
+    </div>
+    
+    <footer>
+      <p>
+        © 2017 Konfer
+        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Kømpletr.js</span> is licensed under a <a rel="license" href="https://www.gnu.org/licenses/gpl-3.0.html">Gnu General Public License 3.0</a>.
+        <br>
+        Permissions beyond the scope of this license may be available at <a href="https://www.konfer.be">https://www.konfer.be</a>.
+      </p>
+    </footer>
 
     <script type="text/javascript">
-        hljs.configure({
-            tabReplace: '    '
-        });
-        hljs.initHighlightingOnLoad();
+      function ready(fn) {
+        if (document.readyState !== 'loading') {
+          fn();
+          return;
+        }
+        document.addEventListener('DOMContentLoaded', fn);
+      };
+    
+      ready(() => {
+        const input = document.getElementById('auto-complete');
+  
+        const headers = new Headers();
+        headers.append('content-type', 'application/x-www-form-urlencoded');
+        headers.append('method', 'GET');
+          
+        fetch(`./files/data.json`, headers)
+          .then(result => result.json())
+          .then(data => {
+            kompletr({
+              input,
+              data,
+              options: {
+                theme: 'dark',  
+                fieldsToDisplay: [
+                  'Name',
+                  'CountryCode',
+                  'Population'
+                ],
+                maxResults: 4,
+                propToMapAsValue: 'Name',
+                startQueriyngFromChar: 2,
+                filterOn: 'prefix',
+                // cache: 50000
+              },
+              onSelect: (selected) => {
+                Toastify({
+                  text: `Hey oh "${selected.Name}" 👀`,
+                  duration: 5000,
+                  newWindow: true,
+                  close: false,
+                  gravity: "bottom", // `top` or `bottom`
+                  position: "center", // `left`, `center` or `right`
+                  stopOnFocus: true, // Prevents dismissing of toast on hover
+                  style: {
+                    background: "#4cb56b",
+                    color: '#fff'
+                  },
+                }).showToast();
+              },
+              onError: (error) => {
+                console.log('cb.onError ', error);
+              },
+            });
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      });
     </script>
-
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="js/jquery.kompleter.js"></script>
-
-</head>
-
-<body>
-
-<a href="https://github.com/konfer-be/kompleter" class="github-corner">
-    <svg class="github-svg" width="80" height="80" viewBox="0 0 250 250"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg>
-</a>
-
-<nav>
-    <a href="#">Back to the article</a>
-</nav>
-
-<header>
-    <h1>Kompleter.js</h1>
-    <span class="text--slogan">Auto-complete management with jQuery</span>
-    <a class="button--download" href="https://github.com/konfer-be/kompleter/archive/master.zip" target="_blank">
-        <span class="btn--txt"><i class="icon-download"></i> Download</span>
-        <span class="btn--bg_hidden"></span>
-    </a>
-</header>
-
-<div id="wrapper">
-
-    <input type="text" name="auto-complete" id="auto-complete" class="input--search" autocomplete="off" placeholder="Enter a city name ..." data-url="files/completer.json" data-filter-on="Name" data-fields="Name,CountryCode,Population" />
-
-</div>
-
-<section class="wrapper">
-
-    <h2><i class="icon-plug"></i> Installation</h2>
-
-    <p>Obvious install with bower</p>
-
-<pre>
-    <code class="console">
-$ bower install kompleter --save
-    </code>
-</pre>
-
-    <h2><i class="icon-info"></i> How to use ?</h2>
-
-    <p>In your HTML page, between &lt;head&gt; tags, import CSS code from <em>css/kompleter.css</em></p>
-
-<pre>
-    <code class="html">
-&lt;link href="css/kompleter.css" rel="stylesheet" type="text/css" media="screen" /&gt;
-    </code>
-</pre>
-
-    <p>Next, import JavaScript files <em>js/jquery.min.js</em> and <em>js/jquery.kompleter.min.js</em> :</p>
-
-<pre>
-    <code class="html">
-&lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="js/jquery.kompleter.min.js"&gt;&lt;/script&gt;
-    </code>
-</pre>
-
-    <p>Puts the following HTML code in your page, where you will place your input, and replace data attributes values with your own values :</p>
-
-    <ul>
-        <li><em>data-url:</em> path to the data provider, which can be an action of controller or a JSON file. The data format returned must be JSON.</li>
-        <li><em>data-filter-on:</em> the property name of JSON object on which apply filter at keyup.</li>
-        <li><em>data-fields:</em> fields of JSON object to display, separated by a coma.</li>
-    </ul>
-
-<pre>
-    <code class="html">
-&lt;input type="text" id="auto-complete" class="input--search" autocomplete="off" data-url="" data-filter-on="" data-fields="" /&gt;
-    </code>
-</pre>
-
-<p>Finally, initialize the plugin at DOM ready :</p>
-
-<pre>
-    <code class="javascript">
-$(document).ready(function() {
-    $('#auto-complete').kompleter({});
-});
-    </code>
-</pre>
-
-    <h2><i class="icon-cog-alt"></i> Options</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Parameter</th>
-                <th>Type</th>
-                <th>Definition</th>
-                <th>Values</th>
-                <th>Default</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>animation</td>
-                <td>string</td>
-                <td>Animation type used to show / hide the result set</td>
-                <td>'fade'|'slide'|'none'</td>
-                <td>'fade'</td>
-            </tr>
-            <tr>
-                <td>animationSpeed</td>
-                <td>int</td>
-                <td>Animation speed to display results</td>
-                <td>*</td>
-                <td>350</td>
-            </tr>
-            <tr>
-                <td>begin</td>
-                <td>boolean</td>
-                <td>Check from the begin of expression if true, on whole word if false</td>
-                <td>true|false</td>
-                <td>true</td>
-            </tr>
-            <tr>
-                <td>onChar</td>
-                <td>int</td>
-                <td>Number of chars to put before request firing</td>
-                <td>*</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>maxResults</td>
-                <td>int</td>
-                <td>Number of max results to display</td>
-                <td>*</td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>beforeDisplay</td>
-                <td>function</td>
-                <td>Callback fired before display result</td>
-                <td>function</td>
-                <td>function(e, dataset) { }</td>
-            </tr>
-            <tr>
-                <td>afterDisplay</td>
-                <td>function</td>
-                <td>Callback fired after display result</td>
-                <td>function</td>
-                <td>function(e, dataset) { }</td>
-            </tr>
-            <tr>
-                <td>beforeFocus</td>
-                <td>function</td>
-                <td>Callback fired before focus on one result item</td>
-                <td>function</td>
-                <td>function(e, element) { }</td>
-            </tr>
-            <tr>
-                <td>afterFocus</td>
-                <td>function</td>
-                <td>Callback fired after focus on one result item</td>
-                <td>function</td>
-                <td>function(e, element) { }</td>
-            </tr>
-            <tr>
-                <td>beforeComplete</td>
-                <td>function</td>
-                <td>Callback fired before completion of input</td>
-                <td>function</td>
-                <td>function(e, dataset, element) { }</td>
-            </tr>
-            <tr>
-                <td>afterComplete</td>
-                <td>function</td>
-                <td>Callback fired after completion of input</td>
-                <td>function</td>
-                <td>function(e, dataset, element) { }</td>
-            </tr>
-        </tbody>
-    </table>
-
-</section>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-       $('#auto-complete').kompleter({});
-    });
-</script>
-<footer>
-
-    <p>
-        <a href="https://www.linkedin.com/company-beta/18140230" target="_blank" class="link-icon">
-            <i class="icon-linkedin"></i>
-        </a>
-        <a href="https://github.com/konfer-be" target="_blank" class="link-icon">
-            <i class="icon-github-circled"></i>
-        </a>
-        <a href="https://www.facebook.com/konferstudio/" target="_blank" class="link-icon">
-            <i class="icon-facebook"></i>
-        </a>
-        <a href="https://twitter.com/konferstudio" target="_blank" class="link-icon">
-            <i class="icon-twitter"></i>
-        </a>
-
-    </p>
-
-    <p>
-        &copy; 2017 Konfer
-        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">completer.js</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.<br />Permissions beyond the scope of this license may be available at <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.konfer.be" rel="cc:morePermissions">https://www.konfer.be</a>.
-    </p>
-
-
-
-</footer>
-
-</body>
-
+  </body>
 </html>

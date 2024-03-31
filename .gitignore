@@ -13,3 +13,11 @@ tests/report
 
 # Retrieved by bower
 src/vendors/*
+
+# Do not push build and local api
+build/
+api/
+
+# Do not push vitepress docs
+docs/.vitepress/dist
+docs/.vitepress/cache
