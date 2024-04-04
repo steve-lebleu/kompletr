@@ -544,7 +544,7 @@ class DOM {
     this.result = this.build('div', [ { id: this._identifiers.results }, { class: this._classes.results } ]);
 
     this.wrapper = this.build('div', [ { id: this._identifiers.wrapper }, { class: this._classes.results } ]);
-    this.wrapper.setAttribute('class', `${this._input.parentElement.getAttribute('class')} ${this._classes.main} ${options.theme}`);
+    this.wrapper.setAttribute('class', `${this._classes.main} ${options.theme}`);
 
     this.input.parentNode.insertBefore(this.wrapper, this.input);
 
