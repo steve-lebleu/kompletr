@@ -58,7 +58,7 @@
     "demo:html": "cp ./src/index.demo.html ./demo/index.html",
     "demo:js": "cp ./dist/js/kompletr.min.js ./demo/js/kompletr.min.js",
     "dev": "webpack serve --hot --mode development --config ./webpack.dev.js",
-    "dist": "mkdir dist & npm run dist:css && npm run dist:js",
+    "dist": "mkdir -p dist & npm run dist:css && npm run dist:js",
     "dist:css": "npx sass ./src/sass/kompletr.scss ./dist/css/kompletr.min.css --style compressed",
     "dist:js": "webpack --mode production --config ./webpack.prod.js",
     "docs:dev": "vitepress dev docs",
