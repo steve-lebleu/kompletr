@@ -7,7 +7,7 @@ global.document = window.document;
 global.document.body.innerHTML = '<div><input id="input"></div>';
 
 import { afterEach, expect, jest } from '@jest/globals';
-import { kompletr } from '../src/js/index.js';
+import kompletr from '../src/js/index.js';
 
 describe('kompletr', () => {
   let mockData;
