@@ -29,9 +29,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-files
+          name: dist-files
           path: |
-            build
+            dist
           retention-days: 3
 
   unit-tests:
@@ -69,8 +69,6 @@ jobs:
       NODE_ENV: dev
       SKIP_PACKAGE_CHECK: 1
     steps:
-      - name: Github checkout
-        uses: actions/checkout@v4
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
@@ -79,13 +77,11 @@ jobs:
         run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libapr1t64 libasound2t64 libaprutil1t64 libxtst6 xauth xvfb
       - name: Install local Node.js dependencies
         run:  npm i
-      - name: Create build directory
-        run: mkdir build
-      - name: Download build artifact
+      - name: Download dist artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-files
-          path: build
+          name: dist-files
+          path: ./
       - name: Run E2E tests
         run: npm run ci:dev & npm run ci:e2e
         env:
@@ -95,5 +91,5 @@ jobs:
         with:
           name: build-files-e2e
           path: |
-            build
+            .
           retention-days: 3

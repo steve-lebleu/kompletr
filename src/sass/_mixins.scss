@@ -1,5 +1,6 @@
 @use "sass:math";
 @use "sass:string";
+
 ////
 /// Andy.SCSS: Open-Source Collection of Useful SASS Mixins Library.
 /// URL: http://gillesbertaux.com/andy$
@@ -565,19 +566,6 @@ $base-font-size: 16px !default;
   @include prefix(transform, $transformation, 'webkit' 'ms');
 }
 
-
-/// Transition helper
-/// @param {Time} $time [1s] - Duration
-/// @param {String} $timing-function [ease-in-out] - Timing function or cubic bezier curve
-/// @example scss - Usage
-///   .foo {
-///     @include transition(0.3s, ease-in);
-///   }
-/// @example css - Result
-///   .foo {
-///     -webkit-transition: all 0.3s ease-in;
-///     transition: all 0.3s ease-in;
-///   }
 @mixin transition($time: 1s, $timing-function: ease-in-out) {
   @include prefix(transition, all $time $timing-function, 'webkit');
 }
@@ -792,9 +780,7 @@ $base-font-size: 16px !default;
   background-image: -o-linear-gradient(left, $startColor, $endColor);
 }
 
-///
-/// 
-/// 
+
 @mixin backdrop ($blur, $saturate, $opacity, $theme: 'light') {
   backdrop-filter: blur($blur) saturate($saturate);
   -webkit-backdrop-filter: blur($blur) saturate($saturate);
