@@ -152,6 +152,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install global Sass
         run: npm i sass -g
+      - name: Build dist
+        run: npm run dist
       - name: Build demo
         run: npm run demo
       - name: Deploy demo using SCP
