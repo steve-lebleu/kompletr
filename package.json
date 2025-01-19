@@ -21,13 +21,12 @@
   "demo": "https://kompletr.konfer.be/",
   "download": "",
   "directories": {
-    "src": "src",
-    "dist": "dist",
-    "docs": "docs"
+    "js": "js",
+    "css": "css"
   },
   "files": [
-    "dist",
-    "src"
+    "js",
+    "css"
   ],
   "browser": "dist/js/kompletr.min.js",
   "unpkg": "dist/js/kompletr.min.js",
