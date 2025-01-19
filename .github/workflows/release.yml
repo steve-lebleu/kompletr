@@ -128,6 +128,8 @@ jobs:
         run: npm i sass -g
       - name: Generate dist files
         run: npm run dist
+      - name: Mv dist files
+        run: mv dist/css ./ && mv dist/js ./
       - name: Clean up directories
         run: rm -rf dist && rm -rf src
       - name: Create NPM release
@@ -176,7 +178,7 @@ jobs:
           name: build-files
           path: ./
       - name: Install global Vitepress
-        run: npm i vitepress -g
+        run: npm i vitepress@1.0.0-rc.45 -g
       - name: Build documentation
         run: npm run docs:build
       - name: Deploy documentation using SCP
