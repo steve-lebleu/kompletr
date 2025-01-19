@@ -1,3 +1,5 @@
+@use "sass:math";
+@use "sass:string";
 ////
 /// Andy.SCSS: Open-Source Collection of Useful SASS Mixins Library.
 /// URL: http://gillesbertaux.com/andy$
@@ -57,10 +59,10 @@ $base-font-size: 16px !default;
 ///     content: 'Hello!'
 ///   }
 @function str-replace($string, $to-replace, $replacement:'') {
-  $target-location: str-index($string, $to-replace);
+  $target-location: string.index($string, $to-replace);
   @if $target-location == null { @return $string; }
-  $string-without-target: str-slice($string, 1, $target-location - 1) + str-slice($string, $target-location + 1);
-  $string: str-insert($string-without-target, $replacement, $target-location);
+  $string-without-target: string.slice($string, 1, $target-location - 1) + string.slice($string, $target-location + 1);
+  $string: string.insert($string-without-target, $replacement, $target-location);
   @return $string;
 }
 
@@ -300,7 +302,7 @@ $base-font-size: 16px !default;
 ///   @include font-face('gotham', '/fonts/gotham');
 @mixin font-face($font-name, $file-name, $weight: normal, $style: normal) {
   @font-face {
-    font-family: quote($font-name);
+    font-family: string.quote($font-name);
     src: url($file-name + '.eot');
     src: url($file-name + '.eot?#iefix')  format('embedded-opentype'),
     url($file-name + '.woff') format('woff'),
@@ -325,7 +327,7 @@ $base-font-size: 16px !default;
 ///     font-size: 1rem;
 ///   }
 @mixin font-size($size) {
-  @if unitless($size) {
+  @if math.is-unitless($size) {
     $size: $size * 1px;
   }
 

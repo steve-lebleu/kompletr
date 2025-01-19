@@ -11,22 +11,11 @@ export default [
     experiments: {
       outputModule: true,
     },
+    optimization: {
+      minimize: true
+    },
     output: {
       path: path.resolve(__dirname, 'dist/js'),
-      filename: 'kompletr.min.js',
-      library: {
-        type: 'module',
-      },
-    },
-  },
-  {
-    mode: 'production',
-    entry: './src/js/index.js',
-    experiments: {
-      outputModule: true,
-    },
-    output: {
-      path: path.resolve(__dirname, 'demo/js'),
       filename: 'kompletr.min.js',
       library: {
         type: 'module',
