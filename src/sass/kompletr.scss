@@ -5,7 +5,7 @@
 // Module code
 ////
 
-.kompletr {  
+.kompletr {
   .container--search-results {
     position: absolute;
     margin: 0;
@@ -27,23 +27,25 @@
       border-bottom: none !important;
     }
 
-    &:hover, &.focus {
+    &:hover,
+    &.focus {
       cursor: pointer;
+
       @include mixins.transition(0.2s ease-in-out);
     }
 
-    & .item--property {
+    .item--property {
       flex: 50%;
 
       &:nth-child(even) {
         text-align: right;
       }
 
-      &:nth-child(n+0) {
+      &:nth-child(n + 0) {
         font-weight: 600;
       }
 
-      &:nth-child(n+2) {
+      &:nth-child(n + 2) {
         font-weight: normal;
       }
     }
@@ -53,25 +55,26 @@
     .item--row {
       color: variables.$color-8;
       border-bottom: 1px dashed variables.$color-3;
-      @include mixins.backdrop(16px, 180%, 0.80);
+      
+      @include mixins.backdrop(16px, 180%, 0.8);
 
       .item--property {
-        &:nth-child(n+0) {
+        &:nth-child(n + 0) {
           color: variables.$color-8;
         }
   
-        &:nth-child(n+2) {
+        &:nth-child(n + 2) {
           color: variables.$color-4;
         }
       }
 
       &:hover,
       &.focus {
-        @include mixins.backdrop(26px, 120%, 0.40);
+        @include mixins.backdrop(26px, 120%, 0.4);
         
         .item--property {
-          &:nth-child(n+0),
-          &:nth-child(n+2) {
+          &:nth-child(n + 0),
+          &:nth-child(n + 2) {
             color: variables.$color-8;
           }
         }
@@ -83,25 +86,26 @@
     .item--row {
       color: variables.$color-3;
       border-bottom: 1px dashed variables.$color-7;
-      @include mixins.backdrop(16px, 180%, 0.80, 'dark');
+      
+      @include mixins.backdrop(16px, 180%, 0.8, 'dark');
 
       .item--property {
-        &:nth-child(n+0) {
+        &:nth-child(n + 0) {
           color: variables.$color-3;
         }
   
-        &:nth-child(n+2) {
+        &:nth-child(n + 2) {
           color: variables.$color-5;
         }
       }
 
       &:hover,
       &.focus {
-        @include mixins.backdrop(26px, 120%, 0.40, 'dark');
+        @include mixins.backdrop(26px, 120%, 0.4, 'dark');
         
         .item--property {
-          &:nth-child(n+0),
-          &:nth-child(n+2) {
+          &:nth-child(n + 0),
+          &:nth-child(n + 2) {
             color: variables.$color-1;
           }
         }
