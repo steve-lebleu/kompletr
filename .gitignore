@@ -17,6 +17,8 @@ src/vendors/*
 
 # Do not push build and local api
 build/
+dist/
+demo/
 api/
 
 # Do not push vitepress docs
