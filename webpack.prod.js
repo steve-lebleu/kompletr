@@ -15,7 +15,7 @@ export default [
       minimize: true
     },
     output: {
-      path: path.resolve(__dirname, './js'),
+      path: path.resolve(__dirname, 'js'),
       filename: 'kompletr.min.js',
       library: {
         type: 'module',
