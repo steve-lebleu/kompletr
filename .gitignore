@@ -10,6 +10,7 @@ node_modules
 
 # Must be launched by plato
 tests/report
+cypress/screenshots
 
 # Retrieved by bower
 src/vendors/*
