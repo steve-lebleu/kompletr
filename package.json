@@ -49,8 +49,8 @@
   "scripts": {
     "build": "webpack --mode development --config ./webpack.dev.js",
     "ci:dev": "webpack serve --mode development --config ./webpack.dev.js",
-    "ci:e2e": "npx cypress run --browser chrome ./cypress",
-    "ci:cy": "npx cypress open",
+    "ci:e2e": "cypress run --browser chrome ./cypress",
+    "ci:cy": "cypress open",
     "ci:test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./test/**.spec.js -- --coverage",
     "demo": "mkdir -p demo && mkdir -p demo/js && npm run demo:css && npm run demo:css-demo && npm run demo:html && npm run demo:js",
     "demo:css": "npx sass ./src/sass/kompletr.scss ./demo/css/kompletr.min.css --style compressed",

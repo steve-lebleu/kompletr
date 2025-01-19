@@ -19,6 +19,7 @@ build
 
 # Demo files
 demo
+src/index.demo.html
 
 # Docs files
 docs
