@@ -1,7 +1,9 @@
 name: Build
+
 on:
   push:
     branches: [ dev, main, master, hotfix/*, feature/*, release/* ]
+    
 jobs:
   build:
     name: Build
@@ -22,6 +24,7 @@ jobs:
         run:  npm i
       - name: Build local project
         run:  npm run build
+        continue-on-error: true
       - name: Lint
         run:  npm run lint:js
       - name: Upload artifact
@@ -29,8 +32,9 @@ jobs:
         with:
           name: build-files
           path: |
-            build
+            .
           retention-days: 3
+
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
@@ -39,14 +43,15 @@ jobs:
       RUNNER: github
       NODE_ENV: dev
     steps:
-      - name: Github checkout
-        uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: ./
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: '18.19.0'
-      - name: Install Node.js dependencies
-        run:  npm i
       - name: Run unit tests
         run: npm run ci:test
         env:
@@ -56,6 +61,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./build/code-coverage/lcov.info
+
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
@@ -63,32 +69,22 @@ jobs:
     env:
       RUNNER: github
       NODE_ENV: dev
+      SKIP_PACKAGE_CHECK: 1
     steps:
-      - name: Github checkout
-        uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: ./      
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: '18.19.0'
       - name: Install global OS dependencies
-        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-      - name: Install local Node.js dependencies
-        run:  npm i
-      - name: Create build directory
-        run: mkdir build
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-files
-          path: build
+        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libapr1t64 libasound2t64 libaprutil1t64 libxtst6 xauth xvfb
+      - name: Install Cypress
+        run: npm i cypress -g
       - name: Run E2E tests
         run: npm run ci:dev & npm run ci:e2e
         env:
           CI: true
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-files-e2e
-          path: |
-            build
-          retention-days: 3

@@ -39,4 +39,4 @@ const kompletr = function({ input, data, options, onKeyup, onSelect, onError }) 
 
 window.kompletr = kompletr;
 
-export { kompletr };
+export default kompletr;

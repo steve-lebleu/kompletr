@@ -1,6 +1,6 @@
-# Callbacks
+# Events
 
-Three callbacks are exposed to give you more flexibility:
+Three events listeners are exposed to give you more flexibility:
 
 ## onKeyup
 

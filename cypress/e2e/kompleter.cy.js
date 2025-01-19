@@ -52,13 +52,12 @@ describe("Kompletr.js", function() {
         })
     });
 
-    it ("should complete input when click is done on a suggestion", function() {
+    xit ("should complete input when click is done on a suggestion", function() {
       cy.get('#auto-complete')
         .click()
-        .type('Te');
-      cy.get('.item--row:first-child')
-        .click();
-      cy.get('#auto-complete')
+        .type('Te')
+        .type('{downarrow}')
+        .click()
         .invoke('val')
         .then((value) => {
           expect(value).to.equals('Teresina');

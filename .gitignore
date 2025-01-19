@@ -10,13 +10,14 @@ node_modules
 
 # Must be launched by plato
 tests/report
+cypress/screenshots
 
 # Retrieved by bower
 src/vendors/*
 
-# Do not push build and local api
-build/
-api/
+# Do not push builds
+dist
+demo
 
 # Do not push vitepress docs
 docs/.vitepress/dist

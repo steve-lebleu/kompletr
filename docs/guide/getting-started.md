@@ -7,15 +7,15 @@
 :::tabs
 == npm
 ```bash
-> npm i kompletr -D
+> npm i kompletr
 ```
 == yarn
 ```bash
-> yarn add kompletr -D
+> yarn add kompletr
 ```
 == pnpm
 ```bash
-> pnpm i kompletr -D
+> pnpm i kompletr
 ```
 :::
 
@@ -51,11 +51,11 @@
 ```
 == CommonJS
 ```javascript
-const { kompletr } = require('kompletr');
+const kompletr = require('kompletr');
 ```
 == ESM
 ```javascript
-import { kompletr } from 'kompletr';
+import kompletr from 'kompletr';
 ```
 :::
 
