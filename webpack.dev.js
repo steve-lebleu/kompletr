@@ -16,16 +16,11 @@ export default {
     demo: './src/sass/kompletr.demo.scss',
   },
   output: {
-    filename: (pathData) => {
-      return pathData.chunk.name === 'kompletr' ? 'kompletr.js' : null;
-    }, 
+    filename: '[name].js', 
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
-  stats: {
-    warnings: false,
-    errors: false,
-  },
+  stats: 'minimal',
   devtool: 'source-map',
   module: {
     rules: [
