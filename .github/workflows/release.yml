@@ -124,6 +124,8 @@ jobs:
         with:
           node-version: '18.19.0'
           registry-url: 'https://registry.npmjs.org'
+      - name: Install global Sass
+        run: npm i sass -ggi
       - name: Generate dist files
         run: npm run dist
       - name: Create NPM release
