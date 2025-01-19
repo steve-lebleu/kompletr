@@ -22,7 +22,10 @@ export default {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
-  stats: 'minimal',
+  stats: {
+    warnings: false,
+    errors: false,
+  },
   devtool: 'source-map',
   module: {
     rules: [
