@@ -146,6 +146,8 @@ jobs:
         with:
           node-version: '18.19.0'
           registry-url: 'https://registry.npmjs.org'
+      - name: Install global Sass
+        run: npm i sass -g
       - name: Build demo
         run: npm run demo
       - name: Deploy demo using SCP
@@ -166,7 +168,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-files
-          path: ./      
+          path: ./
+      - name: Install global Vitepress
+        run: npm i vitepress -g
       - name: Build documentation
         run: npm run docs:build
       - name: Deploy documentation using SCP
