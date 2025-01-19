@@ -1,7 +1,9 @@
 name: Build
+
 on:
   push:
     branches: [ dev, main, master, hotfix/*, feature/*, release/* ]
+    
 jobs:
   build:
     name: Build
@@ -31,6 +33,7 @@ jobs:
           path: |
             build
           retention-days: 3
+
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
@@ -56,6 +59,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./build/code-coverage/lcov.info
+
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
@@ -63,6 +67,7 @@ jobs:
     env:
       RUNNER: github
       NODE_ENV: dev
+      SKIP_PACKAGE_CHECK: 1
     steps:
       - name: Github checkout
         uses: actions/checkout@v4
@@ -71,7 +76,7 @@ jobs:
         with:
           node-version: '18.19.0'
       - name: Install global OS dependencies
-        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libapr1t64 libasound2t64 libaprutil1t64 libasound2 libxtst6 xauth xvfb
       - name: Install local Node.js dependencies
         run:  npm i
       - name: Create build directory

@@ -3,6 +3,7 @@ on:
   push:
     tags:
       - v*
+
 jobs:
   build:
     name: Build
@@ -34,6 +35,7 @@ jobs:
           path: |
             build
           retention-days: 3
+
   unit-tests:
     name: UT's
     runs-on: ubuntu-latest
@@ -59,6 +61,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./build/code-coverage/lcov.info
+
   e2e-tests:
     name: E2E
     runs-on: ubuntu-latest
@@ -66,6 +69,7 @@ jobs:
     env:
       RUNNER: github
       NODE_ENV: dev
+      SKIP_PACKAGE_CHECK: 1
     steps:
       - name: Github checkout
         uses: actions/checkout@v4
@@ -74,7 +78,7 @@ jobs:
         with:
           node-version: '18.19.0'
       - name: Install global OS dependencies
-        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libapr1t64 libasound2t64 libaprutil1t64 libasound2 libxtst6 xauth xvfb
       - name: Install local Node.js dependencies
         run:  npm i
       - name: Create build directory
@@ -95,6 +99,7 @@ jobs:
           path: |
             build
           retention-days: 3
+
   release-github:
     name: Github release
     runs-on: ubuntu-latest
@@ -117,6 +122,7 @@ jobs:
         uses: konfer-be/action-create-release-from-tag@v1.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
   release-npm:
     name: NPM release
     runs-on: ubuntu-latest
@@ -147,8 +153,9 @@ jobs:
         run: npm ci & npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.KONFER_NPM_TOKEN }}
+
   deploy:
-    name: Deploy
+    name: Deploy demo website
     runs-on: ubuntu-latest
     needs: [ release-github, release-npm ]
     steps:
