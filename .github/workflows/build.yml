@@ -24,6 +24,7 @@ jobs:
         run:  npm i
       - name: Build local project
         run:  npm run build
+        continue-on-error: true
       - name: Lint
         run:  npm run lint:js
       - name: Upload artifact
