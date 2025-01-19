@@ -76,7 +76,7 @@ jobs:
         with:
           node-version: '18.19.0'
       - name: Install global OS dependencies
-        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libapr1t64 libasound2t64 libaprutil1t64 libasound2 libxtst6 xauth xvfb
+        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libapr1t64 libasound2t64 libaprutil1t64 libxtst6 xauth xvfb
       - name: Install local Node.js dependencies
         run:  npm i
       - name: Create build directory
