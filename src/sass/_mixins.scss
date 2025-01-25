@@ -10,12 +10,10 @@
 /// or heavy framework use. Feel free to fork it on Github and add your own mixins:
 ////
 
-
 /// Base font size setting for Andy
 /// @access public
 /// @type Length
 $base-font-size: 16px !default;
-
 
 /// Mixin helper to output vendor-prefixed CSS
 /// @access private
@@ -31,7 +29,6 @@ $base-font-size: 16px !default;
   #{$property}: $value;
 }
 
-
 /// Mixin helper to prefix `@keyframes`
 /// @access private
 /// @param {String} $name - Animation name
@@ -44,7 +41,6 @@ $base-font-size: 16px !default;
     @content;
   }
 }
-
 
 /// Function helper to strip a single character from a string; by default, simply removes the character.
 /// @access private
@@ -66,7 +62,6 @@ $base-font-size: 16px !default;
   $string: string.insert($string-without-target, $replacement, $target-location);
   @return $string;
 }
-
 
 /// Background gradient helper
 /// @access public
@@ -95,7 +90,6 @@ $base-font-size: 16px !default;
     background: radial-gradient(ellipse at center, $start-color, $end-color);
   }
 }
-
 
 /// Background size helper
 /// @access public
@@ -155,7 +149,6 @@ $base-font-size: 16px !default;
   @include prefix(border-bottom-left-radius, $bottom-left-radius, 'webkit' 'moz');
 }
 
-
 /// Box-sizing helper
 /// @access public
 /// @param {String} $type - Either `border-box`, `padding-box` or `content-box`
@@ -171,7 +164,6 @@ $base-font-size: 16px !default;
 @mixin box-sizing($type) {
   @include prefix(box-sizing, $type, 'moz');
 }
-
 
 /// Horizontally centers block elements
 /// @access public
@@ -190,7 +182,6 @@ $base-font-size: 16px !default;
   margin-left: auto;
   margin-right: auto;
 }
-
 
 /// Horizontally and vertically centers block elements
 /// Important: you must have a parent element with `position: relative`.
@@ -214,7 +205,6 @@ $base-font-size: 16px !default;
   left: 50%;
   @include prefix(transform, translate(-50%, -50%), 'webkit' 'ms');
 }
-
 
 /// Vertically centers block elements with known height.
 /// @access public
@@ -277,7 +267,6 @@ $base-font-size: 16px !default;
   }
 }
 
-
 /// Adds a thin black line above the element, and a thin gray line below the element, creating an inlay effect.
 /// @access public
 /// @example scss - Usage
@@ -286,12 +275,12 @@ $base-font-size: 16px !default;
 ///   }
 /// @example css - Result
 ///   .foo {
-///     box-shadow: rgba(255, 255, 255, 0.5) 0 1px 0, inset rgba(0, 0, 0, 0.75) 0 1px 0;
+///     box-shadow: rgb(255 255 255 / 0.5) 0 1px 0, inset rgb(0 0 0 / 0.75) 0 1px 0;
 ///   }
 @mixin outline {
-  box-shadow: rgba(255, 255, 255, 0.5) 0 1px 0, inset rgba(0, 0, 0, 0.75) 0 1px 0;
+  box-shadow: 
+    rgb(255 255 255 / 0.5) 0 1px 0, inset rgb(0 0 0 / 0.75) 0 1px 0;
 }
-
 
 /// Given the location of a webfont, will generate a font-face declaration with multiple file formats.
 /// @access public
@@ -305,15 +294,14 @@ $base-font-size: 16px !default;
   @font-face {
     font-family: string.quote($font-name);
     src: url($file-name + '.eot');
-    src: url($file-name + '.eot?#iefix')  format('embedded-opentype'),
-    url($file-name + '.woff') format('woff'),
-    url($file-name + '.ttf')  format('truetype'),
-    url($file-name + '.svg##{$font-name}')  format('svg');
+    src: url($file-name + '.eot?#iefix') format('embedded-opentype'),
+      url($file-name + '.woff') format('woff'),
+      url($file-name + '.ttf') format('truetype'),
+        url($file-name + '.svg##{$font-name}')  format('svg');
     font-weight: $weight;
     font-style: $style;
   }
 }
-
 
 /// Given a font size in pixels, reproduces that font size in rems.
 /// @access public
@@ -336,7 +324,6 @@ $base-font-size: 16px !default;
   font-size: ($size / $base-font-size) * 1rem;
 }
 
-
 /// Forces browsers to use hardware acceleration for transforms
 /// @access public
 /// @example scss - Usage
@@ -352,7 +339,6 @@ $base-font-size: 16px !default;
 @mixin ha {
   @include prefix(transform, translate3d(0, 0, 0), 'webkit' 'ms');
 }
-
 
 /// Retina image media query helper; given an image path with a 2x-sized version of an image, will load that image as a background-image on high-resolution devices.
 /// @access public
@@ -373,7 +359,6 @@ $base-font-size: 16px !default;
   }
 }
 
-
 /// Generates line-height values in both pixels and rems.
 /// @access public
 /// @param {Number} $height-value [12] - Height value
@@ -390,7 +375,6 @@ $base-font-size: 16px !default;
   line-height: $height-value * 1px; //fallback for old browsers
   line-height: (1 / ($base-font-size / ($base-font-size * 0 + 1)) * $height-value * 1rem);
 }
-
 
 /// Media query helper for declaring media queries by width, and, optionally, ratio.
 /// @access public
@@ -417,7 +401,6 @@ $base-font-size: 16px !default;
   }
 }
 
-
 /// Media query helper for declaring media queries by device pixel ratio.
 /// @access public
 /// @param {Number} $ratio - Min device pixel ratio
@@ -437,7 +420,6 @@ $base-font-size: 16px !default;
   }
 }
 
-
 /// Given an opacity value, generates that value as well as a way to display that opacity value in Internet Explorer 8 and 9.
 /// @access public
 /// @param {Float} $opacity - Opacity
@@ -455,7 +437,6 @@ $base-font-size: 16px !default;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$opacity * 100})";
 }
 
-
 /// Generates the color black, with, optionally, a set opacity.
 /// @access public
 /// @param {Float} $opacity - Opacity
@@ -471,7 +452,6 @@ $base-font-size: 16px !default;
   @return rgba(0, 0, 0, $opacity);
 }
 
-
 /// Generates the color white, with, optionally, a set opacity.
 /// @access public
 /// @param {Float} $opacity - Opacity
@@ -486,7 +466,6 @@ $base-font-size: 16px !default;
 @function white($opacity) {
   @return rgba(255, 255, 255, $opacity);
 }
-
 
 /// Shorthandizes position declarations.
 /// @access public
@@ -513,7 +492,6 @@ $base-font-size: 16px !default;
   left: $left;
 }
 
-
 /// Sizing helper
 /// @access public
 /// @param {Length} $width - Width
@@ -532,7 +510,6 @@ $base-font-size: 16px !default;
   height: $height;
 }
 
-
 /// Embossing text shadow
 /// @access public
 /// @param {Float} $value - Opacity value
@@ -547,7 +524,6 @@ $base-font-size: 16px !default;
 @mixin text-shadow($value) {
   text-shadow: rgba(255, 255, 255, $value) 0 1px 0;
 }
-
 
 /// Automatically prefix any transform
 /// @access public
@@ -569,7 +545,6 @@ $base-font-size: 16px !default;
 @mixin transition($time: 1s, $timing-function: ease-in-out) {
   @include prefix(transition, all $time $timing-function, 'webkit');
 }
-
 
 /// Generates a grow-then-shrink (or shrink-then-grow) animation using transform(scale).
 /// @access public
@@ -612,7 +587,6 @@ $base-font-size: 16px !default;
   @include prefix(animation, $alias $animation-properties, 'webkit');
 }
 
-
 /// Given two opacity values, animates an element between those opacity values.
 /// @access public
 /// @param {Number} $fade-from [0] - The beginning opacity value.
@@ -650,7 +624,6 @@ $base-font-size: 16px !default;
   }
   @include prefix(animation, $alias $animation-properties, 'webkit');
 }
-
 
 /// Slide-in-from creates and calls an animation that slides an element on a given axis for a given amount of space. The offset is measured in the distance from the location the element would naturally fall in, were transforms not applied to it.
 /// @access public
@@ -780,7 +753,9 @@ $base-font-size: 16px !default;
   background-image: -o-linear-gradient(left, $startColor, $endColor);
 }
 
-
+///
+///
+///
 @mixin backdrop ($blur, $saturate, $opacity, $theme: 'light') {
   backdrop-filter: blur($blur) saturate($saturate);
   -webkit-backdrop-filter: blur($blur) saturate($saturate);
