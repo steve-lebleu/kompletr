@@ -18,6 +18,7 @@ src/vendors/*
 # Do not push builds
 dist
 demo
+build
 
 # Do not push vitepress docs
 docs/.vitepress/dist
