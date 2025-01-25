@@ -1,0 +1,61 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-demo:
+    name: Deploy demo website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Github checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18.0'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install Node.js dependencies
+        run:  npm ci
+      - name: Build dist
+        run: npm run dist
+      - name: Build demo
+        run: npm run demo
+      - name: Deploy demo using SCP
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: demo
+          remote: ${{ vars.KONFER_SSH_TARGET }}
+          host: ${{ secrets.KONFER_SSH_HOST }}
+          username: ${{ secrets.KONFER_SSH_USER }}
+          password: ${{ secrets.KONFER_SSH_PWD }}
+
+  deploy-documentation:
+    name: Deploy documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Github checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore cache for node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Build documentation
+        run: npm run docs:build
+      - name: Deploy documentation using SCP
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: docs/.vitepress/dist
+          remote: "${{ vars.KONFER_SSH_TARGET_DOC }}"
+          host: ${{ secrets.KONFER_SSH_HOST }}
+          username: ${{ secrets.KONFER_SSH_USER }}
+          password: ${{ secrets.KONFER_SSH_PWD }}
