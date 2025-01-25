@@ -152,8 +152,8 @@ jobs:
         with:
           node-version: '18.19.0'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install global Sass
-        run: npm i sass -g
+      - name: Install global sass and postcss
+        run: npm i sass postcss -g
       - name: Build dist
         run: npm run dist
       - name: Build demo
