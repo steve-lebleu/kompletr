@@ -17,11 +17,23 @@ jobs:
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '18.19.0'
-      - name: Install global Node.js dependencies
-        run:  npm i node-sass -g
-      - name: Install local Node.js dependencies
-        run:  npm i
+          node-version: '20.18.0'
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install Node.js dependencies
+        run:  npm ci
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Build local project
         run:  npm run build
         continue-on-error: true
@@ -43,15 +55,24 @@ jobs:
       RUNNER: github
       NODE_ENV: dev
     steps:
-      - name: Setup node.js environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.19.0'
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: build-files
           path: ./
+      - name: Setup node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18.0'
+      - name: Restore cache for node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install Node.js dependencies
+        run:  npm ci
       - name: Run unit tests
         run: npm run ci:test
         env:
@@ -79,11 +100,18 @@ jobs:
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '18.19.0'
+          node-version: '20.18.0'
+      - name: Restore cache for node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install global OS dependencies
         run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libapr1t64 libasound2t64 libaprutil1t64 libxtst6 xauth xvfb
-      - name: Install Cypress
-        run: npm i cypress -g
+      - name: Install Node.js dependencies
+        run:  npm ci
       - name: Run E2E tests
         run: npm run ci:dev & npm run ci:e2e
         env:
@@ -101,7 +129,7 @@ jobs:
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '18.19.0'
+          node-version: '20.18.0'
       - name: Clean up dist directory
         run: rm -rf dist
       - name: Create Github release
@@ -122,10 +150,17 @@ jobs:
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '18.19.0'
+          node-version: '20.18.0'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install global Sass
-        run: npm i sass -g
+      - name: Restore cache for node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install Node.js dependencies
+        run: npm ci
       - name: Generate dist files
         run: npm run dist
       - name: Mv dist files
@@ -133,7 +168,7 @@ jobs:
       - name: Clean up directories
         run: rm -rf dist && rm -rf src
       - name: Create NPM release
-        run: npm ci & npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.KONFER_NPM_TOKEN }}
 
@@ -150,10 +185,17 @@ jobs:
       - name: Setup node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '18.19.0'
+          node-version: '20.18.0'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install global sass and postcss
-        run: npm i sass postcss -g
+      - name: Restore cache for node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install Node.js dependencies
+        run:  npm ci
       - name: Build dist
         run: npm run dist
       - name: Build demo
@@ -176,8 +218,15 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Install node.js dependencies
-        run: npm i
+      - name: Restore cache for node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install Node.js dependencies
+        run: npm ci
       - name: Build documentation
         run: npm run docs:build
       - name: Deploy documentation using SCP
