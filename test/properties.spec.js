@@ -18,7 +18,7 @@ describe('Properties', () => {
     it('should throws error when setting data with non-array value', () => {
       expect(() => {
         properties.data = 'not an array';
-      }).toThrowError(new Error('data must be an array (not an array given)'));
+      }).toThrow(new Error('data must be an array (not an array given)'));
     });
   
     it('should defines pointer getter and setter', () => {
@@ -30,7 +30,7 @@ describe('Properties', () => {
     it('should throws error when setting pointer with non-integer value', () => {
       expect(() => {
         properties.pointer = 'not an integer';
-      }).toThrowError(new Error('pointer must be an integer (not an integer given)'));
+      }).toThrow(new Error('pointer must be an integer (not an integer given)'));
     });
   
     it('should defines previousValue getter and setter', () => {

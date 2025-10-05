@@ -33,19 +33,19 @@ describe('Configuration', () => {
     it('throws error when setting invalid theme', () => {
       expect(() => {
         configuration.theme = 'invalid';
-      }).toThrowError(new Error('theme should be one of light,dark, invalid given'));
+      }).toThrow(new Error('theme should be one of light,dark, invalid given'));
     });
   
     it('throws error when setting invalid filterOn', () => {
       expect(() => {
         configuration.filterOn = 'invalid';
-      }).toThrowError(new Error('filterOn should be one of prefix,expression, invalid given'));
+      }).toThrow(new Error('filterOn should be one of prefix,expression, invalid given'));
     });
   
     it('throws error when setting non-integer cache', () => {
       expect(() => {
         configuration.cache = 'not a number';
-      }).toThrowError(new Error('cache should be an integer'));
+      }).toThrow(new Error('cache should be an integer'));
     });
   });
 });

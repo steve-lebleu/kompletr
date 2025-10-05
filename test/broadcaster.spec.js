@@ -25,7 +25,7 @@ describe('Broadcaster', () => {
 
     it('should throw an error when subscribing to an invalid event', () => {
       const handler = jest.fn();
-      expect(() => instance.subscribe('invalid', handler)).toThrowError();
+      expect(() => instance.subscribe('invalid', handler)).toThrow();
     });
   });
 
@@ -47,7 +47,7 @@ describe('Broadcaster', () => {
     });
   
     it('should throw an error when triggering an invalid event', () => {
-      expect(() => instance.trigger('invalid')).toThrowError();
+      expect(() => instance.trigger('invalid')).toThrow();
     });
   });
 });
